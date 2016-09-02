@@ -1,3 +1,3 @@
 # Trap Scoring
-A detailed Outline of the project:
+A detailed outline of the project:
 [MVP Proposal](MVP.md)
