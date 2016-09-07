@@ -7,11 +7,11 @@ import string
 class Round(models.Model):
     """Links together the various classes/information for one round"""
     singles_round = SinglesScore()
-    player = models.ForeignKey(Player)  # stores user specific data that is mostly static
+    player = 'stephen'  # temporarily fixed until accounts are added
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = 1  # the default station is one, small detail only useful for statistics
     location = 'Portland Gun Club' # static for now, eventually will use the day class for this information
-    shells = shells class
+    shells = models.ForeignKey(Shells)
 
     def __eq__(self, other):
         """eq"""
@@ -30,6 +30,8 @@ class Round(models.Model):
         )
 
 
+
+
 class Shotgun(models.Model):
     """all of the useful information about a shotgun"""
     brand = models.TextField()
@@ -40,7 +42,7 @@ class Shotgun(models.Model):
 
     def __eq__(self, other):
         """eq"""
-        Return(
+        return(
             self.brand == other.brand and
             self.model == other.model and
             self.gauge == other.gauge and
@@ -85,6 +87,22 @@ class Gauge(models.Model):
         default=twelve_gauge,
     )
 
+    def __eq__(self, other):
+        """eq"""
+        return(
+            self.twelve_gauge == other.twelve_gauge and
+            self.twenty_gauge == other.twenty_gauge and
+            self.twenty_eight_gauge == other.twenty_eight_gauge and
+            self.four_hundred_ten_gauge == other.four_hundred_ten_gauge
+        )
+
+    def __repr__(self):
+        return 'Gauge({!r})'.format(self.gauge)
+
+    def __str__(self):
+        return self.gauge
+
+
 
 class SinglesScore(models.Model):
     """stores the scoring for a singles round"""
@@ -108,6 +126,7 @@ class SinglesScore(models.Model):
 
     def __str__(self):
         return self.score
+
 
     def add_missed_target(self, target_number):
         """adds a letter representing a missed target
