@@ -4,39 +4,45 @@ from django.db import models
 import string
 
 
-class Round(models.Model):
-    """Links together the various classes/information for one round"""
-    singles_round = SinglesScore()
-    player = 'stephen'  # temporarily fixed until accounts are added
-    date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    starting_station = 1  # the default station is one, small detail only useful for statistics
-    location = 'Portland Gun Club' # static for now, eventually will use the day class for this information
-    shells = models.ForeignKey(Shells)
+class Gauge(models.Model):
+    """contains the four major gauges"""
+    twelve_gauge = 12
+    twenty_gauge = 20
+    twenty_eight_gauge = 28
+    four_hundred_ten_gauge = 410
+    GAUGE_CHOICES = (
+        (twelve_gauge, '12 Gauge'),
+        (twenty_gauge, '20 Gauge'),
+        (twenty_eight_gauge, '28 Gauge'),
+        (four_hundred_ten_gauge, '410 Gauge')
+    )
+    gauge = models.CharField(
+        choices=GAUGE_CHOICES,
+        default=twelve_gauge,
+        max_length=255
+    )
 
     def __eq__(self, other):
         """eq"""
-        return (
-            self.singles_round == other.singles_round and
-            self.player == other.player and
-            self.date == other.date and
-            self.starting_station == other.starting_station and
-            self.location == other.location and
-            self.shells == other.shells
+        return(
+            self.twelve_gauge == other.twelve_gauge and
+            self.twenty_gauge == other.twenty_gauge and
+            self.twenty_eight_gauge == other.twenty_eight_gauge and
+            self.four_hundred_ten_gauge == other.four_hundred_ten_gauge
         )
 
     def __repr__(self):
-        return 'Round({!r}{!r}{!r}{!r})'.format(
-            self.singles_round, self.player, self.date, self.starting_station
-        )
+        return 'Gauge({!r})'.format(self.gauge)
 
-
+    def __str__(self):
+        return self.gauge
 
 
 class Shotgun(models.Model):
     """all of the useful information about a shotgun"""
     brand = models.TextField()
     model = models.TextField()
-    gauge = models.TextField()
+    gauge = models.ForeignKey(Gauge, related_name='shotgun_gauge')
     barrel_length = models.TextField()
     modifications = models.TextField()
 
@@ -67,40 +73,9 @@ class Shells(models.Model):
     shot_size = models.TextField()
     dram_equivalent = models.TextField()
     fps_rating = models.TextField()
-    gauge = models.ForeignKey(Gauge, related_name='gauge')
+    gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
 
 
-class Gauge(models.Model):
-    """contains the four major gauges"""
-    twelve_gauge = 12
-    twenty_gauge = 20
-    twenty_eight_gauge = 28
-    four_hundred_ten_gauge = 410
-    GAUGE_CHOICES = (
-        (twelve_gauge, '12 Gauge'),
-        (twenty_gauge, '20 Gauge'),
-        (twenty_eight_gauge, '28 Gauge'),
-        (four_hundred_ten_gauge, '410 Gauge')
-    )
-    gauge = models.CharField(
-        choices=GAUGE_CHOICES,
-        default=twelve_gauge,
-    )
-
-    def __eq__(self, other):
-        """eq"""
-        return(
-            self.twelve_gauge == other.twelve_gauge and
-            self.twenty_gauge == other.twenty_gauge and
-            self.twenty_eight_gauge == other.twenty_eight_gauge and
-            self.four_hundred_ten_gauge == other.four_hundred_ten_gauge
-        )
-
-    def __repr__(self):
-        return 'Gauge({!r})'.format(self.gauge)
-
-    def __str__(self):
-        return self.gauge
 
 
 
@@ -127,7 +102,6 @@ class SinglesScore(models.Model):
     def __str__(self):
         return self.score
 
-
     def add_missed_target(self, target_number):
         """adds a letter representing a missed target
 
@@ -151,5 +125,32 @@ class SinglesScore(models.Model):
         """
         POSSIBLE_SCORE = 25
         missed_targets = len(self.score)
-        score =  POSSIBLE_SCORE - missed_targets
+        score = POSSIBLE_SCORE - missed_targets
         return score
+
+
+class Round(models.Model):
+    """Links together the various classes/information for one round"""
+    singles_round = SinglesScore()
+    player = 'stephen'  # temporarily fixed until accounts are added
+    date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
+    starting_station = 1  # the default station is one, small detail only useful for statistics
+    location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
+    shells = models.ForeignKey(Shells)
+
+    def __eq__(self, other):
+        """eq"""
+        return (
+            self.singles_round == other.singles_round and
+            self.player == other.player and
+            self.date == other.date and
+            self.starting_station == other.starting_station and
+            self.location == other.location and
+            self.shells == other.shells
+        )
+
+    def __repr__(self):
+        return 'Round({!r}{!r}{!r}{!r})'.format(
+            self.singles_round, self.player, self.date, self.starting_station
+        )
+
