@@ -56,3 +56,7 @@ class SinglesScore:
     #     >>> a.SinglesScore()
     #     >>> a.StationScore()
     #     """
+
+
+class Singles_Score(models.Model):
+    """Represents a single round"""

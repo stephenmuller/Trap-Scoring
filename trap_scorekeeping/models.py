@@ -1,6 +1,7 @@
 """trap_scorekeeping Models."""
 
 from django.db import models
+import string
 
 
 class Round(models.Model):
@@ -90,3 +91,49 @@ class Gauge(models.Model):
 
 class SinglesScore(models.Model):
     """stores the scoring for a singles round"""
+    score = ''
+    score_type = models.BooleanField(default=True)
+
+    def __eq__(self, other):
+        return (
+            self.score == other.score and
+            self.score_type == other.score_type
+        )
+
+    def __repr__(self):
+        """repr
+
+        >>> a = SinglesScore()
+        >>> a
+        'Score('', True)'
+        """
+        return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
+
+    def __str__(self):
+        return self.score
+
+    def add_missed_target(self, target_number):
+        """adds a letter representing a missed target
+
+        >>> a = SinglesScore()
+        >>> a.add_missed_target(25)
+        >>> a.score
+        'y'
+        """
+        values = {}
+        for index, letter in enumerate(string.ascii_lowercase, 1):
+            values[index] = letter
+        self.score = self.score + values[target_number]
+
+    def convert_to_int_score(self):
+        """takes a score from the obscured value to an int
+
+        >>> a = SinglesScore()
+        >>> a.add_missed_target(25)
+        >>> a.convert_to_int_score()
+        24
+        """
+        POSSIBLE_SCORE = 25
+        missed_targets = len(self.score)
+        score =  POSSIBLE_SCORE - missed_targets
+        return score
