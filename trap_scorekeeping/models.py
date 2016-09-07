@@ -7,17 +7,14 @@ import string
 class Round(models.Model):
     """Links together the various classes/information for one round"""
     singles_round = SinglesScore()
-    player = player  # stores user specific data that is mostly static
+    player = models.ForeignKey(Player)  # stores user specific data that is mostly static
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = 1  # the default station is one, small detail only useful for statistics
     location = 'Portland Gun Club' # static for now, eventually will use the day class for this information
     shells = shells class
 
     def __eq__(self, other):
-        """
-        >>>
-
-        """
+        """eq"""
         return (
             self.singles_round == other.singles_round and
             self.player == other.player and

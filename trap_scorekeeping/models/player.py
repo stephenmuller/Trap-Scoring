@@ -14,14 +14,19 @@ class Player(models.Model):
 
     def __eq__(self, other):
         """eq"""
-        Return (
+        Return(
             self.name == other.name and
             self.gun == other.gun and
             self.shells == other.shells
         )
 
     def __repr__(self):
-        """repr"""
+        """repr
+
+        >>> a = Player()
+        >>> a
+        >>> a
+        """
         return 'Player({!r},{!r},{!r})'.format(self.name, self.gun, self.shells)
 
     def __str__(self):
