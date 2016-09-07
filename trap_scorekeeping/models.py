@@ -13,6 +13,10 @@ class Round(models.Model):
     shells = shells class
 
     def __eq__(self, other):
+        """
+        >>>
+
+        """
         return (
             self.singles_round == other.singles_round and
             self.player == other.player and
@@ -63,17 +67,26 @@ class Shells(models.Model):
     shot_size = models.TextField()
     dram_equivalent = models.TextField()
     fps_rating = models.TextField()
+    gauge = models.ForeignKey(Gauge, related_name='gauge')
+
+
+class Gauge(models.Model):
+    """contains the four major gauges"""
     twelve_gauge = 12
     twenty_gauge = 20
     twenty_eight_gauge = 28
     four_hundred_ten_gauge = 410
     GAUGE_CHOICES = (
-        (twelve_gauge, '12g'),
-        (twenty_gauge, '20g'),
-        (twenty_eight_gauge, '28g'),
-        (four_hundred_ten_gauge, '410g'),
+        (twelve_gauge, '12 Gauge'),
+        (twenty_gauge, '20 Gauge'),
+        (twenty_eight_gauge, '28 Gauge'),
+        (four_hundred_ten_gauge, '410 Gauge')
     )
-    year_in_school = models.CharField(
-        choices=YEAR_IN_SCHOOL_CHOICES,
+    gauge = models.CharField(
+        choices=GAUGE_CHOICES,
         default=twelve_gauge,
     )
+
+
+class SinglesScore(models.Model):
+    """stores the scoring for a singles round"""
