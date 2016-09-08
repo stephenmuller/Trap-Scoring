@@ -81,7 +81,7 @@ class Shells(models.Model):
 
 class SinglesScore(models.Model):
     """stores the scoring for a singles round"""
-    score = models.TextField(default='')
+    score = models.CharField(max_length=25, default='')
     score_type = models.BooleanField(default=True)
 
     # def __eq__(self, other):
@@ -131,7 +131,7 @@ class SinglesScore(models.Model):
 
 class Round(models.Model):
     """Links together the various classes/information for one round"""
-    singles_round = models.OneToOneField(SinglesScore)
+    singles_round = models.OneToOneField(SinglesScore, default='')
     player = 'stephen'  # temporarily fixed until accounts are added
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = 1  # the default station is one, small detail only useful for statistics
@@ -143,7 +143,7 @@ class Round(models.Model):
     #     return (
     #         self.singles_round == other.singles_round and
     #         self.player == other.player and
-    #         self.date == other.date and
+    #         self  .date == other.date and
     #         self.starting_station == other.starting_station and
     #         self.location == other.location and
     #         self.shells == other.shells
