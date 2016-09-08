@@ -51,6 +51,7 @@ class ShotSize(models.Model):
     def __str__(self):
         return self.shot
 
+
 class Gauge(models.Model):
     """contains the four major gauges"""
     TWELVE_GAUGE = '12'
@@ -95,16 +96,17 @@ class Shotgun(models.Model):
 
 class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""
-    brand = models.TextField()
-    sku = models.TextField()
-    shot_size = models.ForeignKey(Shot, related_name='shot_type')
-    shot_weight = models.TextField()
-    dram_equivalent = models.TextField()
-    fps_rating = models.TextField()
+    brand = models.CharField(max_length=25)
+    sku = models.CharField(max_length=25)
+    shot_size = models.ForeignKey(ShotSize, related_name='size')
+    shot_weight = models.ForeignKey(ShotAmount, related_name='weight')
+    fps_rating = models.IntegerField()
     gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
 
-
-
+    def __repr__(self):
+        return 'Shells({!r},{!r},{!r}{!r},{!r},{!r})'.format(self.brand, self.sku, self.shot_size,
+                                                             self.shot_weight, self.fps_rating, self.gauge
+                                                             )
 
 
 class SinglesScore(models.Model):
@@ -168,4 +170,5 @@ class Round(models.Model):
         return 'Round({!r}{!r}{!r}{!r})'.format(
             self.singles_round, self.player, self.date, self.starting_station
         )
+
 
