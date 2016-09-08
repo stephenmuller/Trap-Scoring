@@ -6,30 +6,30 @@ import string
 
 class Gauge(models.Model):
     """contains the four major gauges"""
-    twelve_gauge = 12
-    twenty_gauge = 20
-    twenty_eight_gauge = 28
-    four_hundred_ten_gauge = 410
+    TWELVE_GAUGE = '12'
+    TWENTY_GAUGE = '20'
+    TWENTY_EIGHT_GAUGE = '28'
+    FOUR_HUNDRED_TEN_GAUGE = '410'
     GAUGE_CHOICES = (
-        (twelve_gauge, '12 Gauge'),
-        (twenty_gauge, '20 Gauge'),
-        (twenty_eight_gauge, '28 Gauge'),
-        (four_hundred_ten_gauge, '410 Gauge')
+        (TWELVE_GAUGE, '12 Gauge'),
+        (TWENTY_GAUGE, '20 Gauge'),
+        (TWENTY_EIGHT_GAUGE, '28 Gauge'),
+        (FOUR_HUNDRED_TEN_GAUGE, '410 Gauge')
     )
     gauge = models.CharField(
         choices=GAUGE_CHOICES,
-        default=twelve_gauge,
+        default=TWELVE_GAUGE,
         max_length=255
     )
 
-    def __eq__(self, other):
-        """eq"""
-        return(
-            self.twelve_gauge == other.twelve_gauge and
-            self.twenty_gauge == other.twenty_gauge and
-            self.twenty_eight_gauge == other.twenty_eight_gauge and
-            self.four_hundred_ten_gauge == other.four_hundred_ten_gauge
-        )
+    # def __eq__(self, other):
+    #     """eq"""
+    #     return(
+    #         self.TWELVE_GAUGE == other.TWELVE_GAUGE and
+    #         self.TWENTY_GAUGE == other.TWENTY_GAUGE and
+    #         self.TWENTY_EIGHT_GAUGE == other.TWENTY_EIGHT_GAUGE and
+    #         self.FOUR_HUNDRED_TEN_GAUGE == other.FOUR_HUNDRED_TEN_GAUGE
+    #     )
 
     def __repr__(self):
         return 'Gauge({!r})'.format(self.gauge)
@@ -46,15 +46,15 @@ class Shotgun(models.Model):
     barrel_length = models.TextField()
     modifications = models.TextField()
 
-    def __eq__(self, other):
-        """eq"""
-        return(
-            self.brand == other.brand and
-            self.model == other.model and
-            self.gauge == other.gauge and
-            self.barrel_length == other.barrel_length and
-            self.modifications == other.modifications
-        )
+    # def __eq__(self, other):
+    #     """eq"""
+    #     return(
+    #         self.brand == other.brand and
+    #         self.model == other.model and
+    #         self.gauge == other.gauge and
+    #         self.barrel_length == other.barrel_length and
+    #         self.modifications == other.modifications
+    #     )
 
     def __repr__(self):
         """repr"""
@@ -81,14 +81,14 @@ class Shells(models.Model):
 
 class SinglesScore(models.Model):
     """stores the scoring for a singles round"""
-    score = ''
+    score = models.TextField(default='')
     score_type = models.BooleanField(default=True)
 
-    def __eq__(self, other):
-        return (
-            self.score == other.score and
-            self.score_type == other.score_type
-        )
+    # def __eq__(self, other):
+    #     return (
+    #         self.score == other.score and
+    #         self.score_type == other.score_type
+    #     )
 
     def __repr__(self):
         """repr
@@ -131,23 +131,23 @@ class SinglesScore(models.Model):
 
 class Round(models.Model):
     """Links together the various classes/information for one round"""
-    singles_round = SinglesScore()
+    singles_round = models.OneToOneField(SinglesScore)
     player = 'stephen'  # temporarily fixed until accounts are added
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = 1  # the default station is one, small detail only useful for statistics
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
 
-    def __eq__(self, other):
-        """eq"""
-        return (
-            self.singles_round == other.singles_round and
-            self.player == other.player and
-            self.date == other.date and
-            self.starting_station == other.starting_station and
-            self.location == other.location and
-            self.shells == other.shells
-        )
+    # def __eq__(self, other):
+    #     """eq"""
+    #     return (
+    #         self.singles_round == other.singles_round and
+    #         self.player == other.player and
+    #         self.date == other.date and
+    #         self.starting_station == other.starting_station and
+    #         self.location == other.location and
+    #         self.shells == other.shells
+    #     )
 
     def __repr__(self):
         return 'Round({!r}{!r}{!r}{!r})'.format(
