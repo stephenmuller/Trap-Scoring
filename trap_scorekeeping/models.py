@@ -10,9 +10,9 @@ class ShotAmount(models.Model):
     ONE_OUNCE = '1'
     ONE_AND_ONE_EIGHTH = '1 1/8'
     SHOT_AMOUNTS = (
-        (SEVEN_EIGHTHS_OUNCE, '7.5 Shot'),
-        (ONE_OUNCE, '8 Shot'),
-        (ONE_AND_ONE_EIGHTH, '8.5')
+        (SEVEN_EIGHTHS_OUNCE, '7/8oz'),
+        (ONE_OUNCE, '1oz'),
+        (ONE_AND_ONE_EIGHTH, '1 1/8oz')
     )
     shot_amount = models.CharField(
         choices=SHOT_AMOUNTS,
