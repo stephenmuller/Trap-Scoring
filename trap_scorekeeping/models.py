@@ -22,15 +22,6 @@ class Gauge(models.Model):
         max_length=255
     )
 
-    # def __eq__(self, other):
-    #     """eq"""
-    #     return(
-    #         self.TWELVE_GAUGE == other.TWELVE_GAUGE and
-    #         self.TWENTY_GAUGE == other.TWENTY_GAUGE and
-    #         self.TWENTY_EIGHT_GAUGE == other.TWENTY_EIGHT_GAUGE and
-    #         self.FOUR_HUNDRED_TEN_GAUGE == other.FOUR_HUNDRED_TEN_GAUGE
-    #     )
-
     def __repr__(self):
         return 'Gauge({!r})'.format(self.gauge)
 
@@ -45,16 +36,6 @@ class Shotgun(models.Model):
     gauge = models.ForeignKey(Gauge, related_name='shotgun_gauge')
     barrel_length = models.TextField()
     modifications = models.TextField()
-
-    # def __eq__(self, other):
-    #     """eq"""
-    #     return(
-    #         self.brand == other.brand and
-    #         self.model == other.model and
-    #         self.gauge == other.gauge and
-    #         self.barrel_length == other.barrel_length and
-    #         self.modifications == other.modifications
-    #     )
 
     def __repr__(self):
         """repr"""
@@ -81,14 +62,8 @@ class Shells(models.Model):
 
 class SinglesScore(models.Model):
     """stores the scoring for a singles round"""
-    score = models.CharField(max_length=25, default='')
+    score = models.CharField(max_length=25, default='', blank=True)
     score_type = models.BooleanField(default=True)
-
-    # def __eq__(self, other):
-    #     return (
-    #         self.score == other.score and
-    #         self.score_type == other.score_type
-    #     )
 
     def __repr__(self):
         """repr
@@ -131,23 +106,16 @@ class SinglesScore(models.Model):
 
 class Round(models.Model):
     """Links together the various classes/information for one round"""
-    singles_round = models.OneToOneField(SinglesScore, default='')
     player = 'stephen'  # temporarily fixed until accounts are added
+    singles_round = models.OneToOneField(
+        SinglesScore,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = 1  # the default station is one, small detail only useful for statistics
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
-
-    # def __eq__(self, other):
-    #     """eq"""
-    #     return (
-    #         self.singles_round == other.singles_round and
-    #         self.player == other.player and
-    #         self  .date == other.date and
-    #         self.starting_station == other.starting_station and
-    #         self.location == other.location and
-    #         self.shells == other.shells
-    #     )
 
     def __repr__(self):
         return 'Round({!r}{!r}{!r}{!r})'.format(
