@@ -5,7 +5,7 @@ import string
 
 
 class ShotAmount(models.Model):
-    """contains the four major gauges"""
+    """the standard shot amounts"""
     SEVEN_EIGHTHS_OUNCE = '7/8'
     ONE_OUNCE = '1'
     ONE_AND_ONE_EIGHTH = '1 1/8'
@@ -28,7 +28,7 @@ class ShotAmount(models.Model):
 
 
 class ShotSize(models.Model):
-    """contains the four major gauges"""
+    """standard shot sizes"""
     SEVEN_AND_A_HALF = '7.5'
     EIGHT = '8'
     EIGHT_AND_A_HALF = '8.5'
@@ -79,10 +79,10 @@ class Gauge(models.Model):
 
 class Shotgun(models.Model):
     """all of the useful information about a shotgun"""
-    brand = models.TextField()
-    model = models.TextField()
+    brand = models.CharField(max_length=25)
+    model = models.CharField(max_length=25)
     gauge = models.ForeignKey(Gauge, related_name='shotgun_gauge')
-    barrel_length = models.TextField()
+    barrel_length = models.IntegerField()
     modifications = models.TextField()
 
     def __repr__(self):
