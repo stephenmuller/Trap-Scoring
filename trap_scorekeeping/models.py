@@ -4,6 +4,53 @@ from django.db import models
 import string
 
 
+class ShotAmount(models.Model):
+    """contains the four major gauges"""
+    SEVEN_EIGHTHS_OUNCE = '7/8'
+    ONE_OUNCE = '1'
+    ONE_AND_ONE_EIGHTH = '1 1/8'
+    SHOT_AMOUNTS = (
+        (SEVEN_EIGHTHS_OUNCE, '7.5 Shot'),
+        (ONE_OUNCE, '8 Shot'),
+        (ONE_AND_ONE_EIGHTH, '8.5')
+    )
+    shot_amount = models.CharField(
+        choices=SHOT_AMOUNTS,
+        default=ONE_OUNCE,
+        max_length=255
+    )
+
+    def __repr__(self):
+        return 'ShotAmount({!r})'.format(self.shot_amount)
+
+    def __str__(self):
+        return self.shot_amount
+
+
+class ShotSize(models.Model):
+    """contains the four major gauges"""
+    SEVEN_AND_A_HALF = '7.5'
+    EIGHT = '8'
+    EIGHT_AND_A_HALF = '8.5'
+    NINE = '9'
+    SHOT_CHOICES = (
+        (SEVEN_AND_A_HALF, '7.5 Shot'),
+        (EIGHT, '8 Shot'),
+        (EIGHT_AND_A_HALF, '8.5'),
+        (NINE, '9')
+    )
+    shot = models.CharField(
+        choices=SHOT_CHOICES,
+        default=SEVEN_AND_A_HALF,
+        max_length=255
+    )
+
+    def __repr__(self):
+        return 'Shot({!r})'.format(self.shot)
+
+    def __str__(self):
+        return self.shot
+
 class Gauge(models.Model):
     """contains the four major gauges"""
     TWELVE_GAUGE = '12'
@@ -50,8 +97,8 @@ class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""
     brand = models.TextField()
     sku = models.TextField()
+    shot_size = models.ForeignKey(Shot, related_name='shot_type')
     shot_weight = models.TextField()
-    shot_size = models.TextField()
     dram_equivalent = models.TextField()
     fps_rating = models.TextField()
     gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
