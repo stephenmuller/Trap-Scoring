@@ -5,81 +5,6 @@ from django.db import models
 import string
 
 
-class Station(models.Model):
-    """adds the ability to select a starting station"""
-    FIRST = '1'
-    SECOND = '2'
-    THIRD = '3'
-    FOURTH = '4'
-    FIFTH = '5'
-    STARTING_STATIONS = (
-        (FIRST, 'Station 1'),
-        (SECOND, 'Station 2'),
-        (THIRD, 'Station 3'),
-        (FOURTH, 'Station 4'),
-        (FIFTH, 'Station 5')
-    )
-    started_at = models.CharField(
-        choices=STARTING_STATIONS,
-        default=FIRST,
-        max_length=255
-    )
-
-    def __repr__(self):
-        return 'Station({!r})'.format(self.started_at)
-
-    def __str__(self):
-        return self.started_at
-
-
-class ShotAmount(models.Model):
-    """the standard shot amounts"""
-    SEVEN_EIGHTHS_OUNCE = '7/8'
-    ONE_OUNCE = '1'
-    ONE_AND_ONE_EIGHTH = '1 1/8'
-    SHOT_AMOUNTS = (
-        (SEVEN_EIGHTHS_OUNCE, '7/8oz'),
-        (ONE_OUNCE, '1oz'),
-        (ONE_AND_ONE_EIGHTH, '1 1/8oz')
-    )
-    shot_amount = models.CharField(
-        choices=SHOT_AMOUNTS,
-        default=ONE_OUNCE,
-        max_length=255
-    )
-
-    def __repr__(self):
-        return 'ShotAmount({!r})'.format(self.shot_amount)
-
-    def __str__(self):
-        return self.shot_amount
-
-
-class ShotSize(models.Model):
-    """standard shot sizes"""
-    SEVEN_AND_A_HALF = '7.5'
-    EIGHT = '8'
-    EIGHT_AND_A_HALF = '8.5'
-    NINE = '9'
-    SHOT_CHOICES = (
-        (SEVEN_AND_A_HALF, '7.5 Shot'),
-        (EIGHT, '8 Shot'),
-        (EIGHT_AND_A_HALF, '8.5'),
-        (NINE, '9')
-    )
-    shot = models.CharField(
-        choices=SHOT_CHOICES,
-        default=SEVEN_AND_A_HALF,
-        max_length=255
-    )
-
-    def __repr__(self):
-        return 'Shot({!r})'.format(self.shot)
-
-    def __str__(self):
-        return self.shot
-
-
 class Gauge(models.Model):
     """contains the four major gauges"""
     TWELVE_GAUGE = '12'
@@ -126,8 +51,34 @@ class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""
     brand = models.CharField(max_length=25)
     sku = models.CharField(max_length=25)
-    shot_size = models.ForeignKey(ShotSize, related_name='size')
-    shot_weight = models.ForeignKey(ShotAmount, related_name='weight')
+    SEVEN_AND_A_HALF = '7.5'
+    EIGHT = '8'
+    EIGHT_AND_A_HALF = '8.5'
+    NINE = '9'
+    SHOT_CHOICES = (
+        (SEVEN_AND_A_HALF, '7.5 Shot'),
+        (EIGHT, '8 Shot'),
+        (EIGHT_AND_A_HALF, '8.5'),
+        (NINE, '9')
+    )
+    shot = models.CharField(
+        choices=SHOT_CHOICES,
+        default=SEVEN_AND_A_HALF,
+        max_length=255
+    )
+    SEVEN_EIGHTHS_OUNCE = '7/8'
+    ONE_OUNCE = '1'
+    ONE_AND_ONE_EIGHTH = '1 1/8'
+    SHOT_AMOUNTS = (
+        (SEVEN_EIGHTHS_OUNCE, '7/8oz'),
+        (ONE_OUNCE, '1oz'),
+        (ONE_AND_ONE_EIGHTH, '1 1/8oz')
+    )
+    shot_amount = models.CharField(
+        choices=SHOT_AMOUNTS,
+        default=ONE_OUNCE,
+        max_length=255
+    )
     fps_rating = models.IntegerField()
     gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
 
@@ -189,9 +140,26 @@ class Round(models.Model):
         on_delete=models.CASCADE,
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    first_position = models.ForeignKey(Station, related_name='first_station')
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
+    FIRST = '1'
+    SECOND = '2'
+    THIRD = '3'
+    FOURTH = '4'
+    FIFTH = '5'
+    STARTING_STATIONS = (
+        (FIRST, 'Station 1'),
+        (SECOND, 'Station 2'),
+        (THIRD, 'Station 3'),
+        (FOURTH, 'Station 4'),
+        (FIFTH, 'Station 5')
+    )
+    started_at = models.CharField(
+        choices=STARTING_STATIONS,
+        default=FIRST,
+        max_length=255
+    )
+
 
     def __repr__(self):
         return 'Round({!r}{!r}{!r}{!r})'.format(
