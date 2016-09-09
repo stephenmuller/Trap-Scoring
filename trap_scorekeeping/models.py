@@ -182,7 +182,7 @@ class Round(models.Model):
         on_delete=models.CASCADE,
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    starting_station = models.ForeignKey(ShotSize, related_name='first_station')
+    starting_station = models.ForeignKey(StartingStation, related_name='first_station')
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
 
