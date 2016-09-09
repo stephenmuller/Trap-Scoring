@@ -25,6 +25,13 @@ class StartingStation(models.Model):
         max_length=255
     )
 
+    def __repr__(self):
+        return 'StartingStation({!r})'.format(self.started_at)
+
+    def __str__(self):
+        return self.started_at
+
+
 class ShotAmount(models.Model):
     """the standard shot amounts"""
     SEVEN_EIGHTHS_OUNCE = '7/8'

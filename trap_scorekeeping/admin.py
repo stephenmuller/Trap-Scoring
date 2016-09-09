@@ -4,6 +4,7 @@ from django.contrib import admin
 
 from . import models
 
+admin.site.register(models.StartingStation)
 admin.site.register(models.Gauge)
 admin.site.register(models.Shotgun)
 admin.site.register(models.Shells)
@@ -11,4 +12,3 @@ admin.site.register(models.SinglesScore)
 admin.site.register(models.Round)
 admin.site.register(models.ShotSize)
 admin.site.register(models.ShotAmount)
-admin.site.register(models.StartingStation)
