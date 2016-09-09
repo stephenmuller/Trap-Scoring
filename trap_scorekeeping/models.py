@@ -5,7 +5,7 @@ from django.db import models
 import string
 
 
-class StartingStation(models.Model):
+class Station(models.Model):
     """adds the ability to select a starting station"""
     FIRST = '1'
     SECOND = '2'
@@ -26,7 +26,7 @@ class StartingStation(models.Model):
     )
 
     def __repr__(self):
-        return 'StartingStation({!r})'.format(self.started_at)
+        return 'Station({!r})'.format(self.started_at)
 
     def __str__(self):
         return self.started_at
@@ -189,7 +189,7 @@ class Round(models.Model):
         on_delete=models.CASCADE,
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    starting_station = models.ForeignKey(StartingStation, related_name='first_station')
+    first_position = models.ForeignKey(Station, related_name='first_station')
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
 

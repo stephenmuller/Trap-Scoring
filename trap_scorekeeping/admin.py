@@ -3,7 +3,7 @@
 from django.contrib import admin
 from . import models
 
-admin.site.register(models.StartingStation)
+admin.site.register(models.Station)
 admin.site.register(models.Gauge)
 admin.site.register(models.Shotgun)
 admin.site.register(models.Shells)
