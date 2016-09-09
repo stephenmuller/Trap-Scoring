@@ -177,10 +177,9 @@ class SinglesScore(models.Model):
 class Round(models.Model):
     """Links together the various classes/information for one round"""
     player = models.ForeignKey(User)
-    singles_round = models.OneToOneField(
+    singles_round = models.ForeignKey(
         SinglesScore,
         on_delete=models.CASCADE,
-        primary_key=True,
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
     starting_station = models.ForeignKey(ShotSize, related_name='first_station')
