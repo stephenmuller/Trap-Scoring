@@ -2,7 +2,38 @@
   display: flex;
 }
 
-#sidebar{
-  max-width: 20%;
+nav{
+  flex-width: 200px;
   padding-right: 10px;
+  padding-top: 20px;
+}
+
+#main{
+flex-direction: column;
+}
+
+#header{
+ flex: 1;
+ text-allign: center;
+}
+
+#content{
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#fivescores{
+  flex: 3;
+}
+
+#facts{
+  flex: 3;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#heatmap{
+  flex: 5;
 }
