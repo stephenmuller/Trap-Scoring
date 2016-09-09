@@ -1,8 +1,29 @@
 """trap_scorekeeping Models."""
 
+from django.contrib.auth.models import User
 from django.db import models
 import string
 
+
+class StartingStation(models.Model):
+    """adds the ability to select a starting station"""
+    FIRST = '1'
+    SECOND = '2'
+    THIRD = '3'
+    FOURTH = '4'
+    FIFTH = '5'
+    STARTING_STATIONS = (
+        (FIRST, 'Station 1'),
+        (SECOND, 'Station 2'),
+        (THIRD, 'Station 3'),
+        (FOURTH, 'Station 4'),
+        (FIFTH, 'Station 5')
+    )
+    started_at = models.CharField(
+        choices=STARTING_STATIONS,
+        default=FIRST,
+        max_length=255
+    )
 
 class ShotAmount(models.Model):
     """the standard shot amounts"""
@@ -155,14 +176,14 @@ class SinglesScore(models.Model):
 
 class Round(models.Model):
     """Links together the various classes/information for one round"""
-    player = 'stephen'  # temporarily fixed until accounts are added
+    player = models.ForeignKey(User)
     singles_round = models.OneToOneField(
         SinglesScore,
         on_delete=models.CASCADE,
         primary_key=True,
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    starting_station = 1  # the default station is one, small detail only useful for statistics
+    starting_station = models.ForeignKey(ShotSize, related_name='first_station')
     location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
     shells = models.ForeignKey(Shells)
 
