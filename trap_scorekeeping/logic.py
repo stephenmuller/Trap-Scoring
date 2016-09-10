@@ -1,7 +1,7 @@
 """trap_scorekeeping Logic."""
 
 from django.db import migrations, models
-from . import models
+from .models import Round
 from django.db.models import Q
 
 
