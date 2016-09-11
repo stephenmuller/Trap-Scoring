@@ -81,6 +81,7 @@ class Shells(models.Model):
     )
     fps_rating = models.IntegerField()
     gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
+    gun = models.ForeignKey(Shotgun, related_name='gun')
 
     def __repr__(self):
         return 'Shells({!r},{!r},{!r}{!r},{!r},{!r})'.format(self.brand, self.sku, self.shot,
