@@ -1,0 +1,4 @@
+{
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.Shotgun.__repr__": true,
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.Shotgun.__str__": true
+}

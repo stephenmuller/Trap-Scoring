@@ -25,11 +25,18 @@ class Gauge(models.Model):
 
     def __repr__(self):
         """repr
-        >>> a = Gauge()
+        >>> a = Gauge(gauge='12')
+        >>> a
+        Gauge('12')
         """
         return 'Gauge({!r})'.format(self.gauge)
 
     def __str__(self):
+        """string
+        >>> a = Gauge(gauge='12')
+        >>> str(a)
+        '12'
+        """
         return self.gauge
 
 
@@ -42,11 +49,23 @@ class Shotgun(models.Model):
     modifications = models.TextField()
 
     def __repr__(self):
-        """repr"""
-        return 'Player({!r},{!r},{!r})'.format(self.brand, self.model, self.gauge, self.modifications)
+        """repr
+
+        >>> b = Gauge()
+        >>> a = Shotgun(brand='beretta', model='a400', b, barrel_length=(28), modifications='shell catcher')
+        >>> a
+        Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
+        """
+        return 'Shotgun({!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications)
 
     def __str__(self):
-        """basic defining characteristic"""
+        """basic defining characteristic
+
+        >>> b = Gauge()
+        >>> a = Shotgun(brand='beretta', model='a400', b, barrel_length=(28), modifications='shell catcher')
+        >>> str(a)
+        'a400'
+        """
         return self.model
 
 
@@ -102,7 +121,7 @@ class SinglesScore(models.Model):
 
         >>> a = SinglesScore()
         >>> a
-        'Score('', True)'
+        SinglesScore('', True)
         """
         return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
 
