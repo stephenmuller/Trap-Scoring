@@ -1,6 +1,6 @@
 """trap_scorekeeping Views."""
 
-from django import shortcuts
+from django.shortcuts import render
 
 
 def render_index(request):

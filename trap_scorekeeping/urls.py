@@ -20,5 +20,5 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index', views.render_index, name='index')
+    url(r'^$', views.render_index, name='index')
 ]

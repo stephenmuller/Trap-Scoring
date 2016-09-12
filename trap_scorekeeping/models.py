@@ -24,6 +24,9 @@ class Gauge(models.Model):
     )
 
     def __repr__(self):
+        """repr
+        >>> a = Gauge()
+        """
         return 'Gauge({!r})'.format(self.gauge)
 
     def __str__(self):
@@ -81,10 +84,11 @@ class Shells(models.Model):
     )
     fps_rating = models.IntegerField()
     gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
+    gun = models.ForeignKey(Shotgun, related_name='gun')
 
     def __repr__(self):
-        return 'Shells({!r},{!r},{!r}{!r},{!r},{!r})'.format(self.brand, self.sku, self.shot_size,
-                                                             self.shot_weight, self.fps_rating, self.gauge
+        return 'Shells({!r},{!r},{!r}{!r},{!r},{!r})'.format(self.brand, self.sku, self.shot,
+                                                             self.shot_amount, self.fps_rating, self.gauge
                                                              )
 
 
@@ -159,11 +163,12 @@ class Round(models.Model):
         default=FIRST,
         max_length=255
     )
+    excuses = models.TextField(default='')
 
 
     def __repr__(self):
-        return 'Round({!r}{!r}{!r}{!r})'.format(
-            self.singles_round, self.player, self.date, self.starting_station
+        return 'Round({!r}{!r}{!r}{!r}{!r}{!r}{!r})'.format(
+            self.player, self.singles_round, self.date, self.location, self.shells, self.started_at, self.excuses
         )
 
 

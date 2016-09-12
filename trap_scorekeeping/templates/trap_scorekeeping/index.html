@@ -4,9 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" href="static/trap_scorekeeping/index.css">
+
 </head>
 <body>
+<div class="flex">
+<nav>
+    <ul>
+       <h2>sidebar</h2>
+        <li>stephen</li>
+
+        <li>other user</li>
+    </ul>
+</nav>
+<div id="main">
+    <h1 id="header">allthatshitbyme.txt</h1>
+
+        <div id="content">
+
+            <div id="fivescores">
+                <ul>
+                    <h4>recent games:</h4>
+                    <li>one</li>
+                    <li>two</li>
+                    <li>three</li>
+                    <li>four</li>
+                    <li>five</li>
+                </ul>
+            </div>
+
+            <div id="facts">
+                <ul>
+                    <h4>stats:</h4>
+                    <li>longest streak</li>
+                    <li>hit percentage</li>
+                    <li>logged targets</li>
+                    <li>average score</li>
+                </ul>
+            </div>
 
 
+            <div id="heatmap">
+                <h4>map placeholder</h4>
+            <p>placeholder for gmap</p><p>sdhflasdkjhflkjasdhflkashflkasjfhlasdkjfhsadlkjfhasdlkfjhsadlfkjsahdflkjasdhf</p>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<a href="{% url 'admin:index' %}">admin page</a>
+     <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
+     <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
 </body>
 </html>
