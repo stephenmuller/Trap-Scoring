@@ -17,4 +17,5 @@ def generate_filter():
     """
 
     >>> generate_filters('')
+
     """

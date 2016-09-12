@@ -24,6 +24,9 @@ class Gauge(models.Model):
     )
 
     def __repr__(self):
+        """repr
+        >>> a = Gauge()
+        """
         return 'Gauge({!r})'.format(self.gauge)
 
     def __str__(self):
