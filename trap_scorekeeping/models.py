@@ -143,7 +143,7 @@ class Round(models.Model):
         related_name='singles_score'
     )
     date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
+    location = models.TextField(default='Portland Gun Club')
     shells = models.ForeignKey(Shells)
     FIRST = '1'
     SECOND = '2'

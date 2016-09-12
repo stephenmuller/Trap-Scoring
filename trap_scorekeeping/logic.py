@@ -17,8 +17,8 @@ def players_last_ten(player_name):
 
 def avg_score_by_target(player_name):
     """calculates the average hit percentage by target"""
-    all_rounds = all_rounds_for_player(player_name).values('singles_round')
-    # all_scores = all_rounds.singles_score
+    all_rounds = all_rounds_for_player(player_name).values_list('singles_round', flat=True)
+    # all_scores =
     return all_rounds
 
 
