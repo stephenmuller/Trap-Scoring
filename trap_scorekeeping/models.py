@@ -5,30 +5,10 @@ from django.db import models
 import string
 
 
-    def __repr__(self):
-        """repr
-        >>> a = Gauge(gauge='12')
-        >>> a.save()
-        >>> a
-        Gauge('12')
-        """
-        return 'Gauge({!r})'.format(self.gauge)
-
-    def __str__(self):
-        """string
-        >>> a = Gauge(gauge='12')
-        >>> a.save()
-        >>> str(a)
-        '12'
-        """
-        return self.gauge
-
-
 class Shotgun(models.Model):
     """all of the useful information about a shotgun"""
     brand = models.CharField(max_length=25)
     model = models.CharField(max_length=25)
-    gauge = models.ForeignKey(Gauge, related_name='shotgun_gauge')
     barrel_length = models.IntegerField()
     TWELVE_GAUGE = '12'
     TWENTY_GAUGE = '20'
