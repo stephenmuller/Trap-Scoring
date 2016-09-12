@@ -170,4 +170,3 @@ class Round(models.Model):
             self.player, self.singles_round, self.date, self.location, self.shells, self.started_at, self.excuses
         )
 
-
