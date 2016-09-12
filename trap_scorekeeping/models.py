@@ -29,10 +29,7 @@ class Shotgun(models.Model):
 
     def __repr__(self):
         """repr
-
-        >>> b = Gauge(gauge='12')
-        >>> b.save()
-        >>> a = Shotgun(brand='beretta', model='a400', b, barrel_length=(28), modifications='shell catcher')
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
         >>> a.save()
         >>> a
         Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
@@ -42,9 +39,7 @@ class Shotgun(models.Model):
     def __str__(self):
         """basic defining characteristic
 
-        >>> b = Gauge(gauge='12')
-        >>> b.save()
-        >>> a = Shotgun(brand='beretta', model='a400', b, barrel_length=(28), modifications='shell catcher')
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
         >>> a.save()
         >>> str(a)
         'a400'
@@ -91,6 +86,8 @@ class Shells(models.Model):
         return 'Shells({!r},{!r},{!r}{!r},{!r})'.format(self.brand, self.sku, self.shot,
                                                              self.shot_amount, self.fps_rating
                                                              )
+    def __str__(self):
+        return self.sku
 
 
 class SinglesScore(models.Model):

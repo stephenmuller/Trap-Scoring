@@ -17,7 +17,7 @@ def players_last_ten(player_name):
 
 def avg_score_by_target(player_name):
     """calculates the average hit percentage by target"""
-    all_rounds = all_rounds_for_player(player_name).values()
+    all_rounds = all_rounds_for_player(player_name).values('singles_round')
     # all_scores = all_rounds.singles_score
     return all_rounds
 
@@ -26,14 +26,3 @@ def avg_score_by_target(player_name):
 def all_rounds_for_player(player_name):
     """returns all rounds for a given player"""
     return Round.objects.filter(player__username=player_name)
-#
-# # def metrics_for_round_details(user, metric):
-# #     """plz test me"""
-# #     return Round.objects.filter(name=user, metric)
-#
-# def generate_filter():
-#     """
-#
-#     >>> generate_filters('')
-#
-#     """
