@@ -41,10 +41,22 @@ class Shells(models.Model):
     fps_rating = models.IntegerField()
 
     def __repr__(self):
+        """test repr
+
+        >>> a = Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=1290)
+        >>> a
+        Shells('test','test sku','7.5''7/8',1290)
+        """
         return 'Shells({!r},{!r},{!r}{!r},{!r})'.format(self.brand, self.sku, self.shot,
                                                              self.shot_amount, self.fps_rating
                                                              )
     def __str__(self):
+        r"""str
+
+        >>> print(str(Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=
+        ... 1290)))
+        test sku
+        """
         return self.sku
 
 
@@ -77,13 +89,12 @@ class Shotgun(models.Model):
         >>> a
         Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
         """
-        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications, self.shells)
+        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.barrel_length, self.modifications)
 
     def __str__(self):
         """basic defining characteristic
 
         >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
-        >>> a.save()
         >>> str(a)
         'a400'
         """
@@ -105,6 +116,11 @@ class SinglesScore(models.Model):
         return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
 
     def __str__(self):
+        """str
+
+        >>> print(str(SinglesScore(score='abc')))
+        abc
+        """
         return self.score
 
     def add_missed_target(self, target_number):

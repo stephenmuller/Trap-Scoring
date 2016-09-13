@@ -7,7 +7,9 @@ from django.db.models import Q
 
 
 def last_five_rounds():
-    """querys for the last five rounds and returns a list"""
+    """querys for the last five rounds and returns a list
+
+    """
     return Round.objects.all()[::-1][:5]
 
 
