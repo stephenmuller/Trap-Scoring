@@ -3,49 +3,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 import string
-
-
-class Shotgun(models.Model):
-    """all of the useful information about a shotgun"""
-    brand = models.CharField(max_length=25)
-    model = models.CharField(max_length=25)
-    barrel_length = models.IntegerField()
-    TWELVE_GAUGE = '12'
-    TWENTY_GAUGE = '20'
-    TWENTY_EIGHT_GAUGE = '28'
-    FOUR_HUNDRED_TEN_GAUGE = '410'
-    GAUGE_CHOICES = (
-        (TWELVE_GAUGE, '12 Gauge'),
-        (TWENTY_GAUGE, '20 Gauge'),
-        (TWENTY_EIGHT_GAUGE, '28 Gauge'),
-        (FOUR_HUNDRED_TEN_GAUGE, '410 Gauge')
-    )
-    gauge = models.CharField(
-        choices=GAUGE_CHOICES,
-        default=TWELVE_GAUGE,
-        max_length=255
-    )
-    modifications = models.TextField()
-    shells = models.ForeignKey(Shells, related_name='ammo')
-
-    def __repr__(self):
-        """repr
-        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
-        >>> a.save()
-        >>> a
-        Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
-        """
-        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications, self.shells)
-
-    def __str__(self):
-        """basic defining characteristic
-
-        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
-        >>> a.save()
-        >>> str(a)
-        'a400'
-        """
-        return self.model
+from django.utils import timezone
 
 
 class Shells(models.Model):
@@ -88,6 +46,48 @@ class Shells(models.Model):
                                                              )
     def __str__(self):
         return self.sku
+
+
+class Shotgun(models.Model):
+    """all of the useful information about a shotgun"""
+    brand = models.CharField(max_length=25)
+    model = models.CharField(max_length=25)
+    barrel_length = models.IntegerField()
+    TWELVE_GAUGE = '12'
+    TWENTY_GAUGE = '20'
+    TWENTY_EIGHT_GAUGE = '28'
+    FOUR_HUNDRED_TEN_GAUGE = '410'
+    GAUGE_CHOICES = (
+        (TWELVE_GAUGE, '12 Gauge'),
+        (TWENTY_GAUGE, '20 Gauge'),
+        (TWENTY_EIGHT_GAUGE, '28 Gauge'),
+        (FOUR_HUNDRED_TEN_GAUGE, '410 Gauge')
+    )
+    gauge = models.CharField(
+        choices=GAUGE_CHOICES,
+        default=TWELVE_GAUGE,
+        max_length=255
+    )
+    modifications = models.TextField()
+    shells = models.ForeignKey(Shells, related_name='ammo')
+
+    def __repr__(self):
+        """repr
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
+        >>> a
+        Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
+        """
+        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications, self.shells)
+
+    def __str__(self):
+        """basic defining characteristic
+
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
+        >>> a.save()
+        >>> str(a)
+        'a400'
+        """
+        return self.model
 
 
 class SinglesScore(models.Model):
@@ -144,7 +144,7 @@ class Round(models.Model):
     )
     date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
     location = models.TextField(default='Portland Gun Club')
-    shells = models.ForeignKey(Shells)
+    Shotgun = models.ForeignKey(Shotgun, related_name='gun')
     FIRST = '1'
     SECOND = '2'
     THIRD = '3'
