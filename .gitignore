@@ -12,3 +12,5 @@ mediafiles
 settings.py
 
 .idea/
+
+.cache/
