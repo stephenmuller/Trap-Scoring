@@ -81,7 +81,6 @@ class Shotgun(models.Model):
         max_length=255
     )
     modifications = models.TextField()
-    shells = models.ForeignKey(Shells, related_name='ammo')
 
     def __repr__(self):
         """repr
@@ -160,7 +159,8 @@ class Round(models.Model):
     )
     date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
     location = models.TextField(default='Portland Gun Club')
-    Shotgun = models.ForeignKey(Shotgun, related_name='gun')
+    shotgun = models.ForeignKey(Shotgun, related_name='gun')
+    shells = models.ForeignKey(Shells, related_name='ammo')
     FIRST = '1'
     SECOND = '2'
     THIRD = '3'
@@ -183,6 +183,6 @@ class Round(models.Model):
 
     def __repr__(self):
         return 'Round({!r}{!r}{!r}{!r}{!r}{!r}{!r})'.format(
-            self.player, self.singles_round, self.date, self.location, self.shells, self.started_at, self.excuses
+            self.player, self.singles_round, self.date, self.location, self.started_at, self.excuses
         )
 
