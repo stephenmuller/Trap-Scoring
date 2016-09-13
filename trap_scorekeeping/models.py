@@ -182,7 +182,7 @@ class Round(models.Model):
 
 
     def __repr__(self):
-        return 'Round({!r}{!r}{!r}{!r}{!r}{!r}{!r})'.format(
+        return 'Round({!r}{!r}{!r}{!r}{!r}{!r})'.format(
             self.player, self.singles_round, self.date, self.location, self.started_at, self.excuses
         )
 

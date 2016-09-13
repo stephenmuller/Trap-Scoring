@@ -4,6 +4,7 @@ from django.db import migrations, models
 from .models import Round
 from . import models
 from django.db.models import Q
+import string
 
 
 def last_five_rounds():
@@ -18,20 +19,47 @@ def players_last_ten(player_name):
     return Round.objects.filter(player__username=player_name)[::-1][:10]
 
 
-# def avg_score_by_target(player_name):
-#     """calculates the average hit percentage by target"""
-#     all_rounds = all_rounds_for_player(player_name)
-#     un_obfuscated_rounds = query_for_raw_scrores(all_rounds)
-#     return averages
-
-
 def all_rounds_for_player(player_name):
     """returns all rounds for a given player"""
     return Round.objects.filter(player__username=player_name).select_related('singles_round')
 
 
-def query_for_raw_scrores(rounds_array):
-    return [models.SinglesScore.objects.get(score_id)
-        for score_id
-        in rounds_array
-    ]
+def list_of_raw_scores(all_rounds):
+    """Takes a query obj and spits out just the scores"""
+    return [round_obj.singles_round.score for round_obj in all_rounds]
+
+
+def dict_of_misses(raw_scores):
+    split_scores = [list(score) for score in raw_scores]
+    target_hit_miss_values = {}
+    for index, letter in enumerate(string.ascii_lowercase, 1):
+        target_hit_miss_values[letter] = 0
+    for single_round in split_scores:
+        for target in single_round:
+            target_hit_miss_values[target] += 1
+    return target_hit_miss_values
+
+
+def calculate_hit_rate(misses, missed_targets):
+    """calculates the hit percentage for each target"""
+    round_count = len(raw_scores)
+    hit_rate = {}
+    for target in missed_targets:
+        if missed_targets[target] != 0:
+            hit_rate = target/round_count
+        else:
+            hit_rate = 1
+
+
+
+def
+
+
+
+def avg_score_by_target(player_name):
+    """calculates the average hit percentage by target"""
+    all_rounds = all_rounds_for_player(player_name)
+    raw_scores = list_of_raw_scores(all_rounds)
+    misses = dict_of_misses(raw_scores)
+    hit_percentages = calculate_hit_rate(misses, raw_scores)
+    return hit_percentages
