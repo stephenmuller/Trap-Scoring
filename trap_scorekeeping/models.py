@@ -26,6 +26,7 @@ class Shotgun(models.Model):
         max_length=255
     )
     modifications = models.TextField()
+    shells = models.ForeignKey(Shells, related_name='ammo')
 
     def __repr__(self):
         """repr
@@ -34,7 +35,7 @@ class Shotgun(models.Model):
         >>> a
         Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
         """
-        return 'Shotgun({!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications)
+        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.modifications, self.shells)
 
     def __str__(self):
         """basic defining characteristic
@@ -80,7 +81,6 @@ class Shells(models.Model):
         max_length=255
     )
     fps_rating = models.IntegerField()
-    gun = models.ForeignKey(Shotgun, related_name='gun')
 
     def __repr__(self):
         return 'Shells({!r},{!r},{!r}{!r},{!r})'.format(self.brand, self.sku, self.shot,
@@ -142,7 +142,7 @@ class Round(models.Model):
         on_delete=models.CASCADE,
         related_name='singles_score'
     )
-    date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
+    date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
     location = models.TextField(default='Portland Gun Club')
     shells = models.ForeignKey(Shells)
     FIRST = '1'
