@@ -71,8 +71,29 @@ def create_new_singles_score_from_int(score_as_int):
         new_score.save()
 
 
+def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
+    """ creates and saves a new instance of the Round Model
+
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_round(
+    ... 'stephen', 24, time=datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', ''
+    ... )
+    """
+
+    # player = models.ForeignKey(User)
+    # singles_round =
+    # date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
+    # location = models.TextField(default='Portland Gun Club')
+    # shotgun = models.ForeignKey(Shotgun, related_name='gun')
+    # shells = models.ForeignKey(Shells, related_name='ammo')
+    #
+    # started_at = models.CharField(
+    #
+    # excuses = models.TextField(default='')
+
 def last_five_rounds():
     """querys for the last five rounds and returns a list
+
 
     """
     return Round.objects.all()[::-1][:5]
