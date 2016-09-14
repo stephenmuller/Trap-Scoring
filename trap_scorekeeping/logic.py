@@ -7,6 +7,30 @@ from django.db.models import Q
 import string
 
 
+def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
+    """creates a new database instance of the shotgun model
+
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> models.Shotgun.objects.all()
+    <QuerySet [Shotgun('beretta', 'a400', '12', 28, 'shell catcher')]>
+    """
+    new_shotgun = models.Shotgun(brand=brand, model=model, gauge=gauge, barrel_length=barrel_length,
+                                 modifications= modifications
+                                 )
+    new_shotgun.save()
+
+
+def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
+    """ creates a new database instance of the shells model
+
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    >>> models.Shells.objects.all()
+    <QuerySet [Shells('remmington','gameloads','7.5''1oz',1290)]>
+    """
+    new_shells = models.Shells(brand=brand, sku=sku, shot_amount=shot_amount, fps_rating=fps_rating)
+    new_shells.save()
+
+
 def last_five_rounds():
     """querys for the last five rounds and returns a list
 
@@ -72,3 +96,4 @@ def avg_score_by_target(player_name):
     hit_rate = calculate_hit_rate(misses, raw_scores)
     hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
+
