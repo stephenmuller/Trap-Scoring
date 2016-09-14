@@ -71,6 +71,11 @@ def create_new_singles_score_from_int(score_as_int):
         new_score.save()
 
 
+def validate_round_type(score):
+    """defines how a round should be saved"""
+    pass
+
+
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
     """ creates and saves a new instance of the Round Model
 
@@ -79,11 +84,13 @@ def create_new_round(player, round_score, time, location_string, shotgun_model, 
     >>> create_new_round(
     ... 'stephen', 24, time=datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club',
     ... models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1', 'no excuses!!')
+
     """
     new_round = models.Round(
-        player=player, singles_round=validate_round_type(round_score), time='', location=location_string, shotgun=
-
+        player=player, singles_round=validate_round_type(round_score), time='', location=location_string,
+        shotgun=shotgun_model, shells=shell_model, starting_station=starting_station, excuses=excuses
     )
+    new_round.save()
 
 
 def last_five_rounds():
