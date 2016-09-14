@@ -31,6 +31,46 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
     new_shells.save()
 
 
+def create_new_singles_score_from_misses(missed_target_ids):
+    """creates a new instance of the singles_score class using missed target numbers
+
+    >>> create_new_singles_score_from_misses([1, 2, 3])
+    >>> models.SinglesScore.objects.all()
+    <QuerySet [SinglesScore('abc', True)]>
+    """
+    new_score = models.SinglesScore()
+    for target_id in missed_target_ids:
+        new_score.add_missed_target(target_id)
+    new_score.save()
+
+
+def create_new_singles_score_from_int(score_as_int):
+    """ Allows for the input of scores using just an integer value EG 23 (of 25), sets the flag to false because it doesn't
+    provide sufficient data for missed targets in certain metrics.
+
+    >>> create_new_singles_score_from_int(24)
+    >>> models.SinglesScore.objects.all()
+    <QuerySet [SinglesScore('a', False)]>
+
+    >>> create_new_singles_score_from_int(25)
+    >>> models.SinglesScore.objects.all()
+    <QuerySet [SinglesScore('a', False), SinglesScore('', True)]>
+
+    >>> create_new_singles_score_from_int(20)
+    >>> models.SinglesScore.objects.all()
+    <QuerySet [SinglesScore('a', False), SinglesScore('', True), SinglesScore('aaaaa', False)]>
+
+    """
+    if score_as_int == 25:
+        new_score = models.SinglesScore()
+        new_score.save()
+    else:
+        targets_missed = 25 - score_as_int
+        score = 'a' * targets_missed
+        new_score = models.SinglesScore(score=score, score_type=False)
+        new_score.save()
+
+
 def last_five_rounds():
     """querys for the last five rounds and returns a list
 
