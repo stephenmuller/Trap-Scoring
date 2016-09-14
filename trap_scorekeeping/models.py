@@ -135,6 +135,9 @@ class SinglesScore(models.Model):
             values[index] = letter
         self.score = self.score + values[target_number]
 
+    # def convert_letter_to_int(self):
+    #     """converts a missed target to an int value"""
+
     def convert_to_int_score(self):
         """takes a score from the obscured value to an int
 

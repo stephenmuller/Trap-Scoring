@@ -40,20 +40,28 @@ def dict_of_misses(raw_scores):
     return target_hit_miss_values
 
 
-def calculate_hit_rate(misses, missed_targets):
+def calculate_hit_rate(target_number_to_misses, missed_targets):
     """calculates the hit percentage for each target"""
-    round_count = len(raw_scores)
-    hit_rate = {}
-    for target in missed_targets:
-        if missed_targets[target] != 0:
-            hit_rate = target/round_count
+    round_count = len(missed_targets)
+    hit_ratios = {}
+    for target in target_number_to_misses:
+        if target != 0:
+            hit_rate = target_number_to_misses[target]/round_count
         else:
             hit_rate = 1
+        hit_ratios.update({target:hit_rate})
+    return hit_ratios
 
 
-
-def
-
+def calculate_hit_percentages(hit_rate_by_target_id):
+    """Takes ratios and converts them to percent values for display"""
+    hit_percentages = {}
+    for target in hit_rate_by_target_id:
+        if hit_rate_by_target_id[target] == 0:
+            hit_percentages.update({target:100})
+        else:
+            hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
+    return hit_percentages
 
 
 def avg_score_by_target(player_name):
@@ -61,5 +69,6 @@ def avg_score_by_target(player_name):
     all_rounds = all_rounds_for_player(player_name)
     raw_scores = list_of_raw_scores(all_rounds)
     misses = dict_of_misses(raw_scores)
-    hit_percentages = calculate_hit_rate(misses, raw_scores)
+    hit_rate = calculate_hit_rate(misses, raw_scores)
+    hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
