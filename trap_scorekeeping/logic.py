@@ -75,21 +75,16 @@ def create_new_round(player, round_score, time, location_string, shotgun_model, 
     """ creates and saves a new instance of the Round Model
 
     >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
     >>> create_new_round(
-    ... 'stephen', 24, time=datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', ''
-    ... )
+    ... 'stephen', 24, time=datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club',
+    ... models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1', 'no excuses!!')
     """
+    new_round = models.Round(
+        player=player, singles_round=validate_round_type(round_score), time='', location=location_string, shotgun=
 
-    # player = models.ForeignKey(User)
-    # singles_round =
-    # date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
-    # location = models.TextField(default='Portland Gun Club')
-    # shotgun = models.ForeignKey(Shotgun, related_name='gun')
-    # shells = models.ForeignKey(Shells, related_name='ammo')
-    #
-    # started_at = models.CharField(
-    #
-    # excuses = models.TextField(default='')
+    )
+
 
 def last_five_rounds():
     """querys for the last five rounds and returns a list
