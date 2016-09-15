@@ -48,8 +48,8 @@ class Shells(models.Model):
         Shells('test','test sku','7.5''7/8',1290)
         """
         return 'Shells({!r},{!r},{!r}{!r},{!r})'.format(self.brand, self.sku, self.shot,
-                                                             self.shot_amount, self.fps_rating
-                                                             )
+                                                        self.shot_amount, self.fps_rating)
+
     def __str__(self):
         r"""str
 
@@ -84,16 +84,17 @@ class Shotgun(models.Model):
 
     def __repr__(self):
         """repr
-        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=28, modifications='shell catcher')
         >>> a
         Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
         """
-        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.barrel_length, self.modifications)
+        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.barrel_length,
+                                                              self.modifications)
 
     def __str__(self):
         """basic defining characteristic
 
-        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=(28), modifications='shell catcher')
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=28, modifications='shell catcher')
         >>> str(a)
         'a400'
         """
@@ -143,9 +144,9 @@ class SinglesScore(models.Model):
         >>> a.convert_to_int_score()
         24
         """
-        POSSIBLE_SCORE = 25
+        possible_score = 25
         missed_targets = len(self.score)
-        score = POSSIBLE_SCORE - missed_targets
+        score = possible_score - missed_targets
         return score
 
 
@@ -180,9 +181,7 @@ class Round(models.Model):
     )
     excuses = models.TextField(default='')
 
-
     def __repr__(self):
         return 'Round({!r}{!r}{!r}{!r}{!r}{!r})'.format(
             self.player, self.singles_round, self.date, self.location, self.started_at, self.excuses
         )
-
