@@ -275,6 +275,19 @@ def list_of_raw_scores(all_rounds):
 
 
 def dict_of_misses(raw_scores):
+    """Makes a dictionary mapping target number to amount of times missed
+
+    >>> create_user('test', 'test', 'test')
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    >>> create_new_round(User.objects.get(id=1), [15, 18], '1997-07-16T19:22:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> a ={'x': 0, 'q': 0, 'g': 0, 'u': 0, 'h': 0, 'i': 0, 'p': 0, 'r': 1, 'w': 0, 's': 0, 'd': 0, 'm': 0, 'c': 0, 'v': 0, 'z': 0, 'o': 1, 't': 0, 'e': 0, 'j': 0, 'a': 0, 'n': 0, 'b': 0, 'k': 0, 'l': 0, 'y': 0, 'f': 0}
+    >>> a == dict_of_misses(list_of_raw_scores(Round.objects.all()))
+    True
+    """
+
     split_scores = [list(score) for score in raw_scores]
     target_hit_miss_values = {}
     for index, letter in enumerate(string.ascii_lowercase, 1):
@@ -286,7 +299,18 @@ def dict_of_misses(raw_scores):
 
 
 def calculate_hit_rate(target_number_to_misses, missed_targets):
-    """calculates the hit percentage for each target"""
+    """calculates the hit percentage for each target
+
+    >>> create_user('test', 'test', 'test')
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    >>> create_new_round(User.objects.get(id=1), [15, 18], '1997-07-16T19:22:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> test_dict = {'l': 0.0, 's': 0.0, 'h': 0.0, 'u': 0.0, 'w': 0.0, 'm': 0.0, 'f': 0.0, 'o': 1.0, 'q': 0.0, 'k': 0.0, 'p': 0.0, 'd': 0.0, 'b': 0.0, 'c': 0.0, 'i': 0.0, 't': 0.0, 'x': 0.0, 'a': 0.0, 'g': 0.0, 'z': 0.0, 'y': 0.0, 'j': 0.0, 'v': 0.0, 'r': 1.0, 'n': 0.0, 'e': 0.0}
+    >>> test_dict == calculate_hit_rate(dict_of_misses(list_of_raw_scores(Round.objects.all())), list_of_raw_scores(Round.objects.all()))
+    True
+    """
     round_count = len(missed_targets)
     hit_ratios = {}
     for target in target_number_to_misses:
