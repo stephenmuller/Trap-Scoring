@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 import string
 from django.utils import timezone
+import datetime
 
 
 class Shells(models.Model):
@@ -45,9 +46,9 @@ class Shells(models.Model):
 
         >>> a = Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=1290)
         >>> a
-        Shells('test','test sku','7.5''7/8',1290)
+        Shells('test', 'test sku', '7.5', '7/8', 1290)
         """
-        return 'Shells({!r},{!r},{!r}{!r},{!r})'.format(self.brand, self.sku, self.shot,
+        return 'Shells({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.sku, self.shot,
                                                         self.shot_amount, self.fps_rating)
 
     def __str__(self):
@@ -182,6 +183,6 @@ class Round(models.Model):
     excuses = models.TextField(default='')
 
     def __repr__(self):
-        return 'Round({!r}{!r}{!r}{!r}{!r}{!r})'.format(
-            self.player, self.singles_round, self.date, self.location, self.started_at, self.excuses
+        return 'Round({!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r})'.format(
+            self.player, self.singles_round, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
         )

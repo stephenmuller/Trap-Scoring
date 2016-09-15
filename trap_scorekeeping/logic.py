@@ -6,6 +6,7 @@ from . import models
 from django.db.models import Q
 import string
 from django.contrib.auth.models import User
+import datetime
 
 
 def create_user(username, user_pw, email='default@default.com'):
@@ -36,7 +37,7 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
 
     >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
     >>> models.Shells.objects.all()
-    <QuerySet [Shells('remmington','gameloads','7.5''1oz',1290)]>
+    <QuerySet [Shells('remmington', 'gameloads', '7.5', '1oz', 1290)]>
     """
     new_shells = models.Shells(brand=brand, sku=sku, shot=shot, shot_amount=shot_amount, fps_rating=fps_rating)
     new_shells.save()
@@ -98,11 +99,11 @@ def create_new_round(player, round_score, time, location_string, shotgun_model, 
     >>> create_user('test', 'test', 'test')
     >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
     >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
-    >>> create_new_round(User.objects.get(id=1), 24, 'datetime.datetime(2016, 9, 13, 17, 42, 46, 735079, tzinfo=<UTC>)',
+    >>> create_new_round(User.objects.get(id=1), 24, '1997-07-16T19:20:30+01:00',
     ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
     ... 'no excuses!!')
     >>> models.Round.objects.get(id=1)
-
+    Round(<User: test>, SinglesScore('a', False), datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')
     """
     new_round = models.Round(
         player=player, singles_round=validate_round_type(round_score), date=time, location=location_string,
