@@ -116,14 +116,6 @@ class SinglesScore(models.Model):
         """
         return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
 
-    def __str__(self):
-        """str
-
-        >>> print(str(SinglesScore(score='abc')))
-        22
-        """
-        return str(self.convert_to_int_score())
-
     def add_missed_target(self, target_number):
         """adds a letter representing a missed target
 
@@ -149,6 +141,14 @@ class SinglesScore(models.Model):
         missed_targets = len(self.score)
         score = possible_score - missed_targets
         return score
+
+    def __str__(self):
+        """str
+
+        >>> str(SinglesScore(score='abc'))
+        '22'
+        """
+        return str(self.convert_to_int_score())
 
 
 class Round(models.Model):
