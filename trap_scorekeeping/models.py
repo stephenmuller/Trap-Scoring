@@ -7,6 +7,25 @@ from django.utils import timezone
 import datetime
 
 
+
+
+
+def generate_letter_to_target_number_dict():
+    """makes list of letter:number values
+
+    >>> a = {'g': 7, 'i': 9, 'v': 22, 'x': 24, 'b': 2, 'd': 4, 't': 20, 'y': 25, 's': 19, 'e': 5, 'a': 1, 'w': 23, 'q': 17, 'm': 13, 'l': 12, 'o': 15, 'h': 8, 'r': 18, 'f': 6, 'p': 16, 'n': 14, 'u': 21, 'k': 11, 'j': 10, 'z': 26, 'c': 3}
+    >>> a == generate_letter_to_target_number_dict()
+    True
+    """
+    values = {}
+    for index, letter in enumerate(string.ascii_lowercase, 1):
+        values[letter] = index
+    return values
+
+
+LETTER_TO_NUMBER_FOR_TARGET_MISSES = generate_letter_to_target_number_dict()
+
+
 class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""
     brand = models.CharField(max_length=25)

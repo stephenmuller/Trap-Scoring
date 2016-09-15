@@ -8,6 +8,20 @@ import string
 from django.contrib.auth.models import User
 import datetime
 
+# def longest_streak(rounds):
+#     """for a given set of rounds returns the longest streak of targets hit
+#     """
+#     scores_to_process = list_of_raw_scores(rounds)
+#     streak_counter = 0
+#     for score in scores_to_process:
+#         if score == '':
+#             streak_counter += 25
+#         else:
+#             first_miss = score[0]
+#             last_miss = score[-1]
+#             if first_miss == last miss:
+
+
 
 def create_user(username, user_pw, email='default@default.com'):
     """creates a new user with the default django function

@@ -27,7 +27,7 @@
                 <ul>
                     <h4>recent games:</h4>
                     {% for game in rounds %}
-                    <li> {{ game }}
+                    <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }} 
                     </li>
                     {% endfor %}
                 </ul>
