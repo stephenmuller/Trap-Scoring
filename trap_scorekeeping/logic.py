@@ -19,6 +19,20 @@ def create_user(username, user_pw, email='default@default.com'):
     User.objects.create_user(username, email, user_pw)
 
 
+def return_ten_users():
+    """returns list of users for the homepage list
+
+    >>> create_user('steve', 'stupiddjangopw1')
+    >>> create_user('dave', 'stupiddjangopw1')
+    >>> create_user('hans', 'stupiddjangopw1')
+    >>> create_user('matt', 'stupiddjangopw1')
+    >>> create_user('anne', 'stupiddjangopw1')
+    >>> return_ten_users()
+    [<User: anne>, <User: matt>, <User: hans>, <User: dave>, <User: steve>]
+    """
+    return User.objects.all()[::-1][:10]
+
+
 def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
     """creates a new database instance of the shotgun model
 

@@ -120,9 +120,9 @@ class SinglesScore(models.Model):
         """str
 
         >>> print(str(SinglesScore(score='abc')))
-        abc
+        22
         """
-        return self.score
+        return str(self.convert_to_int_score())
 
     def add_missed_target(self, target_number):
         """adds a letter representing a missed target
