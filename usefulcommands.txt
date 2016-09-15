@@ -1,0 +1,19 @@
+# flushes DB, doesn't purge structure
+python manage.py flush
+
+# runs the interactive shell for testing functions
+python manage.py shell
+
+# creates the superuser account for the django app
+python manage.py createsuperuser
+
+# so annoying to type over and over
+python manage.py make migrations trap_scorekeeping
+python manage.py migrate
+
+from trap_scorekeeping import logic, models
+
+a = logic.avg_score_by_target('stephen')
+
+
+a = logic.avg_score_by_target('stephen')

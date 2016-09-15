@@ -1,0 +1,7 @@
+{
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.Shotgun.__repr__": true,
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.Shotgun.__str__": true,
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.SinglesScore.__repr__": true,
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.SinglesScore.add_missed_target": true,
+  "trap_scorekeeping/models.py::trap_scorekeeping.models.SinglesScore.convert_to_int_score": true
+}

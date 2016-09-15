@@ -3,51 +3,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 import string
-
-
-class Gauge(models.Model):
-    """contains the four major gauges"""
-    TWELVE_GAUGE = '12'
-    TWENTY_GAUGE = '20'
-    TWENTY_EIGHT_GAUGE = '28'
-    FOUR_HUNDRED_TEN_GAUGE = '410'
-    GAUGE_CHOICES = (
-        (TWELVE_GAUGE, '12 Gauge'),
-        (TWENTY_GAUGE, '20 Gauge'),
-        (TWENTY_EIGHT_GAUGE, '28 Gauge'),
-        (FOUR_HUNDRED_TEN_GAUGE, '410 Gauge')
-    )
-    gauge = models.CharField(
-        choices=GAUGE_CHOICES,
-        default=TWELVE_GAUGE,
-        max_length=255
-    )
-
-    def __repr__(self):
-        """repr
-        >>> a = Gauge()
-        """
-        return 'Gauge({!r})'.format(self.gauge)
-
-    def __str__(self):
-        return self.gauge
-
-
-class Shotgun(models.Model):
-    """all of the useful information about a shotgun"""
-    brand = models.CharField(max_length=25)
-    model = models.CharField(max_length=25)
-    gauge = models.ForeignKey(Gauge, related_name='shotgun_gauge')
-    barrel_length = models.IntegerField()
-    modifications = models.TextField()
-
-    def __repr__(self):
-        """repr"""
-        return 'Player({!r},{!r},{!r})'.format(self.brand, self.model, self.gauge, self.modifications)
-
-    def __str__(self):
-        """basic defining characteristic"""
-        return self.model
+from django.utils import timezone
+import datetime
 
 
 class Shells(models.Model):
@@ -83,13 +40,66 @@ class Shells(models.Model):
         max_length=255
     )
     fps_rating = models.IntegerField()
-    gauge = models.ForeignKey(Gauge, related_name='shell_gauge')
-    gun = models.ForeignKey(Shotgun, related_name='gun')
 
     def __repr__(self):
-        return 'Shells({!r},{!r},{!r}{!r},{!r},{!r})'.format(self.brand, self.sku, self.shot,
-                                                             self.shot_amount, self.fps_rating, self.gauge
-                                                             )
+        """test repr
+
+        >>> a = Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=1290)
+        >>> a
+        Shells('test', 'test sku', '7.5', '7/8', 1290)
+        """
+        return 'Shells({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.sku, self.shot,
+                                                        self.shot_amount, self.fps_rating)
+
+    def __str__(self):
+        r"""str
+
+        >>> print(str(Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=
+        ... 1290)))
+        test sku
+        """
+        return self.sku
+
+
+class Shotgun(models.Model):
+    """all of the useful information about a shotgun"""
+    brand = models.CharField(max_length=25)
+    model = models.CharField(max_length=25)
+    barrel_length = models.IntegerField()
+    TWELVE_GAUGE = '12'
+    TWENTY_GAUGE = '20'
+    TWENTY_EIGHT_GAUGE = '28'
+    FOUR_HUNDRED_TEN_GAUGE = '410'
+    GAUGE_CHOICES = (
+        (TWELVE_GAUGE, '12 Gauge'),
+        (TWENTY_GAUGE, '20 Gauge'),
+        (TWENTY_EIGHT_GAUGE, '28 Gauge'),
+        (FOUR_HUNDRED_TEN_GAUGE, '410 Gauge')
+    )
+    gauge = models.CharField(
+        choices=GAUGE_CHOICES,
+        default=TWELVE_GAUGE,
+        max_length=255
+    )
+    modifications = models.TextField()
+
+    def __repr__(self):
+        """repr
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=28, modifications='shell catcher')
+        >>> a
+        Shotgun('beretta', 'a400', '12', 28, 'shell catcher')
+        """
+        return 'Shotgun({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.model, self.gauge, self.barrel_length,
+                                                              self.modifications)
+
+    def __str__(self):
+        """basic defining characteristic
+
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=28, modifications='shell catcher')
+        >>> str(a)
+        'a400'
+        """
+        return self.model
 
 
 class SinglesScore(models.Model):
@@ -102,11 +112,16 @@ class SinglesScore(models.Model):
 
         >>> a = SinglesScore()
         >>> a
-        'Score('', True)'
+        SinglesScore('', True)
         """
         return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
 
     def __str__(self):
+        """str
+
+        >>> print(str(SinglesScore(score='abc')))
+        abc
+        """
         return self.score
 
     def add_missed_target(self, target_number):
@@ -130,9 +145,9 @@ class SinglesScore(models.Model):
         >>> a.convert_to_int_score()
         24
         """
-        POSSIBLE_SCORE = 25
+        possible_score = 25
         missed_targets = len(self.score)
-        score = POSSIBLE_SCORE - missed_targets
+        score = possible_score - missed_targets
         return score
 
 
@@ -142,10 +157,12 @@ class Round(models.Model):
     singles_round = models.ForeignKey(
         SinglesScore,
         on_delete=models.CASCADE,
+        related_name='singles_score'
     )
-    date = models.DateTimeField(auto_now_add=True)  # can be used to pull weather later
-    location = 'Portland Gun Club'  # static for now, eventually will use the day class for this information
-    shells = models.ForeignKey(Shells)
+    date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
+    location = models.TextField(default='Portland Gun Club')
+    shotgun = models.ForeignKey(Shotgun, related_name='gun')
+    shells = models.ForeignKey(Shells, related_name='ammo')
     FIRST = '1'
     SECOND = '2'
     THIRD = '3'
@@ -165,10 +182,10 @@ class Round(models.Model):
     )
     excuses = models.TextField(default='')
 
-
     def __repr__(self):
-        return 'Round({!r}{!r}{!r}{!r}{!r}{!r}{!r})'.format(
-            self.player, self.singles_round, self.date, self.location, self.shells, self.started_at, self.excuses
+        return 'Round({!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r})'.format(
+            self.player, self.singles_round, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
         )
 
-
+    def __str__(self):
+        return self.singles_round
