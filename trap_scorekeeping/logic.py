@@ -287,7 +287,6 @@ def dict_of_misses(raw_scores):
     >>> a == dict_of_misses(list_of_raw_scores(Round.objects.all()))
     True
     """
-
     split_scores = [list(score) for score in raw_scores]
     target_hit_miss_values = {}
     for index, letter in enumerate(string.ascii_lowercase, 1):
@@ -325,11 +324,18 @@ def calculate_hit_rate(target_number_to_misses, missed_targets):
 def calculate_hit_percentages(hit_rate_by_target_id):
     """Takes ratios and converts them to percent values for display
 
+    >>> test_dict = {'l': 0.0, 's': 0.0, 'h': 0.0, 'u': 0.0, 'w': 0.5, 'm': 0.0, 'f': 0.0, 'o': 1.0, 'q': 0.0, 'k': 0.0, 'p': 0.0, 'd': 0.0, 'b': 0.0, 'c': 0.0, 'i': 0.0, 't': 0.0, 'x': 0.0, 'a': 0.0, 'g': 0.0, 'z': 0.0, 'y': 0.0, 'j': 0.0, 'v': 0.0, 'r': 1.0, 'n': 0.0, 'e': 0.0}
+    >>> test_output = {'n': 100, 'z': 100, 'l': 100, 'c': 100, 'e': 100, 'q': 100, 'o': 0, 'i': 100, 'b': 100, 't': 100, 'x': 100, 'y': 100, 'f': 100, 'h': 100, 'r': 0, 'k': 100, 'm': 100, 'u': 100, 's': 100, 'a': 100, 'g': 100, 'w': 50.0, 'p': 100, 'd': 100, 'v': 100, 'j': 100}
+    >>> test_output == calculate_hit_percentages(test_dict)
+    True
     """
+
     hit_percentages = {}
     for target in hit_rate_by_target_id:
         if hit_rate_by_target_id[target] == 0:
             hit_percentages.update({target: 100})
+        elif hit_rate_by_target_id[target] == 1.0:
+            hit_percentages.update({target: 0})
         else:
             hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
     return hit_percentages

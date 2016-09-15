@@ -186,3 +186,6 @@ class Round(models.Model):
         return 'Round({!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r})'.format(
             self.player, self.singles_round, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
         )
+
+    def __str__(self):
+        return self.singles_round
