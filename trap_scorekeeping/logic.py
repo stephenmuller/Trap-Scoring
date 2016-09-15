@@ -5,6 +5,17 @@ from .models import Round
 from . import models
 from django.db.models import Q
 import string
+from django.contrib.auth.models import User
+
+
+def create_user(username, user_pw, email='default@default.com'):
+    """creates a new user with the default django function
+
+    >>> create_user('steve', 'stupiddjangopw1')
+    >>> User.objects.all()
+    <QuerySet [<User: steve>]>
+    """
+    User.objects.create_user(username, email, user_pw)
 
 
 def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
@@ -15,7 +26,7 @@ def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
     <QuerySet [Shotgun('beretta', 'a400', '12', 28, 'shell catcher')]>
     """
     new_shotgun = models.Shotgun(brand=brand, model=model, gauge=gauge, barrel_length=barrel_length,
-                                 modifications= modifications
+                                 modifications=modifications
                                  )
     new_shotgun.save()
 
@@ -27,7 +38,7 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
     >>> models.Shells.objects.all()
     <QuerySet [Shells('remmington','gameloads','7.5''1oz',1290)]>
     """
-    new_shells = models.Shells(brand=brand, sku=sku, shot_amount=shot_amount, fps_rating=fps_rating)
+    new_shells = models.Shells(brand=brand, sku=sku, shot=shot, shot_amount=shot_amount, fps_rating=fps_rating)
     new_shells.save()
 
 
@@ -73,22 +84,29 @@ def create_new_singles_score_from_int(score_as_int):
 
 def validate_round_type(score):
     """defines how a round should be saved"""
-    pass
+    if type(score) == int:
+        create_new_singles_score_from_int(score)
+        return models.SinglesScore.objects.all()[::-1][0]
+    else:
+        create_new_singles_score_from_misses(score)
+        return models.SinglesScore.objects.all()[::-1][0]
 
 
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
-    """ creates and saves a new instance of the Round Model
+    r""" creates and saves a new instance of the Round Model
 
+    >>> create_user('test', 'test', 'test')
     >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
     >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
-    >>> create_new_round(
-    ... 'stephen', 24, time=datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club',
-    ... models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1', 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 24, 'datetime.datetime(2016, 9, 13, 17, 42, 46, 735079, tzinfo=<UTC>)',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> models.Round.objects.get(id=1)
 
     """
     new_round = models.Round(
-        player=player, singles_round=validate_round_type(round_score), time='', location=location_string,
-        shotgun=shotgun_model, shells=shell_model, starting_station=starting_station, excuses=excuses
+        player=player, singles_round=validate_round_type(round_score), date=time, location=location_string,
+        shotgun=shotgun_model, shells=shell_model, started_at=starting_station, excuses=excuses
     )
     new_round.save()
 
@@ -136,7 +154,7 @@ def calculate_hit_rate(target_number_to_misses, missed_targets):
             hit_rate = target_number_to_misses[target]/round_count
         else:
             hit_rate = 1
-        hit_ratios.update({target:hit_rate})
+        hit_ratios.update({target: hit_rate})
     return hit_ratios
 
 
@@ -145,7 +163,7 @@ def calculate_hit_percentages(hit_rate_by_target_id):
     hit_percentages = {}
     for target in hit_rate_by_target_id:
         if hit_rate_by_target_id[target] == 0:
-            hit_percentages.update({target:100})
+            hit_percentages.update({target: 100})
         else:
             hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
     return hit_percentages
@@ -159,4 +177,5 @@ def avg_score_by_target(player_name):
     hit_rate = calculate_hit_rate(misses, raw_scores)
     hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
+
 
