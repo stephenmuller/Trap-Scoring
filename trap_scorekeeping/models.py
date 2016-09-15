@@ -31,10 +31,10 @@ def generate_target_number_to_letter_dict():
         values[index] = letter
     return values
 
-
+## Constants
 LETTER_TO_NUMBER_FOR_TARGET_MISSES = generate_letter_to_target_number_dict()
 NUMBER_TO_LETTER_FOR_TARGET_MISSES = generate_target_number_to_letter_dict()
-
+SHOTS_PER_ROUND = 25
 
 class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""

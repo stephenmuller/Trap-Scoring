@@ -5,20 +5,35 @@ from .models import Round
 from . import models
 import string
 from django.contrib.auth.models import User
-
+import numpy
 
 def longest_streak(rounds):
     """for a given set of rounds returns the longest streak of targets hit
     """
     scores_to_process = list_of_raw_scores(rounds)
     streak_counter = 0
+    first_last_miss_list = []
     for score in scores_to_process:
         if score == '':
             streak_counter += 25
         else:
             first_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[0]]
             last_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[-1]]
-            print(first_miss, last_miss)
+            first_last_miss_list.append([first_miss - 1, models.SHOTS_PER_ROUND - last_miss])
+
+
+def find_longest_streak_in_single_round(round):
+    """takes in one round and returns the longest streak
+
+    >>> find_longest_streak_in_single_round('ay')
+    """
+    individual_misses = list(round)
+    numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] for target in individual_misses]
+    streak = numpy.diff(numerical_target_values)
+    print(streak)
+
+
+
 
 
 def create_user(username, user_pw, email='default@default.com'):
