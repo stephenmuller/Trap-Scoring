@@ -26,11 +26,22 @@ def find_longest_streak_in_single_round(round):
     """takes in one round and returns the longest streak
 
     >>> find_longest_streak_in_single_round('ay')
+    24
+    >>> find_longest_streak_in_single_round('d')
+    21
+    >>> find_longest_streak_in_single_round('fjot')
+    5
     """
     individual_misses = list(round)
     numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] for target in individual_misses]
+    if numerical_target_values[0] != 0:
+        numerical_target_values.insert(0, 1)
+    if numerical_target_values[:-1] !=25:
+        numerical_target_values.append(25)
+    print(numerical_target_values)
     streak = numpy.diff(numerical_target_values)
     print(streak)
+    return max(streak)
 
 
 
