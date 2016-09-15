@@ -4,14 +4,10 @@ from django.contrib.auth.models import User
 from django.db import models
 import string
 from django.utils import timezone
-import datetime
-
-
-
 
 
 def generate_letter_to_target_number_dict():
-    """makes list of letter:number values
+    """makes dict of letter:number comparisons
 
     >>> a = {'g': 7, 'i': 9, 'v': 22, 'x': 24, 'b': 2, 'd': 4, 't': 20, 'y': 25, 's': 19, 'e': 5, 'a': 1, 'w': 23, 'q': 17, 'm': 13, 'l': 12, 'o': 15, 'h': 8, 'r': 18, 'f': 6, 'p': 16, 'n': 14, 'u': 21, 'k': 11, 'j': 10, 'z': 26, 'c': 3}
     >>> a == generate_letter_to_target_number_dict()
@@ -23,7 +19,21 @@ def generate_letter_to_target_number_dict():
     return values
 
 
+def generate_target_number_to_letter_dict():
+    """ makes dict of number:letter comparisons
+
+    >>> a = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j', 11: 'k', 12: 'l', 13: 'm', 14: 'n', 15: 'o', 16: 'p', 17: 'q', 18: 'r', 19: 's', 20: 't', 21: 'u', 22: 'v', 23: 'w', 24: 'x', 25: 'y', 26: 'z'}
+    >>> a == generate_target_number_to_letter_dict()
+    True
+    """
+    values = {}
+    for index, letter in enumerate(string.ascii_lowercase, 1):
+        values[index] = letter
+    return values
+
+
 LETTER_TO_NUMBER_FOR_TARGET_MISSES = generate_letter_to_target_number_dict()
+NUMBER_TO_LETTER_FOR_TARGET_MISSES = generate_target_number_to_letter_dict()
 
 
 class Shells(models.Model):

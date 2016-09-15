@@ -1,26 +1,24 @@
 """trap_scorekeeping Logic."""
 
-from django.db import migrations, models
+from django.db import models
 from .models import Round
 from . import models
-from django.db.models import Q
 import string
 from django.contrib.auth.models import User
-import datetime
 
-# def longest_streak(rounds):
-#     """for a given set of rounds returns the longest streak of targets hit
-#     """
-#     scores_to_process = list_of_raw_scores(rounds)
-#     streak_counter = 0
-#     for score in scores_to_process:
-#         if score == '':
-#             streak_counter += 25
-#         else:
-#             first_miss = score[0]
-#             last_miss = score[-1]
-#             if first_miss == last miss:
 
+def longest_streak(rounds):
+    """for a given set of rounds returns the longest streak of targets hit
+    """
+    scores_to_process = list_of_raw_scores(rounds)
+    streak_counter = 0
+    for score in scores_to_process:
+        if score == '':
+            streak_counter += 25
+        else:
+            first_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[0]]
+            last_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[-1]]
+            print(first_miss, last_miss)
 
 
 def create_user(username, user_pw, email='default@default.com'):
