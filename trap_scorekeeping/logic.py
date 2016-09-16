@@ -8,43 +8,64 @@ from django.contrib.auth.models import User
 import numpy
 
 
-def longest_streak(rounds):
-    """for a given set of rounds returns the longest streak of targets hit
-    """
-    scores_to_process = list_of_raw_scores(rounds)
-    streaks = [find_longest_streak_in_single_round(score) for score in scores_to_process]
-    highest_single_round_streak = max(streaks)
+def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
+    """outputs all streaks in a given list of booleans"""
+    rounds_with_false_at_end = all_rounds_as_giant_boolean_list.append(False)
+    rounds_with_false_at_beginning_and_end = rounds_with_false_at_end.insert(0, False)
+    false_indexes = [
+        i
+        for i, x in enumerate(rounds_with_false_at_beginning_and_end)
+        if x == False
+    ]
+    streaks = [
+        i2 - i1
+        for i1, i2 in zip(false_indexes, false_indexes[1:])
+    ]
+    return streaks
 
 
+# def longest_streak(rounds):
+#     """for a given set of rounds returns the longest streak of targets hit
+#     """
+#     scores_to_process = list_of_raw_scores(rounds)
+#     streaks = [find_longest_streak_in_single_round(score) for score in scores_to_process]
+#     highest_single_round_streak = max(streaks)
+#
+#
+#
+# def find_longest_streak_in_single_round(round):
+#     """takes in one round and returns the longest streak
+#
+#     >>> find_longest_streak_in_single_round('ay')
+#     23
+#     >>> find_longest_streak_in_single_round('a')
+#     24
+#     >>> find_longest_streak_in_single_round('y')
+#     24
+#     >>> find_longest_streak_in_single_round('d')
+#     21
+#     >>> find_longest_streak_in_single_round('fjot')
+#     5
+#     >>> find_longest_streak_in_single_round('o')
+#     14
+#     >>> find_longest_streak_in_single_round('ft')
+#     14
+#     >>> find_longest_streak_in_single_round('t')
+#     19
+#     """
+#     # convert string to list of missed targets
+#     individual_misses = list(round)
+#     # convert letters to numerical values, subtracting one to match 0-24 indexing
+#     numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1 for target in individual_misses]
+#     # generate list of 25 targets, default true
+#     boolean_array_for_scores = [True for i in range(0, 25)]
+#     # set missed targets to false
+#     for target in numerical_target_values:
+#         boolean_array_for_scores[target] = False
+#     for
+#     print(boolean_array_for_scores)
 
-def find_longest_streak_in_single_round(round):
-    """takes in one round and returns the longest streak
 
-    >>> find_longest_streak_in_single_round('ay')
-    23
-    >>> find_longest_streak_in_single_round('a')
-    24
-    >>> find_longest_streak_in_single_round('y')
-    24
-    >>> find_longest_streak_in_single_round('d')
-    21
-    >>> find_longest_streak_in_single_round('fjot')
-    5
-    >>> find_longest_streak_in_single_round('o')
-    14
-    >>> find_longest_streak_in_single_round('ft')
-    14
-    >>> find_longest_streak_in_single_round('t')
-    19
-    """
-    individual_misses = list(round)
-    numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] for target in individual_misses]
-    print(numerical_target_values)
-    boolean_array_for_scores = [True for i in range(0, 25)]
-    for target in numerical_target_values:
-        print(target)
-        boolean_array_for_scores[target] = False
-    print(boolean_array_for_scores)
 
 def create_user(username, user_pw, email='default@default.com'):
     """creates a new user with the default django function
