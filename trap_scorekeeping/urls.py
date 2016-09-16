@@ -20,6 +20,6 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.render_index, name='index')
-    url(r'^enter_score', views.render_score_input, name='enter_score')
+    url(r'^$', views.render_index, name='index'),
+    url(r'^score_entry', views.render_score_input, name='score_entry')
 ]

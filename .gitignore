@@ -1,5 +1,6 @@
 venv
 __pycache__
+.cache
 
 .DS_Store
 
@@ -12,5 +13,3 @@ mediafiles
 settings.py
 
 .idea/
-
-.cache/v/

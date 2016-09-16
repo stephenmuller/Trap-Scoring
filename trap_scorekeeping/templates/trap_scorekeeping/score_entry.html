@@ -1,36 +1,51 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Enter New Score</title>
+    <link rel="stylesheet" href="static/trap_scorekeeping/score_entry.css">
 </head>
 <body>
   <form action="submit">
-  <input type="checkbox" name="target" value="1">Target 1
-  <input type="checkbox" name="target" value="2">Target 2
-  <input type="checkbox" name="target" value="3">Target 3
-  <input type="checkbox" name="target" value="4">Target 4
-  <input type="checkbox" name="target" value="5">Target 5 <br>
-  <input type="checkbox" name="target" value="6">Target 6
-  <input type="checkbox" name="target" value="7">Target 7
-  <input type="checkbox" name="target" value="8">Target 8
-  <input type="checkbox" name="target" value="9">Target 9
-  <input type="checkbox" name="target" value="10">Target 10 <br>
-  <input type="checkbox" name="target" value="11">Target 11
-  <input type="checkbox" name="target" value="12">Target 12
-  <input type="checkbox" name="target" value="13">Target 13
-  <input type="checkbox" name="target" value="14">Target 14
-  <input type="checkbox" name="target" value="15">Target 15 <br>
-  <input type="checkbox" name="target" value="16">Target 16
-  <input type="checkbox" name="target" value="17">Target 17
-  <input type="checkbox" name="target" value="18">Target 18
-  <input type="checkbox" name="target" value="19">Target 19
-  <input type="checkbox" name="target" value="20">Target 20 <br>
-  <input type="checkbox" name="target" value="11">Target 21
-  <input type="checkbox" name="target" value="22">Target 22
-  <input type="checkbox" name="target" value="23">Target 23
-  <input type="checkbox" name="target" value="24">Target 24
-  <input type="checkbox" name="target" value="25">Target 25
+    <div class="row">
+      <label><input type="checkbox" name="target" value="1"> Target  1</label>
+      <label><input type="checkbox" name="target" value="2"> Target  2</label>
+      <label><input type="checkbox" name="target" value="3"> Target  3</label>
+      <label><input type="checkbox" name="target" value="4"> Target  4</label>
+      <label><input type="checkbox" name="target" value="5"> Target  5</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" name="target" value="6"> Target  6</label>
+      <label><input type="checkbox" name="target" value="7"> Target  7</label>
+      <label><input type="checkbox" name="target" value="8"> Target  8</label>
+      <label><input type="checkbox" name="target" value="9"> Target  9</label>
+      <label><input type="checkbox" name="target" value="10"> Target 10</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" name="target" value="11"> Target 11</label>
+      <label><input type="checkbox" name="target" value="12"> Target 12</label>
+      <label><input type="checkbox" name="target" value="13"> Target 13</label>
+      <label><input type="checkbox" name="target" value="14"> Target 14</label>
+      <label><input type="checkbox" name="target" value="15"> Target 15</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" name="target" value="16"> Target 16</label>
+      <label><input type="checkbox" name="target" value="17"> Target 17</label>
+      <label><input type="checkbox" name="target" value="18"> Target 18</label>
+      <label><input type="checkbox" name="target" value="19"> Target 19</label>
+      <label><input type="checkbox" name="target" value="20"> Target 20</label>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" name="target" value="21"> Target 21</label>
+      <label><input type="checkbox" name="target" value="22"> Target 22</label>
+      <label><input type="checkbox" name="target" value="23"> Target 23</label>
+      <label><input type="checkbox" name="target" value="24"> Target 24</label>
+      <label><input type="checkbox" name="target" value="25"> Target 25</label>
+    </div>
   </form>
+
+  <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
+  <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@
                 <ul>
                     <h4>recent games:</h4>
                     {% for game in rounds %}
-                    <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }} 
+                    <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -53,7 +53,8 @@
         </div>
     </div>
 </div>
-<a href="{% url 'admin:index' %}">admin page</a>
+     <a href="{% url 'admin:index' %}">admin page</a>
+     <a href="{% url 'score_entry' %}">score entry</a>
      <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
      <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
 </body>
