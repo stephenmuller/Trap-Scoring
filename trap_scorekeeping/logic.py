@@ -7,45 +7,44 @@ import string
 from django.contrib.auth.models import User
 import numpy
 
+
 def longest_streak(rounds):
     """for a given set of rounds returns the longest streak of targets hit
     """
     scores_to_process = list_of_raw_scores(rounds)
-    streak_counter = 0
-    first_last_miss_list = []
-    for score in scores_to_process:
-        if score == '':
-            streak_counter += 25
-        else:
-            first_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[0]]
-            last_miss = models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[score[-1]]
-            first_last_miss_list.append([first_miss - 1, models.SHOTS_PER_ROUND - last_miss])
+    streaks = [find_longest_streak_in_single_round(score) for score in scores_to_process]
+    highest_single_round_streak = max(streaks)
+
 
 
 def find_longest_streak_in_single_round(round):
     """takes in one round and returns the longest streak
 
     >>> find_longest_streak_in_single_round('ay')
+    23
+    >>> find_longest_streak_in_single_round('a')
+    24
+    >>> find_longest_streak_in_single_round('y')
     24
     >>> find_longest_streak_in_single_round('d')
     21
     >>> find_longest_streak_in_single_round('fjot')
     5
+    >>> find_longest_streak_in_single_round('o')
+    14
+    >>> find_longest_streak_in_single_round('ft')
+    14
+    >>> find_longest_streak_in_single_round('t')
+    19
     """
     individual_misses = list(round)
     numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] for target in individual_misses]
-    if numerical_target_values[0] != 0:
-        numerical_target_values.insert(0, 1)
-    if numerical_target_values[:-1] !=25:
-        numerical_target_values.append(25)
     print(numerical_target_values)
-    streak = numpy.diff(numerical_target_values)
-    print(streak)
-    return max(streak)
-
-
-
-
+    boolean_array_for_scores = [True for i in range(0, 25)]
+    for target in numerical_target_values:
+        print(target)
+        boolean_array_for_scores[target] = False
+    print(boolean_array_for_scores)
 
 def create_user(username, user_pw, email='default@default.com'):
     """creates a new user with the default django function
