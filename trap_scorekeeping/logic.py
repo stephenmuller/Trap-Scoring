@@ -1,12 +1,58 @@
 """trap_scorekeeping Logic."""
 
-from django.db import migrations, models
+from django.db import models
 from .models import Round
 from . import models
-from django.db.models import Q
 import string
 from django.contrib.auth.models import User
-import datetime
+
+
+def make_giant_scores_list(all_rounds_by_player):
+    """takes all rounds and makes them into a giant true/false list
+
+    >>> a = ['abc', 'y']
+    >>> make_giant_scores_list(a)
+    [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    """
+    mega_score_list = []
+    for round in all_rounds_by_player:
+        # convert string to list of missed targets
+        individual_misses = list(round)
+        # convert letters to numerical values, subtracting one to match 0-24 indexing
+        numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1 for target in individual_misses]
+        # generate list of 25 targets, default true
+        boolean_array_for_scores = [True for i in range(0, 25)]
+        for target in numerical_target_values:
+            boolean_array_for_scores[target] = False
+        mega_score_list = mega_score_list + boolean_array_for_scores
+    return mega_score_list
+
+
+def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
+    """outputs all streaks in a given list of booleans
+
+    >>> a = [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    >>> find_streaks_in_rounds(a)
+    [0, 0, 46]
+
+    >>> b = [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, False, True, True, True, False, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    >>> find_streaks_in_rounds(b)
+    [0, 0, 18, 3, 23]
+    """
+    false_indexes = [
+        i
+        for i, x in enumerate(all_rounds_as_giant_boolean_list)
+        if x == False
+    ]
+    streaks = [
+        i2 - i1 - 1
+        for i1, i2 in zip(false_indexes, false_indexes[1:])
+    ]
+    return streaks
 
 
 def create_user(username, user_pw, email='default@default.com'):
@@ -17,6 +63,20 @@ def create_user(username, user_pw, email='default@default.com'):
     <QuerySet [<User: steve>]>
     """
     User.objects.create_user(username, email, user_pw)
+
+
+def return_ten_users():
+    """returns list of users for the homepage list
+
+    >>> create_user('steve', 'stupiddjangopw1')
+    >>> create_user('dave', 'stupiddjangopw1')
+    >>> create_user('hans', 'stupiddjangopw1')
+    >>> create_user('matt', 'stupiddjangopw1')
+    >>> create_user('anne', 'stupiddjangopw1')
+    >>> return_ten_users()
+    [<User: anne>, <User: matt>, <User: hans>, <User: dave>, <User: steve>]
+    """
+    return User.objects.all()[::-1][:10]
 
 
 def create_new_gun_model(brand, model, gauge, barrel_length, modifications):

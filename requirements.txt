@@ -1,5 +1,6 @@
 Django==1.10.1
 django-extensions==1.7.4
+numpy==1.11.1
 py==1.4.31
 pytest==3.0.2
 pytest-django==3.0.0

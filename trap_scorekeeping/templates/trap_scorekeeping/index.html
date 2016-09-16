@@ -11,10 +11,11 @@
 <div class="flex">
 <nav>
     <ul>
-       <h2>sidebar</h2>
-        <li>stephen</li>
-
-        <li>other user</li>
+       <h2>Users:</h2>
+       {% for user in sidebar_users %}
+        <li> {{ user }}
+        </li>
+       {% endfor %}
     </ul>
 </nav>
 <div id="main">
@@ -25,11 +26,10 @@
             <div id="fivescores">
                 <ul>
                     <h4>recent games:</h4>
-                    <li>one</li>
-                    <li>two</li>
-                    <li>three</li>
-                    <li>four</li>
-                    <li>five</li>
+                    {% for game in rounds %}
+                    <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }} 
+                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 

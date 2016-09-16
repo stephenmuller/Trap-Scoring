@@ -11,9 +11,23 @@ python manage.py createsuperuser
 python manage.py make migrations trap_scorekeeping
 python manage.py migrate
 
-from trap_scorekeeping import logic, models
+from trap_scorekeeping import logic, models, views
+logic.find_longest_streak_in_single_round('abc')
+
+
+
+logic.longest_streak(models.Round.objects.all())
 
 a = logic.avg_score_by_target('stephen')
 
 
 a = logic.avg_score_by_target('stephen')
+
+
+# doctest boilerplate
+>>> create_user('test', 'test', 'test')
+>>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+>>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+>>> create_new_round(User.objects.get(id=1), 24, '1997-07-16T19:20:30+01:00',
+... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+... 'no excuses!!')
