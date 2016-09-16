@@ -5,26 +5,51 @@ from .models import Round
 from . import models
 import string
 from django.contrib.auth.models import User
-import numpy
 
 
+def make_giant_scores_list(all_rounds_by_player):
+    """takes all rounds and makes them into a giant true/false list
 
-def make_giant_scores_list(all_rounds_for_player):
-    """takes all rounds and makes them into a giant true/false list"""
-    pass
+    >>> a = ['abc', 'y']
+    >>> make_giant_scores_list(a)
+    [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    """
+    mega_score_list = []
+    for round in all_rounds_by_player:
+        # convert string to list of missed targets
+        individual_misses = list(round)
+        # convert letters to numerical values, subtracting one to match 0-24 indexing
+        numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1 for target in individual_misses]
+        # generate list of 25 targets, default true
+        boolean_array_for_scores = [True for i in range(0, 25)]
+        for target in numerical_target_values:
+            boolean_array_for_scores[target] = False
+        mega_score_list = mega_score_list + boolean_array_for_scores
+    return mega_score_list
 
 
 def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
-    """outputs all streaks in a given list of booleans"""
-    rounds_with_false_at_end = all_rounds_as_giant_boolean_list.append(False)
-    rounds_with_false_at_beginning_and_end = rounds_with_false_at_end.insert(0, False)
+    """outputs all streaks in a given list of booleans
+
+    >>> a = [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    >>> find_streaks_in_rounds(a)
+    [0, 0, 46]
+
+    >>> b = [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, False, True, True, True, False, True, True, True, True, True, True, True, True, True,
+    ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
+    >>> find_streaks_in_rounds(b)
+    [0, 0, 18, 3, 23]
+    """
     false_indexes = [
         i
-        for i, x in enumerate(rounds_with_false_at_beginning_and_end)
+        for i, x in enumerate(all_rounds_as_giant_boolean_list)
         if x == False
     ]
     streaks = [
-        i2 - i1
+        i2 - i1 - 1
         for i1, i2 in zip(false_indexes, false_indexes[1:])
     ]
     return streaks
@@ -228,7 +253,7 @@ def players_last_ten(player_name):
     return Round.objects.filter(player__username=player_name)[::-1][:10]
 
 
-def all_scores_for_player(player_name):
+def all_rounds_for_player(player_name):
     """returns all rounds for a given player
 
     >>> create_user('test', 'test', 'test')
@@ -271,9 +296,9 @@ def all_scores_for_player(player_name):
     >>> create_new_round(User.objects.get(id=1), [1, 2, 5], '1997-07-16T19:22:33+01:00',
     ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
     ... 'no excuses!!')
-    >>> len(all_scores_for_player('test'))
+    >>> len(all_rounds_for_player('test'))
     11
-    >>> len(all_scores_for_player('test2'))
+    >>> len(all_rounds_for_player('test2'))
     1
     """
     return Round.objects.filter(player__username=player_name).select_related('singles_round')
@@ -378,7 +403,7 @@ def calculate_hit_percentages(hit_rate_by_target_id):
 
 def avg_score_by_target(player_name):
     """calculates the average hit percentage by target"""
-    all_rounds = all_scores_for_player(player_name)
+    all_rounds = all_rounds_for_player(player_name)
     raw_scores = list_of_raw_scores(all_rounds)
     misses = dict_of_misses(raw_scores)
     hit_rate = calculate_hit_rate(misses, raw_scores)
