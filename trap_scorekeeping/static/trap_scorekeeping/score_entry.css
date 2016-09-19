@@ -1,5 +1,14 @@
 /*entry page css*/
+.flex{
+  display: flex;
+}
 
 .row {
-  height: 25px;
+  flex: 1;
+  flex-direction: column;
+}
+
+label img {
+  flex: 1;
+  height: 50px;
 }
