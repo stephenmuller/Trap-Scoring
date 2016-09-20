@@ -217,4 +217,4 @@ class Round(models.Model):
         )
 
     def __str__(self):
-        return self.singles_round
+        return 'Round for {!r}, shot a {!r}'.format(self.player, str(self.singles_round))

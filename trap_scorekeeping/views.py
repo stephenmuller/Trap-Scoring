@@ -33,7 +33,10 @@ def render_score_entry(request):
 
 def render_round_entry(request):
     """renders the round entry page"""
-    form = forms.NewScore()
+    form = forms.NewScore(request.POST or None)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
     template_data = {
         'form': form,
     }

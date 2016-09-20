@@ -5,7 +5,10 @@
     <title>Round Entry</title>
   </head>
   <body>
-    {{ form.as_p }}
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
     <input type='submit' value="Create Round" />
+    </form>
   </body>
 </html>
