@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from . import logic
+from . import forms
 from . import models
 from django.contrib.auth.models import User
 
@@ -21,11 +22,21 @@ def render_index(request):
     )
 
 
-def render_score_input(request):
+def render_score_entry(request):
     """renders the score entry page"""
     template_data = {
-        'things': 'stuff'
+        'test': 'nope',
     }
     return render(request,
                   'trap_scorekeeping/score_entry.html',
+                  template_data)
+
+def render_round_entry(request):
+    """renders the round entry page"""
+    form = forms.NewScore()
+    template_data = {
+        'form': form,
+    }
+    return render(request,
+                  'trap_scorekeeping/round_entry.html',
                   template_data)
