@@ -33,9 +33,10 @@ def render_score_entry(request):
 
 def render_round_entry(request):
     """renders the round entry page"""
-    score_from_post = request.POST
-    print(score_from_post)
+    score_from_post = request.POST.getlist('target')
+    score_in_model_format = ''.join(score_from_post)
     form = forms.NewScore(request.POST or None)
+    form.fields['singles_round'] = score_in_model_format
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
