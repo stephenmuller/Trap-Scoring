@@ -37,9 +37,9 @@ def render_round_entry(request):
     score_in_model_format = ''.join(score_from_post)
     print(score_in_model_format)
     # score_form = forms.ScoreField(request.POST or None)
-    form = forms.NewScore(request.POST or None)
+    form = forms.NewScore(request.POST.copy() or None)
     print(score_in_model_format)
-    if form.is_valid() and request != '/round_entry':
+    if form.is_valid():
         print(score_in_model_format)
         instance = form.save(commit=False)
         instance.score = score_in_model_format
