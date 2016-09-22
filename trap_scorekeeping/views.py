@@ -35,15 +35,18 @@ def render_round_entry(request):
     """renders the round entry page"""
     score_from_post = request.POST.getlist('target')
     score_in_model_format = ''.join(score_from_post)
-    form = forms.NewScore(request.POST or None, initial={
-        'singles_round': score_in_model_format
-    })
-    # form.fields['singles_round'] = score_in_model_format
-    if form.is_valid():
+    print(score_in_model_format)
+    # score_form = forms.ScoreField(request.POST or None)
+    form = forms.NewScore(request.POST or None)
+    print(score_in_model_format)
+    if form.is_valid() and request != '/round_entry':
+        print(score_in_model_format)
         instance = form.save(commit=False)
+        instance.score = score_in_model_format
         instance.save()
     template_data = {
         'form': form,
+        # 'score_form': score_form,
     }
     return render(request,
                   'trap_scorekeeping/round_entry.html',
