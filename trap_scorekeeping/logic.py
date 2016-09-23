@@ -142,15 +142,6 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
 #         new_score.save()
 
 
-# def validate_round_type(score):
-#     """defines how a round should be saved"""
-#     if type(score) == int:
-#         create_new_singles_score_from_int(score)
-#         return models.SinglesScore.objects.all()[::-1][0]
-#     else:
-#         create_new_singles_score_from_misses(score)
-#         return models.SinglesScore.objects.all()[::-1][0]
-#
 
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
     r""" creates and saves a new instance of the Round Model
@@ -412,4 +403,9 @@ def avg_score_by_target(player_name):
     hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
 
-
+def calculate_streak_by_user(username):
+    """calculates the longest streak for the provided user"""
+    rounds = all_rounds_for_player(username)
+    score_list = make_giant_scores_list(rounds)
+    streaks = find_streaks_in_rounds()
+    return streaks

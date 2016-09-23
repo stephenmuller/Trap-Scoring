@@ -15,9 +15,14 @@ def render_index(request):
     for round_obj in last_5:
         round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
+    # hardcoded username for now
+    streaks = calculate_streak_by_user('stephen')
+    longest_streak = max(streaks)
     template_data = {
         'rounds': last_5,
-        'sidebar_users': user_list
+        'sidebar_users': user_list,
+        'streaks': streaks,
+        'longest_streak': longest_streak
     }
     return render(
         request,
