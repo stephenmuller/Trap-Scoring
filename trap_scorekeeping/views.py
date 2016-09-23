@@ -6,6 +6,7 @@ from . import logic
 from . import forms
 from . import models
 from django.contrib.auth.models import User
+import math
 
 
 def render_index(request):
@@ -16,13 +17,19 @@ def render_index(request):
         round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
     # hardcoded username for now
-    streaks = calculate_streak_by_user('stephen')
+    streaks = logic.calculate_streak_by_user('stephen')
     longest_streak = max(streaks)
+    shots = logic.calculate_total_shots_for_user('stephen')
+    percent_hit = math.floor(logic.hit_percentage_for_user('stephen') * 100)
+    avg_score = math.floor(25 * logic.hit_percentage_for_user('stephen'))
     template_data = {
         'rounds': last_5,
         'sidebar_users': user_list,
         'streaks': streaks,
-        'longest_streak': longest_streak
+        'longest_streak': longest_streak,
+        'shots': shots,
+        'hit_percent': percent_hit,
+        'average_score': avg_score
     }
     return render(
         request,
