@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="static/trap_scorekeeping/score_entry.css">
 </head>
 <body class="flex">
-  <form action="{% url 'round_entry' %}" method="POST">
+  <form action="" method="POST">
     {% csrf_token %}
     <div class="row">
       <label><input type="checkbox" name="target" value="a"> Target  1<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
