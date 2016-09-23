@@ -28,7 +28,7 @@ def render_score_entry(request, model_id=None):
     template_data = {
         # 'id': model_id,
         'filler': 'shit'
-    }    print(str(model_id))
+    }
     return render(request,
                   'trap_scorekeeping/score_entry.html',
                   template_data)
