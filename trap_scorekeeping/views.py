@@ -4,12 +4,16 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from . import logic
 from . import forms
+from . import models
 from django.contrib.auth.models import User
 
 
 def render_index(request):
     """renders the site index"""
     last_5 = logic.last_five_rounds()
+    # set up the score as an int value that makes sense to a human
+    for round_obj in last_5:
+        round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
     template_data = {
         'rounds': last_5,
