@@ -40,12 +40,14 @@ def render_index(request):
 
 def render_score_entry(request, model_id=None):
     """renders the score entry page"""
+    print(str(request))
     template_data = {
         'id': model_id,
     }
     return render(request,
                   'trap_scorekeeping/score_entry.html',
                   template_data)
+
 
 def render_round_entry(request):
     """renders the round entry page"""
@@ -61,8 +63,10 @@ def render_round_entry(request):
                   'trap_scorekeeping/round_entry.html',
                   template_data)
 
+
 def render_ack_entry(request, model_id=None):
-    template_data = {
-        'filler': 'data'
-    }
-    return render(request, 'trap_scorekeeping/ack_entry.html', template_data)
+    # template_data = {
+    #     'filler': 'data'
+    # }
+    # return render(request, 'trap_scorekeeping/ack_entry.html', template_data)
+    pass

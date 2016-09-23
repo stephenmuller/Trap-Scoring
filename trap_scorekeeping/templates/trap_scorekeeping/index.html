@@ -5,35 +5,26 @@
     <meta charset="UTF-8">
     <title>index</title>
     <link rel="stylesheet" href="static/trap_scorekeeping/index.css">
-
 </head>
 <body>
-<h1>
-  <img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/>
-  <img src="{% static 'trap_scorekeeping/wholeclay.png' %}"/>
-    Score Keeper
-    <img src="{% static 'trap_scorekeeping/wholeclay.png' %}"/>
-  <img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/>
-</h1>
+  <img src="{% static 'trap_scorekeeping/scorekeeper.png' %}"/>
 <div class="flex">
-<nav>
-  <h2>Users:</h2>
-    <ul>
-       {% for user in sidebar_users %}
-        <li> {{ user }}
-        </li>
-       {% endfor %}
-    </ul>
-</nav>
-  <div id="main">
-      <ul id="fivescores">
-            <h4>recent games:</h4>
+  <nav>
+    <h2>Users:</h2>
+      <ul>
+         {% for user in sidebar_users %}
+          <li> {{ user }} </li>
+         {% endfor %}
+      </ul>
+  </nav>
+  <div id="content">
+      <ul>
+        <h4>recent games:</h4>
             {% for game in rounds %}
-            <li> <h4>{{ game.player }}:</h4> {{ game.score }}
-            </li>
+            <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
             {% endfor %}
         </ul>
-        <ul id="facts">
+        <ul>
             <h4>stats:</h4>
             <li>Longest Streak: {{ longest_streak }} </li>
             <li> Total Shots: {{ shots }} </li>

@@ -4,11 +4,12 @@
 }
 
 
-
-form{
-  display: flex;
-  display: grid;
+.row{
+    display: block;
+    float: left;
+    width: 25%;
 }
+
 
 label img {
   flex: 1;
