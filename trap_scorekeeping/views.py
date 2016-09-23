@@ -25,12 +25,10 @@ def render_index(request):
 
 def render_score_entry(request, model_id=None):
     """renders the score entry page"""
-    print(request)
     template_data = {
         # 'id': model_id,
         'filler': 'shit'
-    }
-    print('model id == ' + model_id)
+    }    print(str(model_id))
     return render(request,
                   'trap_scorekeeping/score_entry.html',
                   template_data)
@@ -42,7 +40,7 @@ def render_round_entry(request):
         instance = form.save(commit=False)
         instance.save()
         print(instance.pk)
-        return redirect('score_entry', request=request, model_id=instance.pk)
+        return redirect('score_entry', model_id=instance.pk)
     template_data = {
         'form': form
     }
