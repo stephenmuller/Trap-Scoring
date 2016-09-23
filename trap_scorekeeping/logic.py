@@ -142,15 +142,15 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
 #         new_score.save()
 
 
-def validate_round_type(score):
-    """defines how a round should be saved"""
-    if type(score) == int:
-        create_new_singles_score_from_int(score)
-        return models.SinglesScore.objects.all()[::-1][0]
-    else:
-        create_new_singles_score_from_misses(score)
-        return models.SinglesScore.objects.all()[::-1][0]
-
+# def validate_round_type(score):
+#     """defines how a round should be saved"""
+#     if type(score) == int:
+#         create_new_singles_score_from_int(score)
+#         return models.SinglesScore.objects.all()[::-1][0]
+#     else:
+#         create_new_singles_score_from_misses(score)
+#         return models.SinglesScore.objects.all()[::-1][0]
+#
 
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
     r""" creates and saves a new instance of the Round Model
@@ -200,7 +200,8 @@ def last_five_rounds():
     >>> len(last_five_rounds())
     5
     """
-    return models.Round.objects.all()[::-1][:5]
+    rounds = models.Round.objects.all()[::-1][:5]
+    return rounds
 
 
 def players_last_ten(player_name):
@@ -411,4 +412,4 @@ def avg_score_by_target(player_name):
     hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
 
-#
+

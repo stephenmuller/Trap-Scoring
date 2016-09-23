@@ -3,9 +3,11 @@
   display: flex;
 }
 
-.row {
-  flex: 1;
-  flex-direction: column;
+
+
+form{
+  display: flex;
+  display: grid;
 }
 
 label img {

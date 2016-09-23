@@ -8,7 +8,13 @@
 
 </head>
 <body>
-<h1>Score Keeper</h1>
+<h1>
+  <img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/>
+  <img src="{% static 'trap_scorekeeping/wholeclay.png' %}"/>
+    Score Keeper
+    <img src="{% static 'trap_scorekeeping/wholeclay.png' %}"/>
+  <img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/>
+</h1>
 <div class="flex">
 <nav>
   <h2>Users:</h2>
@@ -23,7 +29,7 @@
       <ul id="fivescores">
             <h4>recent games:</h4>
             {% for game in rounds %}
-            <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }}
+            <li> <h4>{{ game.player }}:</h4> {{ game.score }}
             </li>
             {% endfor %}
         </ul>
