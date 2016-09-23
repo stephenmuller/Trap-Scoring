@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Enter New Score</title>
-    <link rel="stylesheet" href="static/trap_scorekeeping/score_entry.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'trap_scorekeeping/score_entry.css' %}" >
 </head>
 <body class="flex">
-  <form action="" method="POST">
+  <form action="ack_entry.html" method="POST">
     {% csrf_token %}
     <div class="row">
       <label><input type="checkbox" name="target" value="a"> Target  1<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>

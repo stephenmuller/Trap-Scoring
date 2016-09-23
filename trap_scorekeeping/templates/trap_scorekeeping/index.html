@@ -8,53 +8,35 @@
 
 </head>
 <body>
+<h1>Score Keeper</h1>
 <div class="flex">
 <nav>
+  <h2>Users:</h2>
     <ul>
-       <h2>Users:</h2>
        {% for user in sidebar_users %}
         <li> {{ user }}
         </li>
        {% endfor %}
     </ul>
 </nav>
-<div id="main">
-    <h1 id="header">allthatshitbyme.txt</h1>
-
-        <div id="content">
-
-            <div id="fivescores">
-                <ul>
-                    <h4>recent games:</h4>
-                    {% for game in rounds %}
-                    <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div id="facts">
-                <ul>
-                    <h4>stats:</h4>
-                    <li>longest streak</li>
-                    <li>hit percentage</li>
-                    <li>logged targets</li>
-                    <li>average score</li>
-                </ul>
-            </div>
-
-
-            <div id="heatmap">
-                <h4>map placeholder</h4>
-            <p>placeholder for gmap</p><p>sdhflasdkjhflkjasdhflkashflkasjfhlasdkjfhsadlkjfhasdlkfjhsadlfkjsahdflkjasdhf</p>
-            </div>
-
-
-        </div>
-    </div>
+  <div id="main">
+      <ul id="fivescores">
+            <h4>recent games:</h4>
+            {% for game in rounds %}
+            <li> <h4>{{ game.player }}:</h4> {{ game.singles_round }}
+            </li>
+            {% endfor %}
+        </ul>
+        <ul id="facts">
+            <h4>stats:</h4>
+            <li>longest streak</li>
+            <li>hit percentage</li>
+            <li>logged targets</li>
+            <li>average score</li>
+        </ul>
+  </div>
 </div>
      <a href="{% url 'admin:index' %}">admin page</a>
-     <a href="{% url 'score_entry' %}">score entry</a>
      <a href="{% url 'round_entry' %}">round entry</a>
      <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
      <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
