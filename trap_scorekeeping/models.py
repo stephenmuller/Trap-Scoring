@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 import string
 from django.utils import timezone
+from . import logic
 
 
 def generate_letter_to_target_number_dict():
@@ -131,63 +132,9 @@ class Shotgun(models.Model):
         return self.model
 
 
-class SinglesScore(models.Model):
-    """stores the scoring for a singles round"""
-    score = models.CharField(max_length=25, default='', blank=True)
-    score_type = models.BooleanField(default=True)
-
-    def __repr__(self):
-        """repr
-
-        >>> a = SinglesScore()
-        >>> a
-        SinglesScore('', True)
-        """
-        return 'SinglesScore({!r}, {!r})'.format(self.score, self.score_type)
-
-    def add_missed_target(self, target_number):
-        """adds a letter representing a missed target
-
-        >>> a = SinglesScore()
-        >>> a.add_missed_target(25)
-        >>> a.score
-        'y'
-        """
-        values = {}
-        for index, letter in enumerate(string.ascii_lowercase, 1):
-            values[index] = letter
-        self.score = self.score + values[target_number]
-
-    def convert_to_int_score(self):
-        """takes a score from the obscured value to an int
-
-        >>> a = SinglesScore()
-        >>> a.add_missed_target(25)
-        >>> a.convert_to_int_score()
-        24
-        """
-        possible_score = 25
-        missed_targets = len(self.score)
-        score = possible_score - missed_targets
-        return score
-
-    def __str__(self):
-        """str
-
-        >>> str(SinglesScore(score='abc'))
-        '22'
-        """
-        return str(self.convert_to_int_score())
-
-
 class Round(models.Model):
     """Links together the various classes/information for one round"""
     player = models.ForeignKey(User)
-    singles_round = models.ForeignKey(
-        SinglesScore,
-        on_delete=models.CASCADE,
-        related_name='singles_score'
-    )
     date = models.DateTimeField(default=timezone.now)  # can be used to pull weather later
     location = models.TextField(default='Portland Gun Club')
     shotgun = models.ForeignKey(Shotgun, related_name='gun')
@@ -210,11 +157,41 @@ class Round(models.Model):
         max_length=255
     )
     excuses = models.TextField(default='')
+    score = models.CharField(max_length=25, default='', blank=True)
+
+    def convert_to_int_score(self):
+        """takes a score from the obscured value to an int
+
+        >>> a = Round()
+        >>> a.score = 'abc'
+        >>> a.convert_to_int_score()
+        22
+        """
+        missed_targets = len(self.score)
+        score = SHOTS_PER_ROUND - missed_targets
+        return score
+
+    def missed_targets_as_int(self):
+        """returns a rounds score as the indexes of missed targets
+
+        >>> logic.create_user('steve', 'stupiddjangopw1')
+        >>> d = User.objects.get(id=1)
+        >>> a = Shotgun(brand='beretta', model='a400', gauge='12', barrel_length=28, modifications='shell catcher')
+        >>> b = Shells(brand='test', sku='test sku', shot='7.5', shot_amount='7/8', fps_rating=1290)
+        >>> c = Round(player=d, shotgun= a, shells=b, score='abcdy')
+        >>> c.missed_targets_as_int()
+        [1, 2, 3, 4, 25]
+        """
+        list_of_letter_values = list(self.score)
+        list_of_target_indexes = [LETTER_TO_NUMBER_FOR_TARGET_MISSES[target_letter]
+                                  for target_letter
+                                  in list_of_letter_values]
+        return list_of_target_indexes
 
     def __repr__(self):
         return 'Round({!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r})'.format(
-            self.player, self.singles_round, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
+            self.player, self.score, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
         )
 
     def __str__(self):
-        return 'Round for {!r}, shot a {!r}'.format(self.player, str(self.singles_round))
+        return 'Round for {!r}, shot a {!r}'.format(self.player, self.score)

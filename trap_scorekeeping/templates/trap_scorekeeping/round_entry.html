@@ -5,8 +5,9 @@
     <title>Round Entry</title>
   </head>
   <body>
-    <form action="" method="POST">
+    <form method="POST">
       {% csrf_token %}
+      {{ score_form.as_p }}
       {{ form.as_p }}
     <input type='submit' value="Create Round" />
     </form>
