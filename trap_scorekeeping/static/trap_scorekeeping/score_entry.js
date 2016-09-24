@@ -1,11 +1,11 @@
-// js
+'use strict';
 
-//
-//function registerEventHandlers() {
-//  $('Enter score"').on('submit', function () {
-//    $('body').css('background', 'blue');
-//  });
-//}
-//
-//
-//$(document).ready(registerEventHandlers);
+
+function registerEventHandlers() {
+  $('Enter score').on('change', function() {
+    $('body').css('background', 'blue');
+  });
+}
+
+
+$(document).ready(registerEventHandlers);
