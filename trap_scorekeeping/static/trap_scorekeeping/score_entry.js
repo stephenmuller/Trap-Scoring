@@ -1,11 +1,16 @@
 'use strict';
 
-
 function registerEventHandlers() {
-  $('Enter score').on('change', function() {
-    $('body').css('background', 'blue');
+  console.log('registerEventHandlers ran');
+  $(':checkbox').on('change', function() {
+    var imagetag = this.id + 'img';
+    if(this.checked) {
+      $('#' + imagetag).attr('src', wholeClay);
+    }
+    else{
+      $('#' + imagetag).attr('src', brokenClay);
+    }
   });
 }
-
 
 $(document).ready(registerEventHandlers);

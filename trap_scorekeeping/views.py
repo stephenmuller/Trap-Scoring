@@ -18,6 +18,7 @@ def render_index(request):
     user_list = logic.return_ten_users()
     # hardcoded username for now
     streaks = logic.calculate_streak_by_user('stephen')
+    print(streaks)
     longest_streak = max(streaks)
     shots = logic.calculate_total_shots_for_user('stephen')
     percent_hit = math.floor(logic.hit_percentage_for_user('stephen') * 100)

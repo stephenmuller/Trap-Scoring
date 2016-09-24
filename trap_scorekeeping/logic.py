@@ -427,3 +427,4 @@ def hit_percentage_for_user(username):
     all_scores = make_giant_scores_list(rounds)
     hits = all_scores.count(True)
     return hits / total_logged_targets
+
