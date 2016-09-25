@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>Select the targets you missed</h1>
-  <form action="ack_entry.html" method="POST" class="flex">
+  <form method="POST" class="flex">
     {% csrf_token %}
       <label><input type="checkbox" name="t1" id="t1" value="a"> Target  1<img id="t1img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
       <label><input type="checkbox" name="t2" id="t2" value="b"> Target  2<img id="t2img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
@@ -29,12 +29,12 @@
       <label><input type="checkbox" name="t17" id="t17" value="q"> Target 17<img id="t17img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
       <label><input type="checkbox" name="t18" id="t18" value="r"> Target 18<img id="t18img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
       <label><input type="checkbox" name="t19" id="t19" value="s"> Target 19<img id="t19img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t20" id="t20" value="t"> Target 20<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t21" id="t21" value="u"> Target 21<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t22" id="t22" value="v"> Target 22<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t23" id="t23" value="w"> Target 23<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t24" id="t24" value="x"> Target 24<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
-      <label><input type="checkbox" name="t25" id="t25" value="y"> Target 25<img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t20" id="t20" value="t"> Target 20<img id="t20img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t21" id="t21" value="u"> Target 21<img id="t21img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t22" id="t22" value="v"> Target 22<img id="t22img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t23" id="t23" value="w"> Target 23<img id="t23img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t24" id="t24" value="x"> Target 24<img id="t24img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+      <label><input type="checkbox" name="t25" id="t25" value="y"> Target 25<img id="t25img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
       <input type="submit" value="Enter score" id="bottom"/>
   </form>
   <script type="text/javascript">
