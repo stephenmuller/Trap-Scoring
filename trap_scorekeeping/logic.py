@@ -13,8 +13,9 @@ def make_giant_scores_list(all_rounds_by_player):
     >>> make_giant_scores_list(a)
     [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
     """
+    scores = [obj.score for obj in list(all_rounds_by_player)]
     mega_score_list = []
-    for round in all_rounds_by_player:
+    for round in scores:
         # convert string to list of missed targets
         individual_misses = list(round)
         # convert letters to numerical values, subtracting one to match 0-24 indexing
@@ -142,15 +143,6 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
 #         new_score.save()
 
 
-def validate_round_type(score):
-    """defines how a round should be saved"""
-    if type(score) == int:
-        create_new_singles_score_from_int(score)
-        return models.SinglesScore.objects.all()[::-1][0]
-    else:
-        create_new_singles_score_from_misses(score)
-        return models.SinglesScore.objects.all()[::-1][0]
-
 
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
     r""" creates and saves a new instance of the Round Model
@@ -200,7 +192,8 @@ def last_five_rounds():
     >>> len(last_five_rounds())
     5
     """
-    return models.Round.objects.all()[::-1][:5]
+    rounds = models.Round.objects.all()[::-1][:5]
+    return rounds
 
 
 def players_last_ten(player_name):
@@ -411,4 +404,27 @@ def avg_score_by_target(player_name):
     hit_percentages = calculate_hit_percentages(hit_rate)
     return hit_percentages
 
-#
+
+def calculate_streak_by_user(username):
+    """calculates the longest streak for the provided user"""
+    rounds = all_rounds_for_player(username)
+    score_list = make_giant_scores_list(rounds)
+    streaks = find_streaks_in_rounds(score_list)
+    return streaks
+
+
+def calculate_total_shots_for_user(username):
+    """calculates how many shots are recorded for a user"""
+    rounds = models.Round.objects.filter(player__username=username).count()
+    total_shots = rounds * 25
+    return total_shots
+
+
+def hit_percentage_for_user(username):
+    """calculates the percentage of targets hit for a given user"""
+    total_logged_targets = calculate_total_shots_for_user(username)
+    rounds = all_rounds_for_player(username)
+    all_scores = make_giant_scores_list(rounds)
+    hits = all_scores.count(True)
+    return hits / total_logged_targets
+
