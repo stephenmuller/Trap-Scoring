@@ -194,4 +194,5 @@ class Round(models.Model):
         )
 
     def __str__(self):
-        return 'Round for {!r}, shot a {!r}'.format(self.player, self.score)
+        return 'User {!r}, shot a {!r}, at {!r}, with {!r} and {!r}.'.format(self.player.username, self.convert_to_int_score(),
+                                                                             self.location, self.shotgun, self.shells)

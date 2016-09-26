@@ -395,6 +395,12 @@ def calculate_hit_percentages(hit_rate_by_target_id):
     return hit_percentages
 
 
+def delete_model_by_id(model_id):
+    """ deletes a model based on the ID passed through"""
+    model = models.Round.objects.get(id__exact=model_id)
+    model.delete()
+
+
 def avg_score_by_target(player_name):
     """calculates the average hit percentage by target"""
     all_rounds = all_rounds_for_player(player_name)

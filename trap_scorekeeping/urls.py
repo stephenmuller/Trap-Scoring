@@ -23,8 +23,12 @@ from . import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.render_index, name='index'),
-    url(r'^score_entry/(?P<model_id>[0-9]+)', views.render_score_entry, name='score_entry'),
+    url(r'^score_entry/(?P<model_id>[0-9]+)', views.render_score_entry,
+        name='score_entry'),
     url(r'^round_entry', views.render_round_entry, name='round_entry'),
-    url(r'^ack_entry/(?P<model_id>[0-9]+)', views.render_ack_entry, name='ack_entry')
+    url(r'^ack_entry/(?P<model_id>[0-9]+)', views.render_ack_entry,
+        name='ack_entry'),
+    url(r'^(?P<model_id>.+)/delete', views.render_model_delete,
+        name='delete_submission')
     # url(r'^shotgun_entry', views.render_shotgun_entry, name='shotgun_entry')
 ]

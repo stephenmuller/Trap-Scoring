@@ -94,6 +94,13 @@ def render_login_page(request):
     else:
         return redirect('login')
 
+
+def render_model_delete(request, model_id):
+    """deletes a model"""
+    logic.delete_model_by_id(model_id)
+    return redirect('round_entry')
+
+
 def clean_query_dict_for_score_entry(query):
     r"""Takes a query dict from the post request and sets it up for entry in the DB
 

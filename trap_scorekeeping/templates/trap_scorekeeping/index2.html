@@ -29,12 +29,12 @@
 
       <div class="starter-template">
         <div id="content">
-              <ul>
-                <h4>Users:</h4>
-                 {% for user in sidebar_users %}
-                  <li> {{ user }} </li>
-                 {% endfor %}
-              </ul>
+                <ul class="list-group">
+                  <h4>Users:</h4>
+                  {% for user in sidebar_users %}
+                  <li class="list-group-item">{{ user }}</li>
+                  {% endfor %}
+                </ul>
               <ul>
                 <h4>recent games:</h4>
                     {% for game in rounds %}
