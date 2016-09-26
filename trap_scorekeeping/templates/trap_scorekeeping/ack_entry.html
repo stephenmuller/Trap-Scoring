@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Score Entered!</title>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'trap_scorekeeping/favicon-96x96.png' %}">
+    <title>User</title>
+    <link href="{% static 'trap_scorekeeping/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/base.css' %}" rel="stylesheet">
+  </head>
+
 <body>
-  <a href="{% url 'index' %}">Go to the homepage!</a>
-  <a href="{% url 'round_entry' %}">Enter another round!</a>
-  <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
-  <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
+  <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+    <a class="navbar-brand" href="{% url 'index' %}">Score Keeper</a>
+  </nav>
+
+  <div class="container">
+    <div class="starter-template">
+      <h3>Confirm round information is correct:</h3>
+      <p>
+        put round shit here
+      </p>
+      <a href="{% static 'index2.html' %}">All information is correct!</a>
+      <a href="{% static 'round_entry2.html' %}">This isn't correct, I need to re-enter.</a>
+    </div>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="{% static 'trap_scorekeeping/js/jquery.min.js' %}"><\/script>')</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+  <script src="{% static 'trap_scorekeeping/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

@@ -25,6 +25,6 @@ urlpatterns = [
     url(r'^$', views.render_index, name='index'),
     url(r'^score_entry/(?P<model_id>[0-9]+)', views.render_score_entry, name='score_entry'),
     url(r'^round_entry', views.render_round_entry, name='round_entry'),
-    url(r'^ack_entry', views.render_ack_entry, name='ack_entry')
+    url(r'^ack_entry/(?P<model_id>[0-9]+)', views.render_ack_entry, name='ack_entry')
     # url(r'^shotgun_entry', views.render_shotgun_entry, name='shotgun_entry')
 ]
