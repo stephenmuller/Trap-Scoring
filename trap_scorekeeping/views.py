@@ -33,7 +33,7 @@ def render_index(request):
     }
     return render(
         request,
-        'trap_scorekeeping/index.html',
+        'trap_scorekeeping/index2.html',
         template_data
     )
 
@@ -52,7 +52,7 @@ def render_score_entry(request, model_id=None):
         'id': model_id,
     }
     return render(request,
-                  'trap_scorekeeping/score_entry.html',
+                  'trap_scorekeeping/score_entry2.html',
                   template_data)
 
 
@@ -70,7 +70,7 @@ def render_round_entry(request):
         'form': form
     }
     return render(request,
-                  'trap_scorekeeping/round_entry.html',
+                  'trap_scorekeeping/round_entry2.html',
                   template_data)
 
 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Score Entry</title>
+    <link href="{% static 'trap_scorekeeping/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/index2.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/score_entry.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+      <a class="navbar-brand" href="{% url 'index' %}">Score Keeper</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'round_entry' %}">Enter a New Round</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>Select the targets you missed</h1>
+        <div id="hitormiss">
+
+          <figure>
+            <img src="{% static 'trap_scorekeeping/brokenclay.png' %}"/><figcaption>Hit Target</figcaption>
+          </figure>
+          <figure>
+            <img src="{% static 'trap_scorekeeping/wholeClay.png' %}"/><figcaption>Missed Target</figcaption>
+          </figure>
+        </div>
+          <form method="POST" class="flex">
+          {% csrf_token %}
+            <label><input type="checkbox" name="t1" id="t1" value="a"> Target  1<img id="t1img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t2" id="t2" value="b"> Target  2<img id="t2img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t3" id="t3" value="c"> Target  3<img id="t3img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t4" id="t4" value="d"> Target  4<img id="t4img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t5" id="t5" value="e"> Target  5<img id="t5img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t6" id="t6" value="f"> Target  6<img id="t6img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t7" id="t7" value="g"> Target  7<img id="t7img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t8" id="t8" value="h"> Target  8<img id="t8img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t9" id="t9" value="i"> Target  9<img id="t9img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t10" id="t10" value="j"> Target 10<img id="t10img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t11" id="t11" value="k"> Target 11<img id="t11img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t12" id="t12" value="l"> Target 12<img id="t12img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t13" id="t13" value="m"> Target 13<img id="t13img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t14" id="t14" value="n"> Target 14<img id="t14img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t15" id="t15" value="o"> Target 15<img id="t15img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t16" id="t16" value="p"> Target 16<img id="t16img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t17" id="t17" value="q"> Target 17<img id="t17img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t18" id="t18" value="r"> Target 18<img id="t18img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t19" id="t19" value="s"> Target 19<img id="t19img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t20" id="t20" value="t"> Target 20<img id="t20img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t21" id="t21" value="u"> Target 21<img id="t21img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t22" id="t22" value="v"> Target 22<img id="t22img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t23" id="t23" value="w"> Target 23<img id="t23img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t24" id="t24" value="x"> Target 24<img id="t24img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <label><input type="checkbox" name="t25" id="t25" value="y"> Target 25<img id="t25img" src="{% static 'trap_scorekeeping/brokenclay.png' %}"/></label>
+            <input type="submit" value="Enter score" id="bottom"/>
+        </form>
+
+      </div>
+
+    </div>
+    <script type="text/javascript">
+       var brokenClay = "{% static 'trap_scorekeeping/brokenclay.png' %}";
+       var wholeClay = "{% static 'trap_scorekeeping/wholeClay.png' %}";
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="{% static 'trap_scorekeeping/js/jquery.min.js' %}"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="{% static 'trap_scorekeeping/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'trap_scorekeeping/score_entry.js' %}"></script>
+    </body>
+</html>

@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  background-color: rgba(10, 82, 65, .5);
 }
 
 nav{
@@ -17,7 +16,6 @@ nav{
   justify-content: space-around;
   margin-left: 20px;
   margin-right: 20px;
-
 }
 
 .title{

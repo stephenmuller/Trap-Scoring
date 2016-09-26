@@ -3,18 +3,25 @@
   display: flex;
 }
 
+#hitormiss{
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#hitormiss img{
+  height: 200px;
+}
+
+
 form{
   flex-wrap: wrap;
 }
 
 form label{
-  width: 50px;
+  width: 75px;
 }
 
 label img {
-  height: 50px;
-}
-
-#bottom{
-  align-self: center;
+  height: 75px;
 }

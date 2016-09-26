@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <title>index</title>
     <link rel="stylesheet" href="static/trap_scorekeeping/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
 </head>
 <body>
   <img src="{% static 'trap_scorekeeping/scorekeeper.png' %}" id="title"/>
 <div class="flex">
   <nav>
+    <h2>Enter New Round</h2>
+    <a href="{% url 'round_entry' %}">round entry</a>
+    <h2>Enter New Shotgun</h2>
+    <h2>Enter New Shotgun Shells</h2>
     <h2>Users:</h2>
       <ul>
          {% for user in sidebar_users %}
