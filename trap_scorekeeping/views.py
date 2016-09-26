@@ -101,6 +101,22 @@ def render_model_delete(request, model_id):
     return redirect('round_entry')
 
 
+def render_player_page(request, user_name):
+    """renders a players page"""
+    streaks = logic.calculate_streak_by_user(user_name)
+    longest_streak = max(streaks)
+    shots = logic.calculate_total_shots_for_user(user_name)
+    percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
+    avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
+    template_data = {
+        'streaks': streaks,
+        'longest_streak': longest_streak,
+        'shots': shots,
+        'hit_percent': percent_hit,
+        'average_score': avg_score
+    }
+    return render(request,'trap_scorekeeping/user_page.html', template_data)
+
 def clean_query_dict_for_score_entry(query):
     r"""Takes a query dict from the post request and sets it up for entry in the DB
 
