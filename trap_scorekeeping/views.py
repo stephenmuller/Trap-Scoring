@@ -1,14 +1,12 @@
 """trap_scorekeeping Views."""
 
-from django.shortcuts import render
-from django.shortcuts import redirect
-from . import logic
-from . import forms
-from . import models
+from django.shortcuts import render, redirect
+from . import logic, forms, models, dbinit, settings
 from django.contrib.auth.models import User
 import math
 from django.contrib.auth import authenticate, login
 import csv
+
 
 
 def render_index(request):
@@ -136,8 +134,26 @@ def clean_query_dict_for_score_entry(query):
     return ''.join(score)
 
 def write_target_data_to_csv(username):
+    """writes data to the CSV for the aster chart
+
+    >>> dbinit.set_up_test_db()
+    >>> write_target_data_to_csv('test')
+    """
     percents = logic.avg_score_by_target(username)
-    keys = sorted(percents)
-    with open('test.csv', 'rb') as f:
+    csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
+    user_csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/' + username + 'aster.csv'
+    new_csv_lines = []
+    with open(csv_path) as f:
         reader = csv.reader(f)
+        all_rows = []
         for row in reader:
+            all_rows.append(row)
+        print(all_rows)
+        for row in all_rows[1:-1]:
+            new_row = row
+            key_from_csv = new_row[0]
+            new_row[2] = percents.get(key_from_csv)
+            new_csv_lines.append(new_row)
+    with open(user_csv_path, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerows(new_csv_lines)
