@@ -1,24 +1,21 @@
-.flex{
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
+body {
+  padding-top: 5rem;
 }
 
-nav{
-  width: 200px;
-  padding-right: 10px;
-  padding-top: 20px;
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: left;
 }
 
+h2{
+  text-align: center;
+}
 #content {
-  flex: 1;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;;
   margin-left: 20px;
   margin-right: 20px;
 }
-
-.title{
+#lists{
   display: flex;
-  justify-content: center;
 }

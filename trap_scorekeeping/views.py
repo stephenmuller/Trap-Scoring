@@ -17,9 +17,9 @@ def render_index(request):
         round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
     # hardcoded username for now
-    streaks = logic.calculate_streak_by_user('stephen')
+    streaks = logic.calculate_streaks()
     longest_streak = max(streaks)
-    shots = logic.calculate_total_shots_for_user('stephen')
+    shots = logic.calculate_total_shots()
     percent_hit = math.floor(logic.hit_percentage_for_user('stephen') * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user('stephen'))
     template_data = {
@@ -51,7 +51,7 @@ def render_score_entry(request, model_id=None):
         'id': model_id,
     }
     return render(request,
-                  'trap_scorekeeping/score_entry2.html',
+                  'trap_scorekeeping/score_entry.html',
                   template_data)
 
 
@@ -69,13 +69,12 @@ def render_round_entry(request):
         'form': form
     }
     return render(request,
-                  'trap_scorekeeping/round_entry2.html',
+                  'trap_scorekeeping/round_entry.html',
                   template_data)
 
 
 def render_ack_entry(request, model_id=None):
     round_data = models.Round.objects.get(id=model_id)
-    print(round_data)
     template_data = {
         'round_data': round_data
     }
@@ -111,6 +110,7 @@ def render_player_page(request, user_name):
     shots = logic.calculate_total_shots_for_user(user_name)
     percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
+    user_list = logic.return_ten_users()
     template_data = {
         'last_five': last_five,
         'streaks': streaks,
@@ -118,7 +118,8 @@ def render_player_page(request, user_name):
         'shots': shots,
         'hit_percent': percent_hit,
         'average_score': avg_score,
-        'username': user_name
+        'username': user_name,
+        'sidebar_users': user_list,
     }
     return render(request,'trap_scorekeeping/user_page.html', template_data)
 

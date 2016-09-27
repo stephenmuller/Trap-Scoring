@@ -406,6 +406,13 @@ def calculate_total_shots_for_user(username):
     return total_shots
 
 
+def calculate_total_shots():
+    """calculates the amount of shots recorded in the db"""
+    rounds = models.Round.objects.all().count()
+    total_shots = rounds * 25
+    return total_shots
+
+
 def hit_percentage_for_user(username):
     """calculates the percentage of targets hit for a given user"""
     total_logged_targets = calculate_total_shots_for_user(username)
@@ -415,3 +422,11 @@ def hit_percentage_for_user(username):
     hits = all_scores.count(True)
     return hits / total_logged_targets
 
+
+def calculate_streaks():
+    """calculates the longest streak in the db"""
+    rounds = models.Round.objects.all()
+    scores = strip_scores_from_round_model(rounds)
+    score_list = make_giant_scores_list(scores)
+    streaks = find_streaks_in_rounds(score_list)
+    return streaks
