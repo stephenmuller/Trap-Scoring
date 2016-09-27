@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="{% static 'trap_scorekeeping/css/theme.css' %}" rel="stylesheet">
     <link href="{% static 'trap_scorekeeping/css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/css/user_page.css' %}" rel="stylesheet">
   </head>
 
   <body>
@@ -54,6 +55,23 @@
                 <li> Hit Percentage: {{ hit_percent }}%</li>
                 <li>Average Score: {{ average_score }}</li>
             </ul>
+            <div id="liquidgauge">
+              <h4>Hit Percentage</h4>
+              <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+              <script src="{% static 'trap_scorekeeping/js/liquidgauge.js' %}" language="JavaScript"></script>
+              <svg id="fillgauge1" width="97%" height="250"></svg>
+              <script language="JavaScript">
+                  var gauge1 = loadLiquidFillGauge("fillgauge1", {{ hit_percent }});
+                  var config1 = liquidFillGaugeDefaultSettings();
+                  config1.circleColor = "#FF7777";
+                  config1.textColor = "#FF4444";
+                  config1.waveTextColor = "#FFAAAA";
+                  config1.waveColor = "#FFDDDD";
+                  config1.circleThickness = 0.2;
+                  config1.textVertPosition = 0.2;
+                  config1.waveAnimateTime = 1000;
+              </script>
+            </div>
       </div>
     </div>
 

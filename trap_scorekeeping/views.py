@@ -8,6 +8,7 @@ from . import models
 from django.contrib.auth.models import User
 import math
 from django.contrib.auth import authenticate, login
+import csv
 
 
 def render_index(request):
@@ -16,7 +17,6 @@ def render_index(request):
     for round_obj in last_5:
         round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
-    # hardcoded username for now
     streaks = logic.calculate_streaks()
     longest_streak = max(streaks)
     shots = logic.calculate_total_shots()
@@ -134,3 +134,10 @@ def clean_query_dict_for_score_entry(query):
     score = [query[t_val][0] for t_val in t_values if t_val in query]
     score.sort()
     return ''.join(score)
+
+def write_target_data_to_csv(username):
+    percents = logic.avg_score_by_target(username)
+    keys = sorted(percents)
+    with open('test.csv', 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
