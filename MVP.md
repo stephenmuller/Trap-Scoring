@@ -11,15 +11,10 @@ The core focus of this app is to keep track of scores and information about trap
 **Main Page:**
   * index of players
   * Longest streak
-  * last score submitted
-  * advanced goals:
-    * map with nearby locations
-    * user login
-    * tailor front page data to the logged in user
+  * last 5 scores
 
 **Player page:**
-  * Time-sorted list of rounds
-  * Place to add shotgun/shell/location data to your profile
+  * Time-sorted list of last 5 rounds
   * Basic statistics:
     * hit %
     * average score
@@ -29,17 +24,11 @@ The core focus of this app is to keep track of scores and information about trap
 
 **Round Page:**
   * 5x5 grid of target pictures, clickable to set hit/miss, hit by default
-  * Ability to just input a score using integers EG. 23 or 4, 5, 3, 5, 5 without specific orders (would take away the ability to run some statistics vs the stats, but allow greater user flexibility)
   * Drop downs/menus/etc for relavent details
    * Shells
    * Gun
    * Location
-   * Weather
-   * External conditions/excuses (wind, lighting, busy day, etc)
-   * save/autosave functionality?
-
-**Group page:**
- * Ability to score 5 rounds simultaneously (the max amount of people in a squad)
+   * excuses
 
 ## Data Model
 The app will need to store a handful of very spefic things:
@@ -50,16 +39,15 @@ The app will need to store a handful of very spefic things:
  * details about a specific round:
    * date/time
    * location
-   * a score, represented by an integer or 25 booleans
-   * type of shells used (TBD how specific this will get)
+   * a score, represented by letters a-y (1-25)
+   * type of shells used
    * shotgun used
 
 ## Technical Components
 In order to keep the front end simple, fast, and easy the pages will all be done in JS using basic HTML elements and images. For example the score input will take either a 5x5 grid of clay targets that are by default set to 'hit' (Eg an image like: [broken clay.jpg](http://mickleyhall.com/wp-content/uploads/2015/05/clay-pigeon-shooting.jpg)).
 
-The data will be passed back to the python 'back-end' via json to be massaged into various metrics that can then be presented on the main page or player page. 
+Django forms are used to move the data from the round/score entry to the DB.
 
-One of the major moving parts in this is having unique ID's for players to tie rounds to. The ideal way to accomplish this would be an account based system. Per David's suggestions earlier in the course this may represent a lot of work and take away a lot of time from the core functionalities of the program. However, in an ideal world I'd like to tie this to google accounts using something like [Firebase](https://firebase.google.com/docs/auth/). The alternative is just using peoples full names as the ID. 
 
 
 ## Schedule
