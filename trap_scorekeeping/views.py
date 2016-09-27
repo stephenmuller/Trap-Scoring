@@ -139,25 +139,27 @@ def clean_query_dict_for_score_entry(query):
 def write_target_data_to_csv(username):
     """writes data to the CSV for the aster chart
 
-    >>> dbinit.set_up_test_db()
-    >>> write_target_data_to_csv('test')
+    # >>> dbinit.set_up_test_db()
+    # >>> write_target_data_to_csv('test')
     """
     percents = logic.avg_score_by_target(username)
     csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
-    user_csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/' + username + 'aster.csv'
+    user_csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/stephenaster.csv'
     new_csv_lines = []
     with open(csv_path) as f:
         reader = csv.reader(f)
         all_rows = []
         for row in reader:
             all_rows.append(row)
+            # print(row)
         new_csv_lines.append(all_rows[0])
-        for row in all_rows[1:-1]:
-            new_row = row
-            key_from_csv = new_row[0]
-            new_row[2] = percents.get(key_from_csv)
-            print(new_row[2])
-            new_csv_lines.append(new_row)
+        for row in all_rows[1:]:
+            # print(row)
+            # new_row = row
+            key_from_csv = row[0]
+            print(percents[row[0]])
+            row[2] = percents[key_from_csv]
+            new_csv_lines.append(row)
     with open(user_csv_path, 'w') as f:
         writer = csv.writer(f)
         writer.writerows(new_csv_lines)

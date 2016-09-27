@@ -4,6 +4,7 @@ from django.db import models
 from . import models, dbinit
 import string
 from django.contrib.auth.models import User
+import math
 
 
 def make_giant_scores_list(scores):
@@ -217,38 +218,41 @@ def calculate_hit_rate(target_number_to_misses, missed_targets):
     >>> a = {'x': 0, 'q': 0, 'g': 0, 'u': 0, 'h': 0, 'i': 0, 'p': 0, 'r': 0, 'w': 0, 's': 0, 'd': 0, 'm': 0, 'c': 5,
     ... 'v': 0, 'z': 0, 'o': 0, 't': 0, 'e': 0, 'j': 0, 'a': 5, 'n': 0, 'b': 5, 'k': 0, 'l': 0, 'y': 0, 'f': 0}
     >>> b = ['abc', 'abc', 'abc', 'abc', 'abc']
-    >>> test_dict == calculate_hit_rate(a, b)
+    >>> c = {'b': 0.0, 'j': 1.0, 'a': 0.0, 'm': 1.0, 'v': 1.0, 'w': 1.0, 'r': 1.0, 'o': 1.0, 'p': 1.0, 'k': 1.0,
+    ... 'd': 1.0, 'e': 1.0, 's': 1.0, 'y': 1.0, 'u': 1.0, 'z': 1.0, 'f': 1.0, 't': 1.0, 'h': 1.0, 'c': 0.0, 'x': 1.0,
+    ... 'l': 1.0, 'q': 1.0, 'g': 1.0, 'i': 1.0, 'n': 1.0}
+    >>> c == calculate_hit_rate(a, b)
     True
     """
     round_count = len(missed_targets)
     hit_ratios = {}
     for target in target_number_to_misses:
-        if target != 0:
-            hit_rate = (round_count - target_number_to_misses[target]) / round_count
-        else:
-            hit_rate = 1
-        hit_ratios.update({target: hit_rate})
+        hit_rate = (round_count - target_number_to_misses[target]) / round_count
+        hit_ratios.update({target: hit_rate * 100})
     return hit_ratios
 
 
-def calculate_hit_percentages(hit_rate_by_target_id):
-    """Takes ratios and converts them to percent values for display
-
-    >>> test_dict = {'l': 0.0, 's': 0.0, 'h': 0.0, 'u': 0.0, 'w': 0.5, 'm': 0.0, 'f': 0.0, 'o': 1.0, 'q': 0.0, 'k': 0.0, 'p': 0.0, 'd': 0.0, 'b': 0.0, 'c': 0.0, 'i': 0.0, 't': 0.0, 'x': 0.0, 'a': 0.0, 'g': 0.0, 'z': 0.0, 'y': 0.0, 'j': 0.0, 'v': 0.0, 'r': 1.0, 'n': 0.0, 'e': 0.0}
-    >>> test_output = {'n': 100, 'z': 100, 'l': 100, 'c': 100, 'e': 100, 'q': 100, 'o': 0, 'i': 100, 'b': 100, 't': 100, 'x': 100, 'y': 100, 'f': 100, 'h': 100, 'r': 0, 'k': 100, 'm': 100, 'u': 100, 's': 100, 'a': 100, 'g': 100, 'w': 50.0, 'p': 100, 'd': 100, 'v': 100, 'j': 100}
-    >>> test_output == calculate_hit_percentages(test_dict)
-    True
-    """
-
-    hit_percentages = {}
-    for target in hit_rate_by_target_id:
-        if hit_rate_by_target_id[target] == 0:
-            hit_percentages.update({target: 100})
-        elif hit_rate_by_target_id[target] == 1.0:
-            hit_percentages.update({target: 0})
-        else:
-            hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
-    return hit_percentages
+# def calculate_hit_percentages(hit_rate_by_target_id):
+#     """Takes ratios and converts them to percent values for display
+#
+#     >>> test_dict = {'l': 0.0, 's': 0.0, 'h': 0.0, 'u': 0.0, 'w': 0.5, 'm': 0.0, 'f': 0.0, 'o': 1.0, 'q': 0.0, 'k': 0.0,
+#     ... 'p': 0.0, 'd': 0.0, 'b': 0.0, 'c': 0.0, 'i': 0.0, 't': 0.0, 'x': 0.0, 'a': 0.0, 'g': 0.0, 'z': 0.0, 'y': 0.0,
+#     ... 'j': 0.0, 'v': 0.0, 'r': 1.0, 'n': 0.0, 'e': 0.0}
+#     >>> test_output = {'n': 100, 'z': 100, 'l': 100, 'c': 100, 'e': 100, 'q': 100, 'o': 0, 'i': 100, 'b': 100, 't': 100,
+#     ... 'x': 100, 'y': 100, 'f': 100, 'h': 100, 'r': 0, 'k': 100, 'm': 100, 'u': 100, 's': 100, 'a': 100, 'g': 100,
+#     ... 'w': 50.0, 'p': 100, 'd': 100, 'v': 100, 'j': 100}
+#     >>> test_output == calculate_hit_percentages(test_dict)
+#     True
+#     """
+#     hit_percentages = {}
+#     for target in hit_rate_by_target_id:
+#         if hit_rate_by_target_id[target] == 0:
+#             hit_percentages.update({target: 100})
+#         elif hit_rate_by_target_id[target] == 1.0:
+#             hit_percentages.update({target: 0})
+#         else:
+#             hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
+#     return hit_percentages
 
 
 def delete_round_by_id(model_id):
@@ -270,15 +274,15 @@ def avg_score_by_target(player_name):
     >>> test_out = {'k': 100, 'i': 100, 'w': 100, 'r': 100, 'n': 100, 'z': 100, 'e': 100, 'q': 100, 'm': 100, 't': 100,
     ... 's': 100, 'v': 100, 'c': 0, 'y': 100, 'l': 100, 'u': 100, 'f': 100, 'j': 100, 'o': 100, 'h': 100, 'd': 100,
     ... 'x': 100, 'g': 100, 'a': 0, 'b': 0, 'p': 100}
-    >>> test_out == avg_score_by_target('test')
+    >>> a = {'b': 100, 'j': 0, 'a': 100, 'm': 0, 'v': 0, 'w': 0, 'r': 0, 'o': 0, 'p': 0, 'k': 0, 'd': 0, 'e': 0, 's': 0, 'y': 0, 'u': 0, 'z': 0, 'f': 0, 'l': 0, 'h': 0, 'c': 100, 'x': 0, 't': 0, 'q': 0, 'g': 0, 'i': 0, 'n': 0}
+    >>> a == avg_score_by_target('test')
     True
     """
     all_rounds = all_rounds_for_player(player_name)
     raw_scores = list_of_raw_scores(all_rounds)
     misses = dict_of_misses(raw_scores)
     hit_rate = calculate_hit_rate(misses, raw_scores)
-    hit_percentages = calculate_hit_percentages(hit_rate)
-    return hit_percentages
+    return hit_rate
 
 
 def calculate_streak_by_user(username):
