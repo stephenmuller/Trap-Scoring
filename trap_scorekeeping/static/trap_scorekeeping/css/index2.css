@@ -1,0 +1,33 @@
+body {
+  padding-top: 5rem;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: left;
+}
+
+h2{
+  text-align: center;
+}
+#content {
+  display: flex;
+  justify-content: flex-start;;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+#lists{
+  display: flex;
+  flex: 5;
+/*
+#users{
+  width: 200px;
+  flex: 1;
+}
+
+
+
+}*/
+.navbar-left{
+  height:inherit;
+}

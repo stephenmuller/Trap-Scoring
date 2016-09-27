@@ -33,7 +33,7 @@ def render_index(request):
     }
     return render(
         request,
-        'trap_scorekeeping/index2.html',
+        'trap_scorekeeping/index.html',
         template_data
     )
 
@@ -103,17 +103,22 @@ def render_model_delete(request, model_id):
 
 def render_player_page(request, user_name):
     """renders a players page"""
+    last_five = logic.last_five_rounds_for_user(user_name)
+    for round_obj in last_five:
+        round_obj.score = round_obj.convert_to_int_score()
     streaks = logic.calculate_streak_by_user(user_name)
     longest_streak = max(streaks)
     shots = logic.calculate_total_shots_for_user(user_name)
     percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
     template_data = {
+        'last_five': last_five,
         'streaks': streaks,
         'longest_streak': longest_streak,
         'shots': shots,
         'hit_percent': percent_hit,
-        'average_score': avg_score
+        'average_score': avg_score,
+        'username': user_name
     }
     return render(request,'trap_scorekeeping/user_page.html', template_data)
 

@@ -4,16 +4,16 @@ from django.db import models
 from . import models
 import string
 from django.contrib.auth.models import User
+from django.db.models.query import QuerySet
 
 
-def make_giant_scores_list(all_rounds_by_player):
+def make_giant_scores_list(scores):
     """takes all rounds and makes them into a giant true/false list
 
     >>> a = ['abc', 'y']
     >>> make_giant_scores_list(a)
     [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
     """
-    scores = [obj.score for obj in list(all_rounds_by_player)]
     mega_score_list = []
     for round in scores:
         # convert string to list of missed targets
@@ -27,6 +27,23 @@ def make_giant_scores_list(all_rounds_by_player):
         mega_score_list = mega_score_list + boolean_array_for_scores
     return mega_score_list
 
+
+def strip_scores_from_round_model(queryset):
+    r"""takes in a query and returns a list of the scores it contains
+
+    >>> create_user('test', 'test', 'test')
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    >>> create_new_round(User.objects.get(id=1), 'abc', '1997-07-16T19:20:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'xy', '1997-07-16T19:20:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> strip_scores_from_round_model(models.Round.objects.all())
+    ['abc', 'xy']
+    """
+    return [obj.score for obj in list(queryset)]
 
 def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
     """outputs all streaks in a given list of booleans
@@ -103,47 +120,6 @@ def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
     new_shells.save()
 
 
-# def create_new_singles_score_from_misses(missed_target_ids):
-#     """creates a new instance of the singles_score class using missed target numbers
-#
-#     >>> create_new_singles_score_from_misses([1, 2, 3])
-#     >>> models.SinglesScore.objects.all()
-#     <QuerySet [SinglesScore('abc', True)]>
-#     """
-#     new_score = models.SinglesScore()
-#     for target_id in missed_target_ids:
-#         new_score.add_missed_target(target_id)
-#     new_score.save()
-
-
-# def create_new_singles_score_from_int(score_as_int):
-#     """ Allows for the input of scores using just an integer value EG 23 (of 25), sets the flag to false because it doesn't
-#     provide sufficient data for missed targets in certain metrics.
-#
-#     >>> create_new_singles_score_from_int(24)
-#     >>> models.SinglesScore.objects.all()
-#     <QuerySet [SinglesScore('a', False)]>
-#
-#     >>> create_new_singles_score_from_int(25)
-#     >>> models.SinglesScore.objects.all()
-#     <QuerySet [SinglesScore('a', False), SinglesScore('', True)]>
-#
-#     >>> create_new_singles_score_from_int(20)
-#     >>> models.SinglesScore.objects.all()
-#     <QuerySet [SinglesScore('a', False), SinglesScore('', True), SinglesScore('aaaaa', False)]>
-#
-#     """
-#     if score_as_int == 25:
-#         new_score = models.SinglesScore()
-#         new_score.save()
-#     else:
-#         targets_missed = 25 - score_as_int
-#         score = 'a' * targets_missed
-#         new_score = models.SinglesScore(score=score, score_type=False)
-#         new_score.save()
-
-
-
 def create_new_round(player, round_score, time, location_string, shotgun_model, shell_model, starting_station, excuses):
     r""" creates and saves a new instance of the Round Model
 
@@ -161,6 +137,37 @@ def create_new_round(player, round_score, time, location_string, shotgun_model, 
         shotgun=shotgun_model, shells=shell_model, started_at=starting_station, excuses=excuses
     )
     new_round.save()
+
+
+def last_five_rounds_for_user(username):
+    """querys for the last five rounds and returns a list
+
+    >>> create_user('test', 'test', 'test')
+    >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
+    >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    >>> create_new_round(User.objects.get(id=1), 'y', '1997-07-16T19:20:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'gh', '1997-07-16T19:22:30+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'nm', '1997-07-16T19:21:33+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'cx', '1997-07-16T19:21:32+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'rstuv', '1997-07-16T19:21:10+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> create_new_round(User.objects.get(id=1), 'dop', '1997-07-16T19:21:31+01:00',
+    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
+    ... 'no excuses!!')
+    >>> len(last_five_rounds_for_user('test'))
+    5
+    """
+    rounds = models.Round.objects.filter(player__username=username)[::-1][:5]
+    return rounds
 
 
 def last_five_rounds():
@@ -187,10 +194,10 @@ def last_five_rounds():
     >>> create_new_round(User.objects.get(id=1), 'dop', '1997-07-16T19:21:31+01:00',
     ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
     ... 'no excuses!!')
-    >>> last_five_rounds()
-    [Round(<User: test>, 'dop', datetime.datetime(1997, 7, 16, 18, 21, 31, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'rstuv', datetime.datetime(1997, 7, 16, 18, 21, 10, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'cx', datetime.datetime(1997, 7, 16, 18, 21, 32, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'nm', datetime.datetime(1997, 7, 16, 18, 21, 33, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'gh', datetime.datetime(1997, 7, 16, 18, 22, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')]
     >>> len(last_five_rounds())
     5
+    >>> last_five_rounds()
+    [Round(<User: test>, 'dop', datetime.datetime(1997, 7, 16, 18, 21, 31, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'rstuv', datetime.datetime(1997, 7, 16, 18, 21, 10, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'cx', datetime.datetime(1997, 7, 16, 18, 21, 32, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'nm', datetime.datetime(1997, 7, 16, 18, 21, 33, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'gh', datetime.datetime(1997, 7, 16, 18, 22, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')]
     """
     rounds = models.Round.objects.all()[::-1][:5]
     return rounds
@@ -258,40 +265,12 @@ def all_rounds_for_player(player_name):
     >>> create_new_round(User.objects.get(id=1), 'df', '1997-07-16T19:22:30+01:00',
     ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
     ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'ay', '1997-07-16T19:21:33+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'st', '1997-07-16T19:21:32+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:21:10+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'd', '1997-07-16T19:21:38+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abe', '1997-07-16T19:21:37+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:21:36+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:21:35+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:21:34+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:21:33+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
-    >>> create_new_round(User.objects.get(id=1), 'abcd', '1997-07-16T19:22:33+01:00',
-    ... 'portland gun club', models.Shotgun.objects.get(id=1), models.Shells.objects.get(id=1), '1',
-    ... 'no excuses!!')
     >>> len(all_rounds_for_player('test'))
-    11
+    1
     >>> len(all_rounds_for_player('test2'))
     1
+    >>> all_rounds_for_player('test')
+    <QuerySet [Round(<User: test>, 'df', datetime.datetime(1997, 7, 16, 18, 22, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')]>
     """
     return models.Round.objects.filter(player__username=player_name)
 
@@ -414,7 +393,8 @@ def avg_score_by_target(player_name):
 def calculate_streak_by_user(username):
     """calculates the longest streak for the provided user"""
     rounds = all_rounds_for_player(username)
-    score_list = make_giant_scores_list(rounds)
+    scores = strip_scores_from_round_model(rounds)
+    score_list = make_giant_scores_list(scores)
     streaks = find_streaks_in_rounds(score_list)
     return streaks
 
@@ -430,7 +410,8 @@ def hit_percentage_for_user(username):
     """calculates the percentage of targets hit for a given user"""
     total_logged_targets = calculate_total_shots_for_user(username)
     rounds = all_rounds_for_player(username)
-    all_scores = make_giant_scores_list(rounds)
+    scores = strip_scores_from_round_model(rounds)
+    all_scores = make_giant_scores_list(scores)
     hits = all_scores.count(True)
     return hits / total_logged_targets
 

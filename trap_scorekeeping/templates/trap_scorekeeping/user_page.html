@@ -9,8 +9,8 @@
 
     <title>User</title>
     <link href="{% static 'trap_scorekeeping/css/bootstrap.min.css' %}" rel="stylesheet">
-
     <link href="{% static 'trap_scorekeeping/base.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/index2.css' %}" rel="stylesheet">
   </head>
 
   <body>
@@ -29,11 +29,11 @@
 
     <div class="container">
       <div class="starter-template">
-        <h1> put username here</h1>
+        <h2> {{ username }}'s Page</h2>
         <div id="content">
               <ul>
                 <h4>recent games:</h4>
-                    {% for game in rounds %}
+                    {% for game in last_five %}
                     <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
                     {% endfor %}
                 </ul>
