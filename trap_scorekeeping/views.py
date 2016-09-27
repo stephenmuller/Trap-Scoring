@@ -109,7 +109,7 @@ def render_player_page(request, user_name):
     percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
     user_list = logic.return_ten_users()
-    write_target_data_to_csv(user_name)
+    # write_target_data_to_csv(user_name)
     template_data = {
         'last_five': last_five,
         'streaks': streaks,
