@@ -2,40 +2,67 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>index</title>
-    <link rel="stylesheet" href="static/trap_scorekeeping/index.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Index</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="{% static 'trap_scorekeeping/css/index.css' %}" rel="stylesheet">
+  <link href="{% static 'trap_scorekeeping/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+  <link href="{% static 'trap_scorekeeping/css/theme.css' %}" rel="stylesheet">
 </head>
+
 <body>
-  <img src="{% static 'trap_scorekeeping/scorekeeper.png' %}" id="title"/>
-<div class="flex">
-  <nav>
-    <h2>Users:</h2>
-      <ul>
-         {% for user in sidebar_users %}
-          <li> {{ user }} </li>
-         {% endfor %}
-      </ul>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Trap Scorekeeper</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="{% url 'round_entry' %}">Enter New Round</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Pages <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for user in sidebar_users %}
+              <li><a href="{% url 'player_page' user.username %}">{{ user }}</a></li>
+              <li role="separator" class="divider"></li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
-  <div id="content">
-      <ul>
-        <h4>recent games:</h4>
-            {% for game in rounds %}
-            <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
-            {% endfor %}
-        </ul>
+
+  <div class="container starter-template">
+      <h2>Trap Scorekeeper</h2>
+        <div id="lists">
         <ul>
-            <h4>stats:</h4>
-            <li>Longest Streak: {{ longest_streak }} </li>
-            <li> Total Shots: {{ shots }} </li>
-            <li> Hit Percentage: {{ hit_percent }}%</li>
-            <li>Average Score: {{ average_score }}</li>
-        </ul>
+          <h4>recent games:</h4>
+              {% for game in rounds %}
+              <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
+              {% endfor %}
+          </ul>
+          <ul>
+              <h4>stats:</h4>
+              <li>Longest Streak: {{ longest_streak }} </li>
+              <li> Total Shots: {{ shots }} </li>
+              <li> Hit Percentage: {{ hit_percent }}%</li>
+              <li>Average Score: {{ average_score }}</li>
+          </ul>
+        </div>
   </div>
-</div>
-     <a href="{% url 'admin:index' %}">admin page</a>
-     <a href="{% url 'round_entry' %}">round entry</a>
-     <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
-     <script src="http://cdn.jsdelivr.net/lodash/4.11.2/lodash.js"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="{% static 'trap_scorekeeping/js/jquery.min.js' %}"><\/script>')</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+  <script src="{% static 'trap_scorekeeping/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

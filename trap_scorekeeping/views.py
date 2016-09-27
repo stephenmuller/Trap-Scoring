@@ -7,19 +7,19 @@ from . import forms
 from . import models
 from django.contrib.auth.models import User
 import math
+from django.contrib.auth import authenticate, login
 
 
 def render_index(request):
     """renders the site index"""
     last_5 = logic.last_five_rounds()
-    # set up the score as an int value that makes sense to a human
     for round_obj in last_5:
         round_obj.score = round_obj.convert_to_int_score()
     user_list = logic.return_ten_users()
     # hardcoded username for now
-    streaks = logic.calculate_streak_by_user('stephen')
+    streaks = logic.calculate_streaks()
     longest_streak = max(streaks)
-    shots = logic.calculate_total_shots_for_user('stephen')
+    shots = logic.calculate_total_shots()
     percent_hit = math.floor(logic.hit_percentage_for_user('stephen') * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user('stephen'))
     template_data = {
@@ -40,14 +40,13 @@ def render_index(request):
 
 def render_score_entry(request, model_id=None):
     """renders the score entry page"""
-    # import ipdb; ipdb.set_trace()
     if request.method == 'POST':
         post_data = request.POST
         string_for_db = clean_query_dict_for_score_entry(post_data)
         round = models.Round.objects.get(id=model_id)
         round.score = string_for_db
         round.save()
-        # return redirect('ack_entry', model_id)
+        return redirect('ack_entry', model_id)
     template_data = {
         'id': model_id,
     }
@@ -75,11 +74,54 @@ def render_round_entry(request):
 
 
 def render_ack_entry(request, model_id=None):
-    # template_data = {
-    #     'filler': 'data'
-    # }
-    # return render(request, 'trap_scorekeeping/ack_entry.html', template_data)
+    round_data = models.Round.objects.get(id=model_id)
+    template_data = {
+        'round_data': round_data
+    }
+    return render(request, 'trap_scorekeeping/ack_entry.html', template_data)
     pass
+
+
+def render_login_page(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    pass
+    if user is not None:
+        login(request, user)
+        return redirect('index')
+    else:
+        return redirect('login')
+
+
+def render_round_delete(request, model_id):
+    """deletes a round, returns to round entry"""
+    logic.delete_round_by_id(model_id)
+    return redirect('round_entry')
+
+
+def render_player_page(request, user_name):
+    """renders a players page"""
+    last_five = logic.last_five_rounds_for_user(user_name)
+    for round_obj in last_five:
+        round_obj.score = round_obj.convert_to_int_score()
+    streaks = logic.calculate_streak_by_user(user_name)
+    longest_streak = max(streaks)
+    shots = logic.calculate_total_shots_for_user(user_name)
+    percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
+    avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
+    user_list = logic.return_ten_users()
+    template_data = {
+        'last_five': last_five,
+        'streaks': streaks,
+        'longest_streak': longest_streak,
+        'shots': shots,
+        'hit_percent': percent_hit,
+        'average_score': avg_score,
+        'username': user_name,
+        'sidebar_users': user_list,
+    }
+    return render(request,'trap_scorekeeping/user_page.html', template_data)
 
 def clean_query_dict_for_score_entry(query):
     r"""Takes a query dict from the post request and sets it up for entry in the DB

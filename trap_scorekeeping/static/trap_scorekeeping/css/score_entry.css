@@ -1,0 +1,27 @@
+/*entry page css*/
+.flex{
+  display: flex;
+}
+
+#hitormiss{
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#hitormiss img{
+  height: 200px;
+}
+
+
+form{
+  flex-wrap: wrap;
+}
+
+form label{
+  width: 75px;
+}
+
+label img {
+  height: 75px;
+}

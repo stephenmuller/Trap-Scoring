@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 import string
 from django.utils import timezone
-from . import logic
+from . import logic, dbinit
 
 
 def generate_letter_to_target_number_dict():
@@ -189,9 +189,21 @@ class Round(models.Model):
         return list_of_target_indexes
 
     def __repr__(self):
+        """repr
+
+        >>> dbinit.set_up_test_db()
+        >>> Round.objects.get(id__exact=1)
+        Round(<User: test>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')
+        """
         return 'Round({!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r}, {!r})'.format(
             self.player, self.score, self.date, self.location, self.shotgun, self.shells, self.started_at, self.excuses
         )
 
     def __str__(self):
-        return 'Round for {!r}, shot a {!r}'.format(self.player, self.score)
+        """str
+        >>> dbinit.set_up_test_db()
+        >>> print(Round.objects.get(id__exact=1))
+        User 'test', shot a 22, at 'portland gun club', with Shotgun('beretta', 'a400', '12', 28, 'shell catcher') and Shells('remmington', 'gameloads', '7.5', '1oz', 1290).
+        """
+        return 'User {!r}, shot a {!r}, at {!r}, with {!r} and {!r}.'.format(self.player.username, self.convert_to_int_score(),
+                                                                             self.location, self.shotgun, self.shells)
