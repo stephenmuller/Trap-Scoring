@@ -34,12 +34,6 @@ ul {
   width: auto;
 }
 
-.liquidFillGaugeText {
-  font-family: Helvetica;
-  font-weight: bold;
-}
-
-
 #content {
   justify-content: space-around;
   flex-wrap: wrap;
