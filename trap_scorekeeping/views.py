@@ -109,6 +109,7 @@ def render_player_page(request, user_name):
     percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
     user_list = logic.return_ten_users()
+    write_target_data_to_csv(user_name)
     template_data = {
         'last_five': last_five,
         'streaks': streaks,
@@ -121,6 +122,7 @@ def render_player_page(request, user_name):
     }
     return render(request,'trap_scorekeeping/user_page.html', template_data)
 
+
 def clean_query_dict_for_score_entry(query):
     r"""Takes a query dict from the post request and sets it up for entry in the DB
 
@@ -132,6 +134,7 @@ def clean_query_dict_for_score_entry(query):
     score = [query[t_val][0] for t_val in t_values if t_val in query]
     score.sort()
     return ''.join(score)
+
 
 def write_target_data_to_csv(username):
     """writes data to the CSV for the aster chart
@@ -153,6 +156,7 @@ def write_target_data_to_csv(username):
             new_row = row
             key_from_csv = new_row[0]
             new_row[2] = percents.get(key_from_csv)
+            print(new_row[2])
             new_csv_lines.append(new_row)
     with open(user_csv_path, 'w') as f:
         writer = csv.writer(f)
