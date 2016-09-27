@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^round_entry', views.render_round_entry, name='round_entry'),
     url(r'^ack_entry/(?P<model_id>[0-9]+)', views.render_ack_entry,
         name='ack_entry'),
-    url(r'^(?P<model_id>.+)/delete', views.render_model_delete,
+    url(r'^(?P<model_id>.+)/delete', views.render_round_delete,
         name='delete_submission'),
     url(r'^(?P<user_name>.+)/user_page', views.render_player_page, name='player_page')
     # url(r'^shotgun_entry', views.render_shotgun_entry, name='shotgun_entry')

@@ -94,8 +94,8 @@ def render_login_page(request):
         return redirect('login')
 
 
-def render_model_delete(request, model_id):
-    """deletes a model"""
+def render_round_delete(request, model_id):
+    """deletes a round, returns to round entry"""
     logic.delete_round_by_id(model_id)
     return redirect('round_entry')
 
