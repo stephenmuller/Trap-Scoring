@@ -42,20 +42,37 @@
 
   <div class="container starter-template">
     <h2>Trap Scorekeeper</h2>
-      <div id="lists">
+      <div id="content">
       <ul>
-        <h4>recent games:</h4>
+        <h4>Recent Games:</h4>
             {% for game in rounds %}
-            <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
+            <li> <h2>{{ game.player }}:</h2> <h4>{{ game.score }}</h4></li>
             {% endfor %}
         </ul>
         <ul>
-            <h4>stats:</h4>
+            <h4>Stats:</h4>
             <li>Longest Streak: {{ longest_streak }} </li>
             <li> Total Shots: {{ shots }} </li>
             <li> Hit Percentage: {{ hit_percent }}%</li>
             <li>Average Score: {{ average_score }}</li>
         </ul>
+        <div id="liquidgauge">
+          <h4>Percent of targets hit</h4>
+          <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+          <script src="{% static 'trap_scorekeeping/js/liquidgauge.js' %}" language="JavaScript"></script>
+          <svg id="fillgauge1" width="97%" height="250"></svg>
+          <script language="JavaScript">
+              var gauge1 = loadLiquidFillGauge("fillgauge1", {{ hit_percent }});
+              var config1 = liquidFillGaugeDefaultSettings();
+              config1.circleColor = "#FF7777";
+              config1.textColor = "#FF4444";
+              config1.waveTextColor = "#FFAAAA";
+              config1.waveColor = "#FFDDDD";
+              config1.circleThickness = 0.2;
+              config1.textVertPosition = 0.2;
+              config1.waveAnimateTime = 1000;
+          </script>
+        </div>
       </div>
   </div>
 

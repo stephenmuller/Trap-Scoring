@@ -4,15 +4,14 @@
 }
 
 #hitormiss{
-  justify-content: center;
   display: flex;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
 }
 #hitormiss img{
   height: 200px;
 }
-
 
 form{
   flex-wrap: wrap;

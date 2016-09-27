@@ -24,7 +24,7 @@ var outlineArc = d3.svg.arc()
         .innerRadius(innerRadius)
         .outerRadius(radius);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -43,7 +43,6 @@ d3.csv(csv_data, function(error, data) {
     d.width  = +d.weight;
     d.label  =  d.label;
   });
-  // for (var i = 0; i < data.score; i++) { console.log(data[i].id) }
 
   var path = svg.selectAll(".solidArc")
       .data(pie(data))
