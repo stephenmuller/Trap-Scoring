@@ -148,7 +148,7 @@ def write_target_data_to_csv(username):
         all_rows = []
         for row in reader:
             all_rows.append(row)
-        print(all_rows)
+        new_csv_lines.append(all_rows[0])
         for row in all_rows[1:-1]:
             new_row = row
             key_from_csv = new_row[0]
