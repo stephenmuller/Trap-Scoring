@@ -224,7 +224,7 @@ def calculate_hit_rate(target_number_to_misses, missed_targets):
     hit_ratios = {}
     for target in target_number_to_misses:
         if target != 0:
-            hit_rate = target_number_to_misses[target]/round_count
+            hit_rate = (round_count - target_number_to_misses[target]) / round_count
         else:
             hit_rate = 1
         hit_ratios.update({target: hit_rate})
