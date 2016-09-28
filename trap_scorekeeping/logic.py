@@ -7,15 +7,15 @@ from django.contrib.auth.models import User
 
 
 def make_giant_scores_list(scores):
-    """takes all rounds and makes them into a giant true/false list
+    """Takes in an array of missed targets by round and outputs a list of boolean values that represent hit/miss.
 
     >>> a = ['abc', 'y']
     >>> make_giant_scores_list(a)
     [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False]
     """
     mega_score_list = []
-    for round in scores:
-        individual_misses = list(round)
+    for score in scores:
+        individual_misses = list(score)
         numerical_target_values = [
             models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1
             for target in individual_misses
@@ -28,7 +28,7 @@ def make_giant_scores_list(scores):
 
 
 def strip_scores_from_round_model(queryset):
-    r"""takes in a query and returns a list of the scores it contains
+    r"""Takes in a queryset and returns a list of just the scores it contains.
 
     >>> dbinit.set_up_test_db()
     >>> strip_scores_from_round_model(models.Round.objects.all())
@@ -38,7 +38,7 @@ def strip_scores_from_round_model(queryset):
 
 
 def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
-    """outputs all streaks in a given list of booleans
+    """Calculates length of all streaks in an array of booleans.
 
     >>> a = [False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
     ... True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True,
@@ -55,7 +55,7 @@ def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
     false_indexes = [
         i
         for i, x in enumerate(all_rounds_as_giant_boolean_list)
-        if x == False
+        if x is False
     ]
     streaks = [
         i2 - i1 - 1
@@ -65,7 +65,7 @@ def find_streaks_in_rounds(all_rounds_as_giant_boolean_list):
 
 
 def create_user(username, user_pw, email='default@default.com'):
-    """creates a new user with the default django function
+    """Creates a new standard user with the default django function
 
     >>> create_user('steve', 'stupiddjangopw1')
     >>> User.objects.all()
@@ -89,7 +89,7 @@ def return_ten_users():
 
 
 def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
-    """creates a new database instance of the shotgun model
+    """Creates a new database instance of the shotgun model.
 
     >>> create_new_gun_model('beretta', 'a400', '12', 28, 'shell catcher')
     >>> models.Shotgun.objects.all()
@@ -102,7 +102,7 @@ def create_new_gun_model(brand, model, gauge, barrel_length, modifications):
 
 
 def create_new_shells_model(brand, sku, shot, shot_amount, fps_rating):
-    """ creates a new database instance of the shells model
+    """Creates a new database instance of the shells model.
 
     >>> create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
     >>> models.Shells.objects.all()
@@ -132,7 +132,7 @@ def create_new_round(player, round_score, time, location_string, shotgun_model, 
 
 
 def last_five_rounds_for_user(username):
-    """querys for the last five rounds and returns a list
+    """Querys for the last five rounds based on a specified and returns a list sorted most recent first
 
     >>> dbinit.set_up_test_db()
     >>> len(last_five_rounds_for_user('test'))
@@ -145,7 +145,7 @@ def last_five_rounds_for_user(username):
 
 
 def last_five_rounds():
-    """querys for the last five rounds and returns a list
+    """Querys for the last five rounds and returns a list
 
     >>> dbinit.set_up_test_db()
     >>> last_five_rounds()
@@ -158,7 +158,7 @@ def last_five_rounds():
 
 
 def players_last_ten(player_name):
-    """returns last 10 rounds
+    """Returns a players last 10 rounds.
 
     >>> dbinit.set_up_test_db()
     >>> players_last_ten('test')
@@ -210,7 +210,7 @@ def dict_of_misses(raw_scores):
 
 
 def calculate_hit_rate(target_number_to_misses, missed_targets):
-    """calculates the hit percentage for each target
+    """Calculates the hit percentage for each target
 
     >>> num_to_miss = {'a': 1, 'b': 5, 'c': 3, 'd': 6, 'e': 0}
     >>> missed = ['a', 'a', 'a', 'a', 'a', 'a']
@@ -226,31 +226,9 @@ def calculate_hit_rate(target_number_to_misses, missed_targets):
     return hit_ratios
 
 
-# def calculate_hit_percentages(hit_rate_by_target_id):
-#     """Takes ratios and converts them to percent values for display
-#
-#     >>> test_dict = {'l': 0.0, 's': 0.0, 'h': 0.0, 'u': 0.0, 'w': 0.5, 'm': 0.0, 'f': 0.0, 'o': 1.0, 'q': 0.0, 'k': 0.0,
-#     ... 'p': 0.0, 'd': 0.0, 'b': 0.0, 'c': 0.0, 'i': 0.0, 't': 0.0, 'x': 0.0, 'a': 0.0, 'g': 0.0, 'z': 0.0, 'y': 0.0,
-#     ... 'j': 0.0, 'v': 0.0, 'r': 1.0, 'n': 0.0, 'e': 0.0}
-#     >>> test_output = {'n': 100, 'z': 100, 'l': 100, 'c': 100, 'e': 100, 'q': 100, 'o': 0, 'i': 100, 'b': 100, 't': 100,
-#     ... 'x': 100, 'y': 100, 'f': 100, 'h': 100, 'r': 0, 'k': 100, 'm': 100, 'u': 100, 's': 100, 'a': 100, 'g': 100,
-#     ... 'w': 50.0, 'p': 100, 'd': 100, 'v': 100, 'j': 100}
-#     >>> test_output == calculate_hit_percentages(test_dict)
-#     True
-#     """
-#     hit_percentages = {}
-#     for target in hit_rate_by_target_id:
-#         if hit_rate_by_target_id[target] == 0:
-#             hit_percentages.update({target: 100})
-#         elif hit_rate_by_target_id[target] == 1.0:
-#             hit_percentages.update({target: 0})
-#         else:
-#             hit_percentages.update({target: 100 * hit_rate_by_target_id[target]})
-#     return hit_percentages
-
-
 def delete_round_by_id(model_id):
-    """ deletes a model based on the ID passed through
+    """Deletes a round based on the ID passed through
+
     >>> dbinit.set_up_test_db()
     >>> delete_round_by_id(1)
     >>> models.Round.objects.get(id__exact=1)
@@ -263,7 +241,8 @@ def delete_round_by_id(model_id):
 
 
 def avg_score_by_target(player_name):
-    """calculates the average hit percentage by target
+    """Calculates the average hit percentage by target letter
+
     >>> dbinit.set_up_test_db()
     >>> test_out = {'k': 100, 'i': 100, 'w': 100, 'r': 100, 'n': 100, 'z': 100, 'e': 100, 'q': 100, 'm': 100, 't': 100,
     ... 's': 100, 'v': 100, 'c': 0, 'y': 100, 'l': 100, 'u': 100, 'f': 100, 'j': 100, 'o': 100, 'h': 100, 'd': 100,
@@ -282,7 +261,7 @@ def avg_score_by_target(player_name):
 
 
 def calculate_streak_by_user(username):
-    """calculates the streaks for the provided user
+    """Calculates the streaks for the provided user
 
     >>> dbinit.set_up_test_db()
     >>> calculate_streak_by_user('test')
@@ -296,7 +275,7 @@ def calculate_streak_by_user(username):
 
 
 def calculate_total_shots_for_user(username):
-    """calculates how many shots are recorded for a user
+    """Calculates how many shots are recorded for a user
 
     >>> dbinit.set_up_test_db()
     >>> calculate_total_shots_for_user('test')
@@ -308,7 +287,7 @@ def calculate_total_shots_for_user(username):
 
 
 def calculate_total_shots():
-    """calculates the amount of shots recorded in the db
+    """Calculates the amount of shots recorded in the db
 
     >>> dbinit.set_up_test_db()
     >>> calculate_total_shots()
@@ -320,12 +299,11 @@ def calculate_total_shots():
 
 
 def hit_percentage_for_user(username):
-    """calculates the percentage of targets hit for a given user
+    """Calculates the percentage of targets hit for a given user
 
     >>> dbinit.set_up_test_db()
     >>> hit_percentage_for_user('test')
     0.88
-
     """
     total_logged_targets = calculate_total_shots_for_user(username)
     rounds = all_rounds_for_player(username)
@@ -336,7 +314,7 @@ def hit_percentage_for_user(username):
 
 
 def calculate_streaks():
-    """calculates the longest streak in the db
+    """Calculates the longest streak in the db
 
     >>> dbinit.set_up_test_db()
     >>> calculate_streaks()

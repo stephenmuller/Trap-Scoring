@@ -5,7 +5,6 @@ from . import models, logic
 from django.contrib.auth.models import User
 
 
-
 def init_basic_defaults():
     """ensures there are defaults for the basic DB models
 
@@ -15,7 +14,7 @@ def init_basic_defaults():
     >>> models.Shells.objects.all()
     <QuerySet [Shells('remmington', 'gameloads', '7.5', '1oz', 1290)]>
     >>> models.User.objects.all()
-    <QuerySet [<User: TestUser>]>
+    <QuerySet [<User: stephen>]>
     """
     # ensures there is a user in the DB to assign rounds to
     logic.create_user('stephen', 'supersecurefakepassword')
@@ -36,7 +35,6 @@ def set_up_test_db():
     >>> set_up_test_db()
     >>> models.Round.objects.all()
     <QuerySet [Round(<User: test>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!'), Round(<User: test2>, 'abc', datetime.datetime(1997, 7, 16, 18, 20, 30, tzinfo=<UTC>), 'portland gun club', Shotgun('beretta', 'a400', '12', 28, 'shell catcher'), Shells('remmington', 'gameloads', '7.5', '1oz', 1290), '1', 'no excuses!!')]>
-
     >>> models.Shotgun.objects.all()
     <QuerySet [Shotgun('beretta', 'a400', '12', 28, 'shell catcher')]>
     >>> models.Shells.objects.all()

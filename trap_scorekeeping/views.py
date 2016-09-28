@@ -1,21 +1,19 @@
 """trap_scorekeeping Views."""
 
 from django.shortcuts import render, redirect
-from . import logic, forms, models, dbinit, settings
+from . import logic, forms, models, settings
 import math
-from django.contrib.auth import authenticate, login
 import csv
 from django.http import HttpResponse
 
 
 def render_csv_request(request, user_name):
+    """Returns a CSV file containing the percent values for 25 targets set up for the d3s visualization"""
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
     writer = csv.writer(response)
     write_target_data_to_csv_writer(user_name, writer)
     return response
-
-
 
 
 def render_index(request):
@@ -50,9 +48,9 @@ def render_score_entry(request, model_id=None):
     if request.method == 'POST':
         post_data = request.POST
         string_for_db = clean_query_dict_for_score_entry(post_data)
-        round = models.Round.objects.get(id=model_id)
-        round.score = string_for_db
-        round.save()
+        new_round = models.Round.objects.get(id=model_id)
+        new_round.score = string_for_db
+        new_round.save()
         return redirect('ack_entry', model_id)
     template_data = {
         'id': model_id,
@@ -81,24 +79,13 @@ def render_round_entry(request):
 
 
 def render_ack_entry(request, model_id=None):
+    """a page for confirming round entry, deletes the new round and redirects to round_entry if the red button
+    is clicked"""
     round_data = models.Round.objects.get(id=model_id)
     template_data = {
         'round_data': round_data
     }
     return render(request, 'trap_scorekeeping/ack_entry.html', template_data)
-    pass
-
-
-def render_login_page(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    pass
-    if user is not None:
-        login(request, user)
-        return redirect('index')
-    else:
-        return redirect('login')
 
 
 def render_round_delete(request, model_id):
@@ -128,13 +115,14 @@ def render_player_page(request, user_name):
         'username': user_name,
         'users': user_list,
     }
-    return render(request,'trap_scorekeeping/user_page.html', template_data)
+    return render(request, 'trap_scorekeeping/user_page.html', template_data)
 
 
 def clean_query_dict_for_score_entry(query):
     r"""Takes a query dict from the post request and sets it up for entry in the DB
 
-    >>> data = {'t6': ['f'], 't4': ['d'], 'csrfmiddlewaretoken': ['ubFsTzaUfULAE7Eoat4Ez3tFQKd1uitwuED0ZdLCsDNpkMT4rG5NvwwSAY9xKCkY'], 't3': ['c'], 't2': ['b']}
+    >>> data = {'t6': ['f'], 't4': ['d'], 'csrfmiddlewaretoken':
+    ... ['ubFsTzaUfULAE7Eoat4Ez3tFQKd1uitwuED0ZdLCsDNpkMT4rG5NvwwSAY9xKCkY'], 't3': ['c'], 't2': ['b']}
     >>> clean_query_dict_for_score_entry(data)
     'bcdf'
     """

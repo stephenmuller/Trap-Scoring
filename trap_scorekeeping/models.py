@@ -10,7 +10,9 @@ from . import logic, dbinit
 def generate_letter_to_target_number_dict():
     """makes dict of letter:number comparisons
 
-    >>> a = {'g': 7, 'i': 9, 'v': 22, 'x': 24, 'b': 2, 'd': 4, 't': 20, 'y': 25, 's': 19, 'e': 5, 'a': 1, 'w': 23, 'q': 17, 'm': 13, 'l': 12, 'o': 15, 'h': 8, 'r': 18, 'f': 6, 'p': 16, 'n': 14, 'u': 21, 'k': 11, 'j': 10, 'z': 26, 'c': 3}
+    >>> a = {'g': 7, 'i': 9, 'v': 22, 'x': 24, 'b': 2, 'd': 4, 't': 20, 'y': 25, 's': 19, 'e': 5, 'a': 1, 'w': 23,
+    ... 'q': 17, 'm': 13, 'l': 12, 'o': 15, 'h': 8, 'r': 18, 'f': 6, 'p': 16, 'n': 14, 'u': 21, 'k': 11, 'j': 10,
+    ... 'z': 26, 'c': 3}
     >>> a == generate_letter_to_target_number_dict()
     True
     """
@@ -23,7 +25,9 @@ def generate_letter_to_target_number_dict():
 def generate_target_number_to_letter_dict():
     """ makes dict of number:letter comparisons
 
-    >>> a = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j', 11: 'k', 12: 'l', 13: 'm', 14: 'n', 15: 'o', 16: 'p', 17: 'q', 18: 'r', 19: 's', 20: 't', 21: 'u', 22: 'v', 23: 'w', 24: 'x', 25: 'y', 26: 'z'}
+    >>> a = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j', 11: 'k', 12: 'l', 13:
+    ... 'm', 14: 'n', 15: 'o', 16: 'p', 17: 'q', 18: 'r', 19: 's', 20: 't', 21: 'u', 22: 'v', 23: 'w', 24: 'x', 25:
+    ... 'y', 26: 'z'}
     >>> a == generate_target_number_to_letter_dict()
     True
     """
@@ -32,10 +36,11 @@ def generate_target_number_to_letter_dict():
         values[index] = letter
     return values
 
-## Constants
+# Constants
 LETTER_TO_NUMBER_FOR_TARGET_MISSES = generate_letter_to_target_number_dict()
 NUMBER_TO_LETTER_FOR_TARGET_MISSES = generate_target_number_to_letter_dict()
 SHOTS_PER_ROUND = 25
+
 
 class Shells(models.Model):
     """Various information about shells, doesn't account for hand loads"""
@@ -79,7 +84,8 @@ class Shells(models.Model):
         Shells('test', 'test sku', '7.5', '7/8', 1290)
         """
         return 'Shells({!r}, {!r}, {!r}, {!r}, {!r})'.format(self.brand, self.sku, self.shot,
-                                                        self.shot_amount, self.fps_rating)
+                                                             self.shot_amount, self.fps_rating
+                                                             )
 
     def __str__(self):
         r"""str
@@ -205,5 +211,8 @@ class Round(models.Model):
         >>> print(Round.objects.get(id__exact=1))
         User 'test', shot a 22, at 'portland gun club', with Shotgun('beretta', 'a400', '12', 28, 'shell catcher') and Shells('remmington', 'gameloads', '7.5', '1oz', 1290).
         """
-        return 'User {!r}, shot a {!r}, at {!r}, with {!r} and {!r}.'.format(self.player.username, self.convert_to_int_score(),
-                                                                             self.location, self.shotgun, self.shells)
+        return 'User {!r}, shot a {!r}, at {!r}, with {!r} and {!r}.'.format(
+                                                                             self.player.username,
+                                                                             self.convert_to_int_score(),
+                                                                             self.location, self.shotgun, self.shells
+        )
