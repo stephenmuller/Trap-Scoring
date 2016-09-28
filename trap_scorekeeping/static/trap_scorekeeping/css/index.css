@@ -1,21 +1,26 @@
-body {
-  padding-top: 5rem;
+.liquidFillGaugeText {
+  font-family: Helvetica;
+  font-weight: bold;
 }
 
 .starter-template {
   padding: 3rem 1.5rem;
-  text-align: left;
 }
-
-h2{
+h1, h2, h4{
   text-align: center;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 #content {
   display: flex;
-  justify-content: flex-start;;
-  margin-left: 20px;
-  margin-right: 20px;
+  justify-content: space-around;
 }
+
 #lists{
   display: flex;
 }

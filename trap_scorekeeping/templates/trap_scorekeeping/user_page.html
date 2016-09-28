@@ -5,11 +5,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="{% static 'trap_scorekeeping/favicon-96x96.png' %}">
+    <link rel="icon" href="{% static 'trap_scorekeeping/images/favicon-96x96.png' %}">
+
     <title>{{ username }}</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{% static 'trap_scorekeeping/css/theme.css' %}" rel="stylesheet">
-    <link href="{% static 'trap_scorekeeping/css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'trap_scorekeeping/css/user_page.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'trap_scorekeeping/css/asterstyle.css' %}">
   </head>
 
   <body>
@@ -17,16 +19,16 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Trap Scorekeeper</a>
+          <a class="navbar-brand" href="{% url 'index' %}">Trap Scorekeeper</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="#">{{ username }}</a></li>
             <li><a href="{% url 'round_entry' %}">Enter New Round</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Pages <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                {% for user in sidebar_users %}
+                {% for user in users %}
                 <li><a href="{% url 'player_page' user.username %}">{{ user }}</a></li>
                 <li role="separator" class="divider"></li>
                 {% endfor %}
@@ -37,21 +39,23 @@
       </div>
     </nav>
 
-
     <div class="container starter-template">
-        <h2> {{ username }}'s Page</h2>
-        <div id="content">
+        <h1> {{ username }}'s Page</h1>
+        <div id="content" class="flex">
           <ul>
-            <h4>recent games:</h4>
+            <h4>Recent Scores:</h4>
                 {% for game in last_five %}
-                <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
+                <li><h4>{{ game.score }}</h4></li>
                 {% endfor %}
             </ul>
+            <div id="aster">
+              <h4>Target Percentages</h4>
+              <svg></svg>
+            </div>
             <ul>
-                <h4>stats:</h4>
+                <h4>Stats:</h4>
                 <li>Longest Streak: {{ longest_streak }} </li>
                 <li> Total Shots: {{ shots }} </li>
-                <li> Hit Percentage: {{ hit_percent }}%</li>
                 <li>Average Score: {{ average_score }}</li>
             </ul>
       </div>
@@ -60,6 +64,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="{% static 'trap_scorekeeping/js/jquery.min.js' %}"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script>var csv_data = "{% url 'csv_request' username %}"</script>
     <script src="{% static 'trap_scorekeeping/js/bootstrap.min.js' %}"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="{% static 'trap_scorekeeping/js/draw.js' %}" ></script>
     </body>
 </html>

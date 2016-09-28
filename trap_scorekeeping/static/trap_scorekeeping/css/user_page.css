@@ -1,0 +1,46 @@
+/*user page*/
+
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+h1, h2, h4{
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: left;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+#content {
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.flex{
+  display: flex;
+}

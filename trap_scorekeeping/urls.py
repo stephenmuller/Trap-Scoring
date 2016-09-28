@@ -30,6 +30,6 @@ urlpatterns = [
         name='ack_entry'),
     url(r'^(?P<model_id>.+)/delete', views.render_round_delete,
         name='delete_submission'),
-    url(r'^(?P<user_name>.+)/user_page', views.render_player_page, name='player_page')
-    # url(r'^shotgun_entry', views.render_shotgun_entry, name='shotgun_entry')
+    url(r'^(?P<user_name>.+)/user_page', views.render_player_page, name='player_page'),
+    url(r'^csv_request/(?P<user_name>.+)/', views.render_csv_request, name='csv_request'),
 ]

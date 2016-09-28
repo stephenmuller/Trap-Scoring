@@ -5,9 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
+  <link rel="icon" href="{% static 'trap_scorekeeping/favicon-96x96.png' %}">
   <title>Index</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="{% static 'trap_scorekeeping/css/index.css' %}" rel="stylesheet">
@@ -29,7 +27,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Pages <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              {% for user in sidebar_users %}
+              {% for user in users %}
               <li><a href="{% url 'player_page' user.username %}">{{ user }}</a></li>
               <li role="separator" class="divider"></li>
               {% endfor %}
@@ -41,24 +39,40 @@
   </nav>
 
   <div class="container starter-template">
-      <h2>Trap Scorekeeper</h2>
-        <div id="lists">
+    <h2>Trap Scorekeeper</h2>
+      <div id="content">
+      <ul>
+        <h4>Recent Scores</h4>
+            {% for game in rounds %}
+            <li> <h4>{{ game.player }}</h4> <h4>{{ game.score }}</h4></li>
+            {% endfor %}
+        </ul>
         <ul>
-          <h4>recent games:</h4>
-              {% for game in rounds %}
-              <li> <h4>{{ game.player }}:</h4> {{ game.score }}</li>
-              {% endfor %}
-          </ul>
-          <ul>
-              <h4>stats:</h4>
-              <li>Longest Streak: {{ longest_streak }} </li>
-              <li> Total Shots: {{ shots }} </li>
-              <li> Hit Percentage: {{ hit_percent }}%</li>
-              <li>Average Score: {{ average_score }}</li>
-          </ul>
+            <h4>Stats:</h4>
+            <li>Longest Streak: {{ longest_streak }} </li>
+            <li> Total Shots: {{ shots }} </li>
+            <li> Hit Percentage: {{ hit_percent }}%</li>
+            <li>Average Score: {{ average_score }}</li>
+        </ul>
+        <div id="liquidgauge">
+          <h4>Percent of targets hit</h4>
+          <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+          <script src="{% static 'trap_scorekeeping/js/liquidgauge.js' %}" language="JavaScript"></script>
+          <svg id="fillgauge1" width="97%" height="250"></svg>
+          <script language="JavaScript">
+              var gauge1 = loadLiquidFillGauge("fillgauge1", {{ hit_percent }});
+              var config1 = liquidFillGaugeDefaultSettings();
+              config1.circleColor = "#FF7777";
+              config1.textColor = "#FF4444";
+              config1.waveTextColor = "#FFAAAA";
+              config1.waveColor = "#FFDDDD";
+              config1.circleThickness = 0.2;
+              config1.textVertPosition = 0.2;
+              config1.waveAnimateTime = 1000;
+          </script>
         </div>
+      </div>
   </div>
-
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="{% static 'trap_scorekeeping/js/jquery.min.js' %}"><\/script>')</script>

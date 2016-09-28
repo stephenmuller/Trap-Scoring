@@ -2,7 +2,9 @@
 .flex{
   display: flex;
 }
-
+.center{
+  text-align: center;
+}
 #hitormiss{
   justify-content: center;
   display: flex;
@@ -13,15 +15,20 @@
   height: 200px;
 }
 
-
 form{
   flex-wrap: wrap;
 }
 
 form label{
   width: 75px;
+  margin: 15px;
+ text-align: center;
 }
 
 label img {
-  height: 75px;
+  height: 100px;
+}
+
+input[type=checkbox]{
+   display:none;
 }
