@@ -15,11 +15,11 @@ def make_giant_scores_list(scores):
     """
     mega_score_list = []
     for round in scores:
-        # convert string to list of missed targets
         individual_misses = list(round)
-        # convert letters to numerical values, subtracting one to match 0-24 indexing
-        numerical_target_values = [models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1 for target in individual_misses]
-        # generate list of 25 targets, default true
+        numerical_target_values = [
+            models.LETTER_TO_NUMBER_FOR_TARGET_MISSES[target] - 1
+            for target in individual_misses
+            ]
         boolean_array_for_scores = [True for i in range(0, 25)]
         for target in numerical_target_values:
             boolean_array_for_scores[target] = False
@@ -276,11 +276,8 @@ def avg_score_by_target(player_name):
     """
     all_rounds = all_rounds_for_player(player_name)
     raw_scores = list_of_raw_scores(all_rounds)
-    print(raw_scores)
     misses = dict_of_misses(raw_scores)
-    print(misses)
     hit_rate = calculate_hit_rate(misses, raw_scores)
-    print(hit_rate)
     return hit_rate
 
 
