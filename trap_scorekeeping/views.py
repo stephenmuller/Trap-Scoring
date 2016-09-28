@@ -16,20 +16,6 @@ def render_csv_request(request, user_name):
     return response
 
 
-def write_target_data_to_csv_writer(username, writer):
-    """writes data to csv"""
-    percents = logic.avg_score_by_target(username)
-    csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
-    with open(csv_path) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            if row[0] == 'id':
-                writer.writerow(row)
-            else:
-                key_from_csv = row[0]
-                floored_percent = math.floor(percents[key_from_csv])
-                row[2] = floored_percent
-                writer.writerow(row)
 
 
 def render_index(request):
@@ -45,7 +31,7 @@ def render_index(request):
     avg_score = math.floor(25 * logic.hit_percentage_for_user('stephen'))
     template_data = {
         'rounds': last_5,
-        'sidebar_users': user_list,
+        'users': user_list,
         'streaks': streaks,
         'longest_streak': longest_streak,
         'shots': shots,
@@ -116,7 +102,7 @@ def render_login_page(request):
 
 
 def render_round_delete(request, model_id):
-    """deletes a round, returns to round entry"""
+    """deletes a round, redirects to round entry"""
     logic.delete_round_by_id(model_id)
     return redirect('round_entry')
 
@@ -132,7 +118,6 @@ def render_player_page(request, user_name):
     percent_hit = math.floor(logic.hit_percentage_for_user(user_name) * 100)
     avg_score = math.floor(25 * logic.hit_percentage_for_user(user_name))
     user_list = logic.return_ten_users()
-    # write_target_data_to_csv(user_name)
     template_data = {
         'last_five': last_five,
         'streaks': streaks,
@@ -141,7 +126,7 @@ def render_player_page(request, user_name):
         'hit_percent': percent_hit,
         'average_score': avg_score,
         'username': user_name,
-        'sidebar_users': user_list,
+        'users': user_list,
     }
     return render(request,'trap_scorekeeping/user_page.html', template_data)
 
@@ -157,3 +142,19 @@ def clean_query_dict_for_score_entry(query):
     score = [query[t_val][0] for t_val in t_values if t_val in query]
     score.sort()
     return ''.join(score)
+
+
+def write_target_data_to_csv_writer(username, writer):
+    """writes data to csv"""
+    percents = logic.avg_score_by_target(username)
+    csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
+    with open(csv_path) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if row[0] == 'id':
+                writer.writerow(row)
+            else:
+                key_from_csv = row[0]
+                floored_percent = math.floor(percents[key_from_csv])
+                row[2] = floored_percent
+                writer.writerow(row)

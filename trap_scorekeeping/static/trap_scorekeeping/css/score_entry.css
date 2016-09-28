@@ -2,10 +2,12 @@
 .flex{
   display: flex;
 }
-
+.center{
+  text-align: center;
+}
 #hitormiss{
-  display: flex;
   justify-content: center;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
@@ -19,8 +21,14 @@ form{
 
 form label{
   width: 75px;
+  margin: 15px;
+ text-align: center;
 }
 
 label img {
-  height: 75px;
+  height: 100px;
+}
+
+input[type=checkbox]{
+   display:none;
 }

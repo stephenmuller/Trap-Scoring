@@ -27,7 +27,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Pages <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              {% for user in sidebar_users %}
+              {% for user in users %}
               <li><a href="{% url 'player_page' user.username %}">{{ user }}</a></li>
               <li role="separator" class="divider"></li>
               {% endfor %}
@@ -42,9 +42,9 @@
     <h2>Trap Scorekeeper</h2>
       <div id="content">
       <ul>
-        <h4>Recent Games:</h4>
+        <h4>Recent Scores</h4>
             {% for game in rounds %}
-            <li> <h2>{{ game.player }}:</h2> <h4>{{ game.score }}</h4></li>
+            <li> <h4>{{ game.player }}</h4> <h4>{{ game.score }}</h4></li>
             {% endfor %}
         </ul>
         <ul>

@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="{% static 'trap_scorekeeping/images/favicon-96x96.png' %}">
+
     <title>{{ username }}</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="{% static 'trap_scorekeeping/css/user_page.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'trap_scorekeeping/css/asterstyle.css' %}">
@@ -21,12 +23,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">User Page</a></li>
+            <li class="active"><a href="#">{{ username }}</a></li>
             <li><a href="{% url 'round_entry' %}">Enter New Round</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Pages <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                {% for user in sidebar_users %}
+                {% for user in users %}
                 <li><a href="{% url 'player_page' user.username %}">{{ user }}</a></li>
                 <li role="separator" class="divider"></li>
                 {% endfor %}
@@ -36,7 +38,6 @@
         </div>
       </div>
     </nav>
-
 
     <div class="container starter-template">
         <h1> {{ username }}'s Page</h1>
@@ -52,12 +53,11 @@
               <svg></svg>
             </div>
             <ul>
-                <h4>stats:</h4>
+                <h4>Stats:</h4>
                 <li>Longest Streak: {{ longest_streak }} </li>
                 <li> Total Shots: {{ shots }} </li>
                 <li>Average Score: {{ average_score }}</li>
             </ul>
-
       </div>
     </div>
 
@@ -68,7 +68,6 @@
     <script src="{% static 'trap_scorekeeping/js/bootstrap.min.js' %}"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <!-- <script type="text/javascript" src="{% static 'trap_scorekeeping/js/csvxfer.js' %}"></script> -->
     <script src="{% static 'trap_scorekeeping/js/draw.js' %}" ></script>
     </body>
 </html>
