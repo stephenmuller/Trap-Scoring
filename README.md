@@ -7,7 +7,9 @@ For a detailed outline of the project:
 
 # Setup
 Clone the repo:
+```
 git clone https://github.com/stephenmuller/Trap-Scoring.git
+```
 
 Make a virtual env for it:
 ```
