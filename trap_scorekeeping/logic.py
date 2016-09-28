@@ -4,7 +4,6 @@ from django.db import models
 from . import models, dbinit
 import string
 from django.contrib.auth.models import User
-import math
 
 
 def make_giant_scores_list(scores):
@@ -277,8 +276,11 @@ def avg_score_by_target(player_name):
     """
     all_rounds = all_rounds_for_player(player_name)
     raw_scores = list_of_raw_scores(all_rounds)
+    print(raw_scores)
     misses = dict_of_misses(raw_scores)
+    print(misses)
     hit_rate = calculate_hit_rate(misses, raw_scores)
+    print(hit_rate)
     return hit_rate
 
 

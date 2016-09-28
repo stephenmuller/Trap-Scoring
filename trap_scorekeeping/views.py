@@ -2,11 +2,34 @@
 
 from django.shortcuts import render, redirect
 from . import logic, forms, models, dbinit, settings
-from django.contrib.auth.models import User
 import math
 from django.contrib.auth import authenticate, login
 import csv
+from django.http import HttpResponse
 
+
+def render_csv_request(request, user_name):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    writer = csv.writer(response)
+    write_target_data_to_csv_writer(user_name, writer)
+    return response
+
+
+def write_target_data_to_csv_writer(username, writer):
+    """writes data to csv"""
+    percents = logic.avg_score_by_target(username)
+    csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
+    with open(csv_path) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if row[0] == 'id':
+                writer.writerow(row)
+            else:
+                key_from_csv = row[0]
+                floored_percent = math.floor(percents[key_from_csv])
+                row[2] = floored_percent
+                writer.writerow(row)
 
 
 def render_index(request):
@@ -134,25 +157,3 @@ def clean_query_dict_for_score_entry(query):
     score = [query[t_val][0] for t_val in t_values if t_val in query]
     score.sort()
     return ''.join(score)
-
-
-def write_target_data_to_csv(username):
-    """writes data to the CSV for the aster chart"""
-    percents = logic.avg_score_by_target(username)
-    csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/baseaster.csv'
-    user_csv_path = settings.BASE_DIR + '/trap_scorekeeping/static/trap_scorekeeping/stephenaster.csv'
-    new_csv_lines = []
-    with open(csv_path) as f:
-        reader = csv.reader(f)
-        all_rows = []
-        for row in reader:
-            all_rows.append(row)
-        new_csv_lines.append(all_rows[0])
-        for row in all_rows[1:]:
-            key_from_csv = row[0]
-            floored_percent = math.floor(percents[key_from_csv])
-            row[2] = floored_percent
-            new_csv_lines.append(row)
-    with open(user_csv_path, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerows(new_csv_lines)
