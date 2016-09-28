@@ -12,18 +12,27 @@
   </head>
 
 <body>
-  <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-    <a class="navbar-brand" href="{% url 'index' %}">Score Keeper</a>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Trap Scorekeeper</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Confirm Score Entry</a></li>
+        </ul>
+      </div>
+    </div>
   </nav>
-
   <div class="container">
     <div class="starter-template">
       <h3>Confirm round information is correct:</h3>
       <p>
         {{ round_data }}
       </p>
-      <a href="{% url 'index' %}">All information is correct!</a>
-      <a href="{% url 'delete_submission' round_data.id  %}">This isn't correct, I need to re-enter.</a>
+
+      <a type="button" class="btn btn-lg btn-success" href="{% url 'index' %}"><h4>Success</h4>All information is correct!</a>
+      <a type="button" class="btn btn-lg btn-danger" href="{% url 'delete_submission' round_data.id  %}"><h4>WRONG</h4>This isn't correct, I need to re-enter.</a>
     </div>
   </div>
 

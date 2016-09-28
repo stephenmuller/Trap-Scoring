@@ -42,22 +42,32 @@
     <div class="container starter-template">
         <h1> {{ username }}'s Page</h1>
         <div id="content" class="flex">
-          <ul>
-            <h4>Recent Scores:</h4>
-                {% for game in last_five %}
-                <li><h4>{{ game.score }}</h4></li>
-                {% endfor %}
-            </ul>
+            <div class="col-sm-4 list-group">
+              {% for game in last_five %}
+              <a href="#" class="list-group-item item">
+                <h4 class="list-group-item-heading">{{ game.location }}</h4>
+                <p class="list-group-item-text center">{{ game.score }}</p>
+              </a>
+              {% endfor %}
+            </div>
             <div id="aster">
               <h4>Target Percentages</h4>
               <svg></svg>
             </div>
-            <ul>
-                <h4>Stats:</h4>
-                <li>Longest Streak: {{ longest_streak }} </li>
-                <li> Total Shots: {{ shots }} </li>
-                <li>Average Score: {{ average_score }}</li>
-            </ul>
+            <div class="col-sm-4 list-group">
+              <a href="#" class="list-group-item item">
+                <h4 class="list-group-item-heading">Longest Streak:</h4>
+                <p class="list-group-item-text center">{{ longest_streak }}</p>
+              </a>
+              <a href="#" class="list-group-item item">
+                <h4 class="list-group-item-heading">Total Shots:</h4>
+                <p class="list-group-item-text center">{{ shots }}</p>
+              </a>
+              <a href="#" class="list-group-item item">
+                <h4 class="list-group-item-heading">Average Score:</h4>
+                <p class="list-group-item-text center">{{ average_score }}</p>
+              </a>
+            </div>
       </div>
     </div>
 
