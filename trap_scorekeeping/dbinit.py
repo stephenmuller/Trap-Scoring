@@ -18,11 +18,16 @@ def init_basic_defaults():
     <QuerySet [<User: TestUser>]>
     """
     # ensures there is a user in the DB to assign rounds to
-    logic.create_user('TestUser', 'supersecurefakepassword')
+    logic.create_user('stephen', 'supersecurefakepassword')
     # sets up a shotgun, currently the rental guns at Portland Gun Club
     logic.create_new_gun_model('Remmington', '870 Express', '12', 26, 'none')
     # Sets up a basic shell model
     logic.create_new_shells_model('remmington', 'gameloads', '7.5', '1oz', 1290)
+    # create a new round to satisfy the homepage stats
+    logic.create_new_round(User.objects.get(username='stephen'), 'abc', '1997-07-16T19:20:30+01:00',
+                           'portland gun club',
+                           models.Shotgun.objects.get(), models.Shells.objects.get(), '1',
+                           'no excuses!!')
 
 
 def set_up_test_db():
