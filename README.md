@@ -47,7 +47,8 @@ python manage.py runserver
 ```
 
 Finally Navigate to the default URL and play with it:
-[http://localhost:8000]
+
+http://localhost:8000
 
 # Usage
 
