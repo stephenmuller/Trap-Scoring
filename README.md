@@ -7,7 +7,9 @@ For a detailed outline of the project:
 
 # Setup
 Clone the repo:
+```
 git clone https://github.com/stephenmuller/Trap-Scoring.git
+```
 
 Make a virtual env for it:
 ```
@@ -48,9 +50,9 @@ python manage.py runserver
 
 Finally Navigate to the default URL and play with it:
 
-http://localhost:8000
+[http://localhost:8000](http://localhost:8000)
 
 # Usage
 
-The basic use case for the app is to record your Trap Scores, the main focus is identifying specific targets that you miss the most, be it a specific station, or the last target of a given round, etc. There is also data on what shotgun was used, what shells were used, and time/location data that can help further isolate any variables.
+The basic use case for the app is to record your Trap Scores, the main focus is identifying specific targets that you miss the most. There is also data on what shotgun was used, what shells were used, and time/location data that can help further isolate any variables.
 There is a lot of generic 'High Score' style data presented on the main page, and each players page lists an overview of their data.
