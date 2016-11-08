@@ -5,6 +5,21 @@ An app that records scores and related data for generating metrics on Trap shoot
 For a detailed outline of the project:
 [MVP Proposal](MVP.md)
 
+# Screenshots
+Homepage:
+![home page](/sample_images/homepage.png)
+
+
+
+Player page:
+![player page](/sample_images/player_page.png)
+
+
+
+Score Entry:
+![Score Entry](/sample_images/missed_targets.png)
+
+
 # Setup
 Clone the repo:
 ```
@@ -61,5 +76,12 @@ There is a lot of generic 'High Score' style data presented on the main page, an
 Homepage:
 ![home page](/sample_images/homepage.png)
 
+
+
 Player page:
 ![player page](/sample_images/player_page.png)
+
+
+
+Score Entry:
+![Score Entry](/sample_images/missed_targets.png)
