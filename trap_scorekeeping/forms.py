@@ -13,6 +13,6 @@ class NewScore(forms.ModelForm):
         model = Round
         fields = [
             'player', 'location', 'shotgun', 'shells',
-            'started_at', 'excuses'
+            'started_at', 'excuses', 'handicap'
         ]
         exclude = ['time', 'score']

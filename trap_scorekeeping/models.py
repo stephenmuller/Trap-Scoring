@@ -162,6 +162,7 @@ class Round(models.Model):
         default=FIRST,
         max_length=255
     )
+    handicap = models.IntegerField(default=16)
     excuses = models.TextField(default='')
     score = models.CharField(max_length=25, default='', blank=True)
 
