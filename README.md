@@ -5,6 +5,12 @@ An app that records scores and related data for generating metrics on Trap shoot
 For a detailed outline of the project:
 [MVP Proposal](MVP.md)
 
+# Usage
+
+The basic use case for the app is to record your Trap Scores, the main focus is identifying specific targets that you miss the most. There is also data on what shotgun was used, what shells were used, and time/location data that can help further isolate any variables.
+There is a lot of generic 'High Score' style data presented on the main page, and each players page lists an overview of their data.
+
+
 # Screenshots
 Homepage:
 ![home page](/sample_images/homepage.png)
@@ -67,7 +73,3 @@ Finally Navigate to the default URL and play with it:
 
 [http://localhost:8000](http://localhost:8000)
 
-# Usage
-
-The basic use case for the app is to record your Trap Scores, the main focus is identifying specific targets that you miss the most. There is also data on what shotgun was used, what shells were used, and time/location data that can help further isolate any variables.
-There is a lot of generic 'High Score' style data presented on the main page, and each players page lists an overview of their data.
